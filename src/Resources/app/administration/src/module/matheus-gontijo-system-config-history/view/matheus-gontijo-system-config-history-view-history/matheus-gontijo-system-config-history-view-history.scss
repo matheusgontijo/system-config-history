@@ -1,0 +1,74 @@
+.matheus-gontijo-system-config-history {
+    .sw-tabs--small,
+    .sw-card--large {
+        max-width: none;
+    }
+}
+
+#matheus-gontijo-system-config-history-view-history {
+    width: 100%;
+    border-collapse: collapse;
+
+    thead th {
+        text-align: left;
+        padding: 6px;
+        cursor: pointer;
+    }
+
+    tbody {
+        tr {
+            &:nth-child(even) {
+                background: #f0f2f5;
+            }
+
+            td {
+                padding: 6px;
+            }
+        }
+    }
+
+    &-no-results {
+        display: block;
+        text-align: center;
+        margin-top: 30px;
+    }
+}
+
+.matheus-gontijo-system-config-history-view-history {
+    &-filter-input {
+        width: 100%;
+    }
+
+    &-tr {
+        cursor: pointer;
+    }
+
+    &-td {
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    &-sort-direction {
+        color: #7a97b4;
+        font-size: 12px;
+        margin-left: 5px;
+    }
+
+    &-configuration-key,
+    &-configuration-value-old,
+    &-configuration-value-new,
+    &-sales-channel-id {
+        font-size: 10px;
+        font-family: monospace;
+    }
+
+    &-revert-button {
+        display: block;
+        background: red;
+        padding: 4px 10px;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "name": "matheusgontijo/sw6-system-config-history",
+    "description": "Shopware 6 Plugin - system config history.",
+    "license": "MIT",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "require": {
+        "shopware/core": "~6.4"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.2.20",
+        "phpstan/phpstan": "^0.11.8 | ^1.0",
+        "phpunit/phpunit": "^9.5.2",
+        "squizlabs/php_codesniffer": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MatheusGontijo\\SystemConfigHistory\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MatheusGontijo\\SystemConfigHistory\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "label": {
+            "de-DE": "Shopware 6 Plugin - Systemkonfigurationsverlauf.",
+            "en-GB": "Shopware 6 Plugin - system config history.",
+            "en-US": "Shopware 6 Plugin - system config history."
+        },
+        "shopware-plugin-class": "MatheusGontijo\\SystemConfigHistory\\MatheusGontijoSystemConfigHistory"
+    }
+}

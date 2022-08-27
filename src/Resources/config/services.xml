@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults autowire="true" autoconfigure="true" public="false">
+            <bind key="$connection" type="service" id="Doctrine\DBAL\Connection"/>
+        </defaults>
+
+        <prototype namespace="MatheusGontijo\SystemConfigHistory\" resource="../../*"/>
+
+        <service id="MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\Api\MatheusGontijoSystemConfigHistoryRoute" public="true">
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="MatheusGontijo\SystemConfigHistory\Model\SystemConfigServiceDecoration" decorates="Shopware\Core\System\SystemConfig\SystemConfigService" decoration-priority="-1000" public="true">
+            <argument type="service" id="Doctrine\DBAL\Connection"/>
+            <argument type="service" id="system_config.repository"/>
+            <argument type="service" id="Shopware\Core\System\SystemConfig\Util\ConfigReader" />
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigLoader" />
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id=".inner"/>
+            <argument type="service" id="MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigServiceDecorationRepository"/>
+            <argument type="service" id="MatheusGontijo\SystemConfigHistory\Model\RequestStateRegistry"/>
+        </service>
+
+        <service id="MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryDefinition">
+            <tag name="shopware.entity.definition" entity="matheus_gontijo_system_config_history" />
+        </service>
+
+        <service id="MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryHydrator" public="true">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="MatheusGontijo\SystemConfigHistory\Subscriber\KernelControllerArgumentsSubscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+    </services>
+</container>

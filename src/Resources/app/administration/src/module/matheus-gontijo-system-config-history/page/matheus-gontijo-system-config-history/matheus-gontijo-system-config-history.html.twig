@@ -1,0 +1,45 @@
+{% block matheus_gontijo_system_config_history %}
+<sw-page class="matheus-gontijo-system-config-history">
+
+    <sw-card-view slot="content">
+
+        {% block matheus_gontijo_system_config_history_tabs %}
+        <sw-tabs position-identifier="matheus-gontijo-system-config-history">
+            {% block matheus_gontijo_system_config_history_tabs_history %}
+            <sw-tabs-item :route="{ name: 'matheus.gontijo.system.config.history.index.history' }">
+                {{ $tc('matheus-gontijo-system-config-history.page.historyTab') }}
+            </sw-tabs-item>
+            {% endblock %}
+
+            {% block matheus_gontijo_system_config_history_tabs_import %}
+            <sw-tabs-item :route="{ name: 'matheus.gontijo.system.config.history.index.instances' }">
+                {{ $tc('matheus-gontijo-system-config-history.page.instancesTab') }}
+            </sw-tabs-item>
+            {% endblock %}
+
+{#            {% block matheus_gontijo_system_config_history_tabs_export %}#}
+{#            <sw-tabs-item :route="{ name: 'sw.import.export.index.export' }">#}
+{#                {{ $tc('matheus-gontijo-system-config-history.page.exportTab') }}#}
+{#            </sw-tabs-item>#}
+{#            {% endblock %}#}
+
+{#            {% block matheus_gontijo_system_config_history_tabs_profiles %}#}
+{#            <sw-tabs-item :route="{ name: 'sw.import.export.index.profiles' }">#}
+{#                {{ $tc('matheus-gontijo-system-config-history.page.profileTab') }}#}
+{#            </sw-tabs-item>#}
+{#            {% endblock %}#}
+        </sw-tabs>
+        {% endblock %}
+
+        <router-view ref="tabContent" />
+
+    </sw-card-view>
+
+    {% block matheus_gontijo_system_config_history_language_switch %}
+    <template #language-switch>
+        <sw-language-switch @on-change="onChangeLanguage" />
+    </template>
+    {% endblock %}
+
+</sw-page>
+{% endblock %}
