@@ -21,6 +21,13 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class SystemConfigServiceDecoration extends SystemConfigService
 {
     /**
+     * @deprecated kept only for backwards compatibility during testings. It should be removed on future versions.
+     *
+     * @var array<string, mixed>
+     */
+    private $configs = [];
+
+    /**
      * @var array<string, UserEntity>
      */
     private array $users = [];
