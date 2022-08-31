@@ -21,11 +21,15 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
      */
     public function getCount(array $filters): int
     {
+        $subQuery = $this->buildSubQuery($filters);
+
         $qb = $this->connection->createQueryBuilder();
 
         $qb->select(['COUNT(*)']);
 
-        $qb->from('matheus_gontijo_system_config_history', 'mgsch');
+        $subQueryString = sprintf('(%s)', $subQuery->getSQL());
+
+        $qb->from($subQueryString, 'subquery');
 
         $qb = $this->buildQueryFilters($qb, $filters);
 
@@ -62,25 +66,25 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         int $page,
         int $limit
     ): QueryBuilder {
+        $subQuery = $this->buildSubQuery($filters);
+
         $qb = $this->connection->createQueryBuilder();
 
-        /*
-         * @TODO: ADD COLUMN: "TYPE"
-         */
-
         $qb->select([
-            'mgsch.id',
-            'mgsch.configuration_key',
-            'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_old, "$._value")) as configuration_value_old',
-            'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_new, "$._value")) as configuration_value_new',
-            'mgsch.sales_channel_id',
-            'mgsch.username',
-            'mgsch.user_data',
-            'mgsch.action_type',
-            'mgsch.created_at',
+            'subquery.id',
+            'subquery.configuration_key',
+            'subquery.configuration_value_old',
+            'subquery.configuration_value_new',
+            'subquery.sales_channel_name',
+            'subquery.username',
+            'subquery.user_data',
+            'subquery.action_type',
+            'subquery.created_at',
         ]);
 
-        $qb->from('matheus_gontijo_system_config_history', 'mgsch');
+        $subQueryString = sprintf('(%s)', $subQuery->getSQL());
+
+        $qb->from($subQueryString, 'subquery');
 
         $qb = $this->buildQueryFilters($qb, $filters);
 
@@ -100,33 +104,82 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
      */
     private function buildQueryFilters(QueryBuilder $qb, array $filters): QueryBuilder
     {
+        $qb->setParameter(':language_id', Uuid::fromHexToBytes('2fbb5fe2e29a4d70aa5854ce7ce3e20b'));
+
+        if ($filters['configuration_key'] !== null && $filters['configuration_key'] !== '') {
+            $qb->setParameter(':configuration_key', '%' . $filters['configuration_key'] . '%');
+        }
+
+        if ($filters['configuration_value_old'] !== null && $filters['configuration_value_old'] !== '') {
+            $qb->setParameter(':configuration_value_old', '%' . $filters['configuration_value_old'] . '%');
+        }
+
+        if ($filters['configuration_value_new'] !== null && $filters['configuration_value_new'] !== '') {
+            $qb->setParameter(':configuration_value_new', '%' . $filters['configuration_value_new'] . '%');
+        }
+
+        if ($filters['sales_channel_name'] !== null && $filters['sales_channel_name'] !== '') {
+            $qb->andWhere('subquery.sales_channel_name LIKE :sales_channel_name');
+            $qb->setParameter(':sales_channel_name', '%' . $filters['sales_channel_name'] . '%');
+        }
+
+        if ($filters['username'] !== null && $filters['username'] !== '') {
+            $qb->setParameter(':username', '%' . $filters['username'] . '%');
+        }
+
+        return $qb;
+    }
+
+    /**
+     * @param array<string, mixed> $filters
+     */
+    private function buildSubQuery(array $filters): QueryBuilder
+    {
+        $qb = $this->connection->createQueryBuilder();
+
+        /*
+         * @TODO: ADD COLUMN: "TYPE"
+         */
+
+        $qb->select([
+            'mgsch.id',
+            'mgsch.configuration_key',
+            'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_old, "$._value")) as configuration_value_old',
+            'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_new, "$._value")) as configuration_value_new',
+            'IF(sct.name IS NOT NULL, sct.name, \'DEFAULT\') AS sales_channel_name',
+            'mgsch.username',
+            'mgsch.user_data',
+            'mgsch.action_type',
+            'mgsch.created_at',
+        ]);
+
+        $qb->from('matheus_gontijo_system_config_history', 'mgsch');
+
+        $qb->leftJoin(
+            'mgsch',
+            'sales_channel_translation',
+            'sct',
+            'sct.sales_channel_id = mgsch.sales_channel_id AND sct.language_id = :language_id'
+        );
+
         if ($filters['configuration_key'] !== null && $filters['configuration_key'] !== '') {
             $qb->andWhere('mgsch.configuration_key LIKE :configuration_key');
-            $qb->setParameter(':configuration_key', '%' . $filters['configuration_key'] . '%');
         }
 
         if ($filters['configuration_value_old'] !== null && $filters['configuration_value_old'] !== '') {
             $qb->andWhere(
                 'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_old, "$._value")) LIKE :configuration_value_old'
             );
-            $qb->setParameter(':configuration_value_old', '%' . $filters['configuration_value_old'] . '%');
         }
 
         if ($filters['configuration_value_new'] !== null && $filters['configuration_value_new'] !== '') {
             $qb->andWhere(
                 'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_new, "$._value")) LIKE :configuration_value_new'
             );
-            $qb->setParameter(':configuration_value_new', '%' . $filters['configuration_value_new'] . '%');
-        }
-
-        if ($filters['sales_channel_id'] !== null && $filters['sales_channel_id'] !== '') {
-            $qb->andWhere('HEX(mgsch.sales_channel_id) LIKE :sales_channel_id');
-            $qb->setParameter(':sales_channel_id', '%' . $filters['sales_channel_id'] . '%');
         }
 
         if ($filters['username'] !== null && $filters['username'] !== '') {
             $qb->andWhere('mgsch.username LIKE :username');
-            $qb->setParameter(':username', '%' . $filters['username'] . '%');
         }
 
         return $qb;
@@ -145,10 +198,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
             $row = $unnormalizedRow;
 
             $row['id'] = Uuid::fromBytesToHex($row['id']);
-
-            if ($row['sales_channel_id'] !== null) {
-                $row['sales_channel_id'] = Uuid::fromBytesToHex($row['sales_channel_id']);
-            }
 
             $rows[] = $row;
         }

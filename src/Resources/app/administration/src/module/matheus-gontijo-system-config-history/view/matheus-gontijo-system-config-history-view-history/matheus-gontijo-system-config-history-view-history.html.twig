@@ -15,7 +15,7 @@
                     <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_value_old')">Old Value<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('configuration_value_old')"></span></th>
                     <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_value_new')">New Value<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('configuration_value_new')"></span></th>
 {#                    <th scope="col">Sales Channel<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('configuration_value_old')"></span></th>#}
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('sales_channel_id')">Sales Channel ID<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('sales_channel_id')"></span></th>
+                    <th scope="col" v-on:click="changeSortByAndSortDirection('sales_channel_id')">Sales Channel<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('sales_channel_id')"></span></th>
                     <th scope="col" v-on:click="changeSortByAndSortDirection('username')">Username<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('username')"></span></th>
                     <th scope="col" v-on:click="changeSortByAndSortDirection('action_type')">Action<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('action_type')"></span></th>
                     <th scope="col" v-on:click="changeSortByAndSortDirection('created_at')">Created At<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('created_at')"></span></th>
@@ -25,21 +25,38 @@
                     <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterConfigurationKey"/></th>
                     <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterConfigurationValueOld"/></th>
                     <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterConfigurationValueNew"/></th>
-                    <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterSalesChannelId"/></th>
+                    <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterSalesChannelName"/></th>
                     <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterUsername"/></th>
 {#                    <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterConfigurationKey"/></th>#}
 {#                    <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterConfigurationKey"/></th>#}
                 </tr>
             </thead>
+
+            <!-- @TODO: ESCAPE ALL OUTPUT FROM DATABASE -->
+
             <tbody v-if="rows.length > 0">
                 <tr v-for="row in rows">
                     <td class="matheus-gontijo-system-config-history-view-history-td"><span class="matheus-gontijo-system-config-history-view-history-configuration-key">{{ row.configuration_key }}</span></td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td"><span class="matheus-gontijo-system-config-history-view-history-configuration-value-old">{{ row.configuration_value_old }}</span></td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td"><span class="matheus-gontijo-system-config-history-view-history-configuration-value-new">{{ row.configuration_value_new }}</span></td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td"><span class="matheus-gontijo-system-config-history-view-history-sales-channel-id">{{ row.sales_channel_id }}</span></td>
+                    <td class="matheus-gontijo-system-config-history-view-history-td"><span class="matheus-gontijo-system-config-history-view-history-configuration-value-old">
+                        <span v-if="row.configuration_value_old == null">
+                            <span class="matheus-gontijo-system-config-history-view-history-td-null">null</span>
+                        </span>
+                        <span v-else>
+                            {{ row.configuration_value_old }}
+                        </span>
+                    </span></td>
+                    <td class="matheus-gontijo-system-config-history-view-history-td"><span class="matheus-gontijo-system-config-history-view-history-configuration-value-new">
+                        <span v-if="row.configuration_value_new == null">
+                            <span class="matheus-gontijo-system-config-history-view-history-td-null">null</span>
+                        </span>
+                        <span v-else>
+                            {{ row.configuration_value_new }}
+                        </span>
+                    </span></td>
+                    <td class="matheus-gontijo-system-config-history-view-history-td"><span class="matheus-gontijo-system-config-history-view-history-sales-channel-name">{{ row.sales_channel_name }}</span></td>
                     <td class="matheus-gontijo-system-config-history-view-history-td">{{ row.username }}</td>
                     <td class="matheus-gontijo-system-config-history-view-history-td">{{ row.action_type }}</td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td">{{ row.created_at }}</td>
+                    <td class="matheus-gontijo-system-config-history-view-history-td">{{ columnFormatDate(row.created_at) }}</td>
                     <td class="matheus-gontijo-system-config-history-view-history-td"><span class="matheus-gontijo-system-config-history-view-history-revert-button">Revert</span></td>
                 </tr>
             </tbody>

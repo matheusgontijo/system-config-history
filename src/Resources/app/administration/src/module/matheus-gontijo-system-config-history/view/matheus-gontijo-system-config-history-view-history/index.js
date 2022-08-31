@@ -1,5 +1,6 @@
 import template from './matheus-gontijo-system-config-history-view-history.html.twig';
 import './matheus-gontijo-system-config-history-view-history.scss';
+const format = Shopware.Utils.format;
 
 /**
  * @private
@@ -16,7 +17,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 configuration_key: null,
                 configuration_value_old: null,
                 configuration_value_new: null,
-                sales_channel_id: null,
+                sales_channel_name: null,
                 username: null,
                 action_type: null,
             },
@@ -86,12 +87,12 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             }
         },
 
-        filterSalesChannelId: {
+        filterSalesChannelName: {
             get: function() {
-                return this.filters.sales_channel_id;
+                return this.filters.sales_channel_name;
             },
             set: function(v) {
-                return this.filters.sales_channel_id = v;
+                return this.filters.sales_channel_name = v;
             }
         },
 
@@ -155,6 +156,15 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             }
 
             return '⬇';
+        },
+
+        columnFormatDate(date) {
+            /**
+             * @TODO: TEST THIS ON AMERICAN FORMAT (en-US)... to see if it will really change the format accordindly
+             */
+
+            const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit' };
+            return format.date(date, options);
         },
 
         hasPagination() {
