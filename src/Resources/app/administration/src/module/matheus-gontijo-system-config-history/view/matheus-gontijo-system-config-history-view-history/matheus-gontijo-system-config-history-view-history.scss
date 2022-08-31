@@ -37,6 +37,9 @@
 .matheus-gontijo-system-config-history-view-history {
     &-filter-input {
         width: 100%;
+        padding: 8px;
+        border: 1px solid #d1d9e0;
+        border-radius: 5px;
     }
 
     &-tr {

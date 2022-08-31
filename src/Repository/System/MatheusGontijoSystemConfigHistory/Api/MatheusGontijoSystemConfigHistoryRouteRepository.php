@@ -5,6 +5,9 @@ namespace MatheusGontijo\SystemConfigHistory\Repository\System\MatheusGontijoSys
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ForwardCompatibility\Result;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Shopware\Core\Framework\Adapter\Translation\Translator;
+use Shopware\Core\Framework\Api\Context\AdminApiSource;
+use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Uuid\Uuid;
 
 class MatheusGontijoSystemConfigHistoryRouteRepository
@@ -19,9 +22,9 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
     /**
      * @param array<string, mixed> $filters
      */
-    public function getCount(array $filters): int
+    public function getCount(string $defaultSalesChannelName, array $filters): int
     {
-        $subQuery = $this->buildSubQuery($filters);
+        $subQuery = $this->buildSubQuery($defaultSalesChannelName, $filters);
 
         $qb = $this->connection->createQueryBuilder();
 
@@ -31,7 +34,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
         $qb->from($subQueryString, 'subquery');
 
-        $qb = $this->buildQueryFilters($qb, $filters);
+        $qb = $this->setQueryBuilderParameters($qb, $defaultSalesChannelName, $filters);
 
         $executeResult = $qb->execute();
         \assert($executeResult instanceof Result);
@@ -44,9 +47,15 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
      *
      * @return array<int, mixed>
      */
-    public function getRows(array $filters, string $sortBy, string $sortDirection, int $page, int $limit): array
-    {
-        $qb = $this->buildQuery($filters, $sortBy, $sortDirection, $page, $limit);
+    public function getRows(
+        string $defaultSalesChannelName,
+        array $filters,
+        string $sortBy,
+        string $sortDirection,
+        int $page,
+        int $limit
+    ): array {
+        $qb = $this->buildQuery($defaultSalesChannelName, $filters, $sortBy, $sortDirection, $page, $limit);
 
         $executeResult = $qb->execute();
         \assert($executeResult instanceof Result);
@@ -60,13 +69,14 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
      * @param array<string, mixed> $filters
      */
     private function buildQuery(
+        string $defaultSalesChannelName,
         array $filters,
         string $sortBy,
         string $sortDirection,
         int $page,
         int $limit
     ): QueryBuilder {
-        $subQuery = $this->buildSubQuery($filters);
+        $subQuery = $this->buildSubQuery($defaultSalesChannelName, $filters);
 
         $qb = $this->connection->createQueryBuilder();
 
@@ -86,7 +96,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
         $qb->from($subQueryString, 'subquery');
 
-        $qb = $this->buildQueryFilters($qb, $filters);
+        $qb = $this->setQueryBuilderParameters($qb, $defaultSalesChannelName, $filters);
 
         $qb->orderBy($sortBy, $sortDirection);
         $qb->addOrderBy('created_at', 'DESC');
@@ -102,8 +112,9 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
     /**
      * @param array<string, mixed> $filters
      */
-    private function buildQueryFilters(QueryBuilder $qb, array $filters): QueryBuilder
+    private function setQueryBuilderParameters(QueryBuilder $qb, string $defaultSalesChannelName, array $filters): QueryBuilder
     {
+        $qb->setParameter(':default_sales_channel_name', $defaultSalesChannelName);
         $qb->setParameter(':language_id', Uuid::fromHexToBytes('2fbb5fe2e29a4d70aa5854ce7ce3e20b'));
 
         if ($filters['configuration_key'] !== null && $filters['configuration_key'] !== '') {
@@ -133,7 +144,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
     /**
      * @param array<string, mixed> $filters
      */
-    private function buildSubQuery(array $filters): QueryBuilder
+    private function buildSubQuery(string $defaultSalesChannelName, array $filters): QueryBuilder
     {
         $qb = $this->connection->createQueryBuilder();
 
@@ -146,7 +157,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
             'mgsch.configuration_key',
             'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_old, "$._value")) as configuration_value_old',
             'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_new, "$._value")) as configuration_value_new',
-            'IF(sct.name IS NOT NULL, sct.name, \'DEFAULT\') AS sales_channel_name',
+            'IF(sct.name IS NOT NULL, sct.name, :default_sales_channel_name) AS sales_channel_name',
             'mgsch.username',
             'mgsch.user_data',
             'mgsch.action_type',
