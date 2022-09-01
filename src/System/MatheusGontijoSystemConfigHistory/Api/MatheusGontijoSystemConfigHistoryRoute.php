@@ -4,21 +4,17 @@ namespace MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHi
 
 // phpcs:ignore
 use MatheusGontijo\SystemConfigHistory\Repository\System\MatheusGontijoSystemConfigHistory\Api\MatheusGontijoSystemConfigHistoryRouteRepository;
-use Shopware\Core\Framework\Adapter\Translation\Translator;
-use Shopware\Core\Framework\Api\Context\AdminApiSource;
 use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\Framework\Routing\Annotation\RouteScope;
+use Shopware\Core\Framework\Routing\Annotation\Since;
 use Shopware\Core\System\Locale\LocaleEntity;
-use Shopware\Core\System\User\UserEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Shopware\Core\Framework\Routing\Annotation\Since;
-use Shopware\Core\Framework\Routing\Annotation\RouteScope;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 
 /**
  * @RouteScope(scopes={"api"})
@@ -41,7 +37,6 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
      */
     public function matheusGontijoSystemConfigHistoryList(
         Request $request,
-        Context $context,
         EntityRepositoryInterface $localeRepository,
         MatheusGontijoSystemConfigHistoryRouteRepository $matheusGontijoSystemConfigHistoryRouteRepository
     ): JsonResponse {
@@ -60,10 +55,12 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
         $limit = $request->request->get('limit');
         \assert(\is_int($limit));
 
-        $defaultSalesChannelName = $request->request->get('defaultSalesChannelName');;
+        $defaultSalesChannelName = $request->request->get('defaultSalesChannelName');
+
         \assert(\is_string($defaultSalesChannelName));
 
-        $localeCode = $request->request->get('localeCode');;
+        $localeCode = $request->request->get('localeCode');
+
         \assert(\is_string($localeCode));
 
         $locale = $this->getLocale($localeCode, $localeRepository);
@@ -98,7 +95,7 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
         $criteria->addFilter(new EqualsFilter('code', $localeCode));
 
         $locale = $localeRepository->search($criteria, Context::createDefaultContext())->first();
-        assert($locale instanceof LocaleEntity);
+        \assert($locale instanceof LocaleEntity);
 
         return $locale;
     }

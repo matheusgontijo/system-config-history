@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+// phpcs:ignoreFile
+
 use MatheusGontijo\SystemConfigHistory\Tests\TestBootstrapper;
 
 require __DIR__ . '/TestDefaults.php';

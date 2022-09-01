@@ -5,6 +5,7 @@ namespace MatheusGontijo\SystemConfigHistory\Migration;
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Migration\MigrationStep;
 
+// phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
 class Migration1661567511Init extends MigrationStep
 {
     public function getCreationTimestamp(): int
@@ -17,7 +18,7 @@ class Migration1661567511Init extends MigrationStep
         // @TODO: REMOVE THIS:
         $connection->executeStatement('DROP TABLE IF EXISTS `matheus_gontijo_system_config_history`;');
 
-        $sql = <<<SQL
+        $sql = <<<'SQL'
         CREATE TABLE `matheus_gontijo_system_config_history` (
             `id` binary(16) NOT NULL,
             `configuration_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -41,3 +42,4 @@ class Migration1661567511Init extends MigrationStep
         // nothing
     }
 }
+// phpcs:enable

@@ -8,7 +8,6 @@ use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigServiceDecor
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryDefinition;
 use Shopware\Core\Framework\Api\Context\AdminApiSource;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\SystemConfig\AbstractSystemConfigLoader;
@@ -25,7 +24,7 @@ class SystemConfigServiceDecoration extends SystemConfigService
      *
      * @var array<string, mixed>
      */
-    private $configs = [];
+    private array $configs = [];
 
     /**
      * @var array<string, UserEntity>

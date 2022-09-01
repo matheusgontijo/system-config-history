@@ -3,7 +3,7 @@
 namespace MatheusGontijo\SystemConfigHistory\Repository\Model;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\ResultStatement;
+use Doctrine\DBAL\Driver\PDO\Statement;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -11,7 +11,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\User\UserEntity;
-use Doctrine\DBAL\Driver\PDO\Statement;
 
 class SystemConfigServiceDecorationRepository
 {
@@ -26,8 +25,8 @@ class SystemConfigServiceDecorationRepository
         EntityRepositoryInterface $matheusGontijoSystemConfigHistoryRepository,
         EntityRepositoryInterface $userRepository
     ) {
-        assert($matheusGontijoSystemConfigHistoryRepository instanceof EntityRepository);
-        assert($userRepository instanceof EntityRepository);
+        \assert($matheusGontijoSystemConfigHistoryRepository instanceof EntityRepository);
+        \assert($userRepository instanceof EntityRepository);
 
         $this->connection = $connection;
         $this->matheusGontijoSystemConfigHistoryRepository = $matheusGontijoSystemConfigHistoryRepository;

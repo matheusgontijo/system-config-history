@@ -4,7 +4,6 @@ namespace MatheusGontijo\SystemConfigHistory\Repository\System\MatheusGontijoSys
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Driver\PDO\Statement;
-use Doctrine\DBAL\Driver\ResultStatement;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Shopware\Core\Framework\Uuid\Uuid;
 
@@ -22,7 +21,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
      */
     public function getCount(string $localeId, string $defaultSalesChannelName, array $filters): int
     {
-        $subQuery = $this->buildSubQuery($defaultSalesChannelName, $filters);
+        $subQuery = $this->buildSubQuery($filters);
 
         $qb = $this->connection->createQueryBuilder();
 
@@ -76,7 +75,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         int $page,
         int $limit
     ): QueryBuilder {
-        $subQuery = $this->buildSubQuery($defaultSalesChannelName, $filters);
+        $subQuery = $this->buildSubQuery($filters);
 
         $qb = $this->connection->createQueryBuilder();
 
@@ -150,7 +149,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
     /**
      * @param array<string, mixed> $filters
      */
-    private function buildSubQuery(string $defaultSalesChannelName, array $filters): QueryBuilder
+    private function buildSubQuery(array $filters): QueryBuilder
     {
         $subQb = $this->connection->createQueryBuilder();
 

@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+// phpcs:ignoreFile
+
 namespace MatheusGontijo\SystemConfigHistory\Tests;
 
 use Composer\Autoload\ClassLoader;
