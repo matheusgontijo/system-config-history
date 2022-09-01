@@ -83,6 +83,11 @@ class SystemConfigServiceDecoration extends SystemConfigService
             return;
         }
 
+        /**
+         * @TODO: REFACTOR... IT'S NOT "INSERTWITHREQUEST"...
+         * IT'S ACTUALLY "INSERTWITHADMINCONTEXT".. OR SOMETHING LIKE THAT
+         */
+
         $this->insertWithRequest($request, $key, $oldValue, $newValue, $salesChannelId);
     }
 
@@ -123,6 +128,7 @@ class SystemConfigServiceDecoration extends SystemConfigService
             'configurationValueOld' => $oldValue,
             'configurationValueNew' => $newValue,
             'salesChannelId' => $salesChannelId,
+            'actionType' => MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_UNKNOWN,
         ];
 
         $data = $this->addUserDataUserData($data, $request);
@@ -139,28 +145,33 @@ class SystemConfigServiceDecoration extends SystemConfigService
     private function addUserDataUserData(array $data, Request $request): array
     {
         $context = $request->attributes->get(PlatformRequest::ATTRIBUTE_CONTEXT_OBJECT);
-        \assert($context instanceof Context);
+
+        if (!$context instanceof Context) {
+            return $data;
+        }
 
         $source = $context->getSource();
 
-        if ($source instanceof AdminApiSource) {
-            $userId = $source->getUserId();
-            \assert(\is_string($userId));
-
-            $user = $this->loadUser($userId);
-
-            $data['username'] = $user->getUsername();
-
-            $data['userData']['user'] = [
-                'username' => $user->getUsername(),
-                'first_name' => $user->getFirstName(),
-                'last_name' => $user->getLastName(),
-                'email' => $user->getEmail(),
-                'active' => $user->getActive(),
-            ];
-
-            $data['actionType'] = MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_ADMIN;
+        if (!$source instanceof AdminApiSource) {
+            return $data;
         }
+
+        $userId = $source->getUserId();
+        \assert(\is_string($userId));
+
+        $user = $this->loadUser($userId);
+
+        $data['username'] = $user->getUsername();
+
+        $data['userData']['user'] = [
+            'username' => $user->getUsername(),
+            'first_name' => $user->getFirstName(),
+            'last_name' => $user->getLastName(),
+            'email' => $user->getEmail(),
+            'active' => $user->getActive(),
+        ];
+
+        $data['actionType'] = MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_ADMIN;
 
         return $data;
     }
