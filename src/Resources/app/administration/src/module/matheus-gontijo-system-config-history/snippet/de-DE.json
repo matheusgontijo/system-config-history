@@ -21,7 +21,8 @@
             "columnAction": "Aktion",
             "columnCreatedAt": "Hergestellt in",
             "revertButton": "Zurückkehren",
-            "noResultsWereFound": "Für diese Suche wurden keine Ergebnisse gefunden."
+            "noResultsWereFound": "Für diese Suche wurden keine Ergebnisse gefunden.",
+            "defaultSalesChannelName": "Standard"
         }
     }
   }

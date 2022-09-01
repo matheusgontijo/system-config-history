@@ -42,8 +42,7 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
     public function matheusGontijoSystemConfigHistoryList(
         Request $request,
         Context $context,
-        TranslatorInterface $translator,
-        EntityRepositoryInterface $userRepository,
+        EntityRepositoryInterface $localeRepository,
         MatheusGontijoSystemConfigHistoryRouteRepository $matheusGontijoSystemConfigHistoryRouteRepository
     ): JsonResponse {
         $filters = $request->request->all()['filters'] ?? [];
@@ -61,14 +60,13 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
         $limit = $request->request->get('limit');
         \assert(\is_int($limit));
 
-        $locale = $this->getLocale($context, $userRepository);
+        $defaultSalesChannelName = $request->request->get('defaultSalesChannelName');;
+        \assert(\is_string($defaultSalesChannelName));
 
-        $defaultSalesChannelName = $translator->trans(
-            'matheus-gontijo-system-config-history.historyTab.defaultSalesChannelName',
-            ['fallbackLocale' => 'en_GB'],
-            'administration',
-            $locale->getCode()
-        );
+        $localeCode = $request->request->get('localeCode');;
+        \assert(\is_string($localeCode));
+
+        $locale = $this->getLocale($localeCode, $localeRepository);
 
         $count = $matheusGontijoSystemConfigHistoryRouteRepository->getCount(
             $locale->getId(),
@@ -94,21 +92,12 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
         return new JsonResponse($data);
     }
 
-    private function getLocale(Context $context, EntityRepositoryInterface $userRepository): LocaleEntity
+    private function getLocale(string $localeCode, EntityRepositoryInterface $localeRepository): LocaleEntity
     {
-        $source = $context->getSource();
-        assert($source instanceof AdminApiSource);
-
-        $userId = $source->getUserId();
-
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('id', $userId));
-        $criteria->addAssociation('locale');
+        $criteria->addFilter(new EqualsFilter('code', $localeCode));
 
-        $user = $userRepository->search($criteria, Context::createDefaultContext())->first();
-        assert($user instanceof UserEntity);
-
-        $locale = $user->getLocale();
+        $locale = $localeRepository->search($criteria, Context::createDefaultContext())->first();
         assert($locale instanceof LocaleEntity);
 
         return $locale;

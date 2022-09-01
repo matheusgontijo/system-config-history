@@ -21,7 +21,10 @@
             "columnAction": "Action",
             "columnCreatedAt": "Created At",
             "revertButton": "Revert",
-            "noResultsWereFound": "No results were found for this search."
+            "noResultsWereFound": "No results were found for this search.",
+            "defaultSalesChannelName": "Default",
+            "buttonRefresh": "Refresh",
+            "buttonReset": "Reset"
         }
     }
   }

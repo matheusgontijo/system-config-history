@@ -114,7 +114,12 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
         loadGridData() {
             this.isLoading = true;
 
+            let defaultSalesChannelName = this.$tc(this.transPrefix('grid.defaultSalesChannelName'));
+            let localeCode = Shopware.Application.getContainer('factory').locale.getLastKnownLocale();
+
             this.MatheusGontijoSystemConfigHistoryViewHistoryService.getRows(
+                localeCode,
+                defaultSalesChannelName,
                 this.filters,
                 this.sortBy,
                 this.sortDirection,
@@ -260,6 +265,23 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
 
         transPrefix(value) {
             return 'matheus-gontijo-system-config-history-config.historyTab.' + value;
+        },
+
+        refreshGrid() {
+            this.loadGridData();
+        },
+
+        resetGrid() {
+            this.filters.configuration_key = null;
+            this.filters.configuration_value_old = null;
+            this.filters.configuration_value_new = null;
+            this.filters.sales_channel_name = null;
+            this.filters.username = null;
+            this.filters.action_type = null;
+            this.sortBy = 'created_at';
+            this.sortDirection = 'DESC';
+            this.page = 1;
+            this.limit = 20;
         }
     }
 });
