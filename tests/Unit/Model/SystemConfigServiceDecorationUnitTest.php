@@ -7,7 +7,6 @@ use MatheusGontijo\SystemConfigHistory\Model\RequestStateRegistry;
 use MatheusGontijo\SystemConfigHistory\Model\SystemConfigServiceDecoration;
 use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigServiceDecorationRepository;
 // phpcs:ignore
-use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryDefinition;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Framework\Api\Context\AdminApiSource;
 use Shopware\Core\Framework\Context;
@@ -96,7 +95,6 @@ class SystemConfigServiceDecorationUnitTest extends TestCase
                         'configurationValueOld' => ['_value' => 'aaa'],
                         'configurationValueNew' => ['_value' => 'bbb'],
                         'salesChannelId' => null,
-                        'actionType' => MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_UNKNOWN,
                     ],
                 ]
             );
@@ -196,7 +194,6 @@ class SystemConfigServiceDecorationUnitTest extends TestCase
                                 'SERVER_ADDR' => $serverAddr,
                             ],
                         ],
-                        'actionType' => MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_ADMIN,
                     ],
                 ],
                 [
@@ -219,7 +216,6 @@ class SystemConfigServiceDecorationUnitTest extends TestCase
                                 'SERVER_ADDR' => $serverAddr,
                             ],
                         ],
-                        'actionType' => MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_ADMIN,
                     ],
                 ]
             );

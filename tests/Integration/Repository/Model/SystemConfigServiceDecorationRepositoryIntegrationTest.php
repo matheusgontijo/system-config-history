@@ -6,7 +6,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ForwardCompatibility\Result;
 use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigServiceDecorationRepository;
 // phpcs:ignore
-use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryDefinition;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
@@ -102,7 +101,6 @@ class SystemConfigServiceDecorationRepositoryIntegrationTest extends TestCase
                     'SERVER_ADDR' => $serverAddr,
                 ],
             ],
-            'actionType' => MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_ADMIN,
         ]);
 
         $matheusGontijoSystemConfigHistoryRepository = $this->getContainer()->get(
@@ -141,10 +139,6 @@ class SystemConfigServiceDecorationRepositoryIntegrationTest extends TestCase
                 'SERVER_ADDR' => $serverAddr,
             ],
         ], $matheusGontijoSystemConfigHistory->getUserData());
-        static::assertSame(
-            MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_ADMIN,
-            $matheusGontijoSystemConfigHistory->getActionType()
-        );
     }
 
     /**

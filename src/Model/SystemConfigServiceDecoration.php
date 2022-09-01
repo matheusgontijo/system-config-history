@@ -5,7 +5,6 @@ namespace MatheusGontijo\SystemConfigHistory\Model;
 use Doctrine\DBAL\Connection;
 use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigServiceDecorationRepository;
 // phpcs:ignore
-use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryDefinition;
 use Shopware\Core\Framework\Api\Context\AdminApiSource;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -83,7 +82,7 @@ class SystemConfigServiceDecoration extends SystemConfigService
             return;
         }
 
-        /**
+        /*
          * @TODO: REFACTOR... IT'S NOT "INSERTWITHREQUEST"...
          * IT'S ACTUALLY "INSERTWITHADMINCONTEXT".. OR SOMETHING LIKE THAT
          */
@@ -106,7 +105,6 @@ class SystemConfigServiceDecoration extends SystemConfigService
             'configurationValueOld' => $oldValue,
             'configurationValueNew' => $newValue,
             'salesChannelId' => $salesChannelId,
-            'actionType' => MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_UNKNOWN,
         ];
 
         $this->systemConfigServiceDecorationRepository->insert($data);
@@ -128,7 +126,6 @@ class SystemConfigServiceDecoration extends SystemConfigService
             'configurationValueOld' => $oldValue,
             'configurationValueNew' => $newValue,
             'salesChannelId' => $salesChannelId,
-            'actionType' => MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_UNKNOWN,
         ];
 
         $data = $this->addUserDataUserData($data, $request);
@@ -170,8 +167,6 @@ class SystemConfigServiceDecoration extends SystemConfigService
             'email' => $user->getEmail(),
             'active' => $user->getActive(),
         ];
-
-        $data['actionType'] = MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_ADMIN;
 
         return $data;
     }

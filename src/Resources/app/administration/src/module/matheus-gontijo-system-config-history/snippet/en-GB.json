@@ -18,7 +18,6 @@
             "columnNewValue": "New Value",
             "columnSalesChannelName": "Sales Channel",
             "columnUsername": "Username",
-            "columnAction": "Action",
             "columnCreatedAt": "Created At",
             "revertButton": "Revert",
             "noResultsWereFound": "No results were found for this search.",

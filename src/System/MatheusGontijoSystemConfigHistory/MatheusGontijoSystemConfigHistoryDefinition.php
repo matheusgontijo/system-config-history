@@ -17,9 +17,6 @@ class MatheusGontijoSystemConfigHistoryDefinition extends EntityDefinition
 {
     public const ENTITY_NAME = 'matheus_gontijo_system_config_history';
 
-    public const ACTION_TYPE_ADMIN = 'admin';
-    public const ACTION_TYPE_UNKNOWN = 'unknown';
-
     public function getEntityName(): string
     {
         return self::ENTITY_NAME;
@@ -58,7 +55,6 @@ class MatheusGontijoSystemConfigHistoryDefinition extends EntityDefinition
             ),
             (new StringField('username', 'username'))->addFlags(new ApiAware()),
             (new JsonField('user_data', 'userData'))->addFlags(new ApiAware()),
-            (new StringField('action_type', 'actionType'))->addFlags(new ApiAware(), new Required()),
         ]);
     }
 }

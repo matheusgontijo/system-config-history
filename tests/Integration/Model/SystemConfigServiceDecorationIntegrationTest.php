@@ -3,7 +3,6 @@
 namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\Model;
 
 // phpcs:ignore
-use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryDefinition;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Framework\Context;
@@ -53,10 +52,6 @@ class SystemConfigServiceDecorationIntegrationTest extends TestCase
         static::assertNull($matheusGontijoSystemConfigHistory->getSalesChannelId());
         static::assertNull($matheusGontijoSystemConfigHistory->getUsername());
         static::assertNull($matheusGontijoSystemConfigHistory->getUserData());
-        static::assertSame(
-            MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_UNKNOWN,
-            $matheusGontijoSystemConfigHistory->getActionType()
-        );
 
         $matheusGontijoSystemConfigHistory = $searchResult->get($searchResult->getKeys()[1]);
         \assert($matheusGontijoSystemConfigHistory instanceof MatheusGontijoSystemConfigHistoryEntity);
@@ -67,10 +62,6 @@ class SystemConfigServiceDecorationIntegrationTest extends TestCase
         static::assertNull($matheusGontijoSystemConfigHistory->getSalesChannelId());
         static::assertNull($matheusGontijoSystemConfigHistory->getUsername());
         static::assertNull($matheusGontijoSystemConfigHistory->getUserData());
-        static::assertSame(
-            MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_UNKNOWN,
-            $matheusGontijoSystemConfigHistory->getActionType()
-        );
 
         $matheusGontijoSystemConfigHistory = $searchResult->get($searchResult->getKeys()[2]);
         \assert($matheusGontijoSystemConfigHistory instanceof MatheusGontijoSystemConfigHistoryEntity);
@@ -81,10 +72,6 @@ class SystemConfigServiceDecorationIntegrationTest extends TestCase
         static::assertNull($matheusGontijoSystemConfigHistory->getSalesChannelId());
         static::assertNull($matheusGontijoSystemConfigHistory->getUsername());
         static::assertNull($matheusGontijoSystemConfigHistory->getUserData());
-        static::assertSame(
-            MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_UNKNOWN,
-            $matheusGontijoSystemConfigHistory->getActionType()
-        );
 
         $matheusGontijoSystemConfigHistory = $searchResult->get($searchResult->getKeys()[3]);
         \assert($matheusGontijoSystemConfigHistory instanceof MatheusGontijoSystemConfigHistoryEntity);
@@ -95,9 +82,5 @@ class SystemConfigServiceDecorationIntegrationTest extends TestCase
         static::assertNull($matheusGontijoSystemConfigHistory->getSalesChannelId());
         static::assertNull($matheusGontijoSystemConfigHistory->getUsername());
         static::assertNull($matheusGontijoSystemConfigHistory->getUserData());
-        static::assertSame(
-            MatheusGontijoSystemConfigHistoryDefinition::ACTION_TYPE_UNKNOWN,
-            $matheusGontijoSystemConfigHistory->getActionType()
-        );
     }
 }

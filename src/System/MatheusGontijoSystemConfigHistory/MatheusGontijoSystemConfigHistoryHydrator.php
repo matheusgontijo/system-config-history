@@ -62,10 +62,6 @@ class MatheusGontijoSystemConfigHistoryHydrator extends EntityHydrator
             $entity->setUserData($userData);
         }
 
-        if (isset($row[$root . '.actionType'])) {
-            $entity->setActionType($row[$root . '.actionType']);
-        }
-
         if (isset($row[$root . '.updatedAt'])) {
             $entity->setUpdatedAt(new \DateTimeImmutable($row[$root . '.updatedAt']));
         }

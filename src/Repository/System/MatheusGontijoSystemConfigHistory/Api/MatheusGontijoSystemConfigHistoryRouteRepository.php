@@ -87,7 +87,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
             'subquery.sales_channel_name',
             'subquery.username',
             'subquery.user_data',
-            'subquery.action_type',
             'subquery.created_at',
         ]);
 
@@ -171,7 +170,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
             'IF(sct.name IS NOT NULL, sct.name, :default_sales_channel_name) AS sales_channel_name',
             'mgsch.username',
             'mgsch.user_data',
-            'mgsch.action_type',
             'mgsch.created_at',
         ]);
 

@@ -30,8 +30,6 @@ class MatheusGontijoSystemConfigHistoryEntity extends Entity
      */
     protected ?array $userData = null;
 
-    protected ?string $actionType = null;
-
     public function getConfigurationKey(): ?string
     {
         return $this->configurationKey;
@@ -108,15 +106,5 @@ class MatheusGontijoSystemConfigHistoryEntity extends Entity
     public function setUserData(?array $userData): void
     {
         $this->userData = $userData;
-    }
-
-    public function getActionType(): ?string
-    {
-        return $this->actionType;
-    }
-
-    public function setActionType(?string $actionType): void
-    {
-        $this->actionType = $actionType;
     }
 }
