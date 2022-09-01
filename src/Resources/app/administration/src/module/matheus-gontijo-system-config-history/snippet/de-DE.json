@@ -16,7 +16,7 @@
             "columnKey": "Taste",
             "columnOldValue": "Alter Wert",
             "columnNewValue": "Neuer Wert",
-            "columnSalesChannel": "Verkaufskanal",
+            "columnSalesChannelName": "Verkaufskanal",
             "columnUsername": "Nutzername",
             "columnAction": "Aktion",
             "columnCreatedAt": "Hergestellt in",

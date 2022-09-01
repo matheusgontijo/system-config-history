@@ -19,12 +19,11 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 configuration_value_new: null,
                 sales_channel_name: null,
                 username: null,
-                action_type: null,
             },
             sortBy: 'created_at',
             sortDirection: 'DESC',
             page: 1,
-            limit: 20,
+            limit: "20",
             count: 0,
             rows: [],
         };
@@ -104,6 +103,33 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 return this.filters.username = v;
             }
         },
+
+        selectLimit: {
+            get: function() {
+                return this.limit;
+            },
+            set: function(v) {
+                return this.limit = v;
+            }
+        },
+
+        totalRecords: {
+            get: function() {
+                return this.count;
+            },
+            set: function(v) {
+                return this.count = v;
+            }
+        },
+
+        limitOptions() {
+            return [
+                20,
+                50,
+                100,
+                250,
+            ];
+        },
     },
 
     methods: {
@@ -112,7 +138,9 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
         },
 
         loadGridData() {
-            this.isLoading = true;
+            // @TODO: ONLY USE LOADING AFTER FEW SECONDS... BETTER FOR UX
+
+            // this.isLoading = true;
 
             let defaultSalesChannelName = this.$tc(this.transPrefix('grid.defaultSalesChannelName'));
             let localeCode = Shopware.Application.getContainer('factory').locale.getLastKnownLocale();
@@ -277,11 +305,20 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             this.filters.configuration_value_new = null;
             this.filters.sales_channel_name = null;
             this.filters.username = null;
-            this.filters.action_type = null;
             this.sortBy = 'created_at';
             this.sortDirection = 'DESC';
             this.page = 1;
             this.limit = 20;
+        },
+
+        formatConfigurationKey(value) {
+            if (!value.includes(".")) {
+                return value;
+            }
+
+            let valuesSplitted = value.split('.');
+
+            return valuesSplitted.join('.<br />');
         }
     }
 });

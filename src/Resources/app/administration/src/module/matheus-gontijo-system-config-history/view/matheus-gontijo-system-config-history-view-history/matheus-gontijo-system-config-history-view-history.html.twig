@@ -2,8 +2,16 @@
 <div :class="pagePrefix()">
 
     <div :id="pagePrefix('grid-buttons')">
+        <sw-button variant="context">{{ $tc(transPrefix('grid.totalRecords'), 0, { 'total': count}) }}</sw-button>
         <sw-button variant="ghost" v-on:click="refreshGrid()">{{ $tc(transPrefix('grid.buttonRefresh')) }}</sw-button>
         <sw-button variant="ghost" v-on:click="resetGrid()">{{ $tc(transPrefix('grid.buttonReset')) }}</sw-button>
+        <div :id="pagePrefix('grid-select-limit')">
+            <sw-select-field v-model="selectLimit" :id="pagePrefix('grid-select-limit')">
+                <option v-for="limitOption in limitOptions" :key="limitOption" :value="limitOption">
+                    {{ limitOption }}
+                </option>
+            </sw-select-field>
+        </div>
     </div>
 
     {% block matheus_gontijo_system_config_history_view_history %}
@@ -14,6 +22,15 @@
         :large="true"
     >
         <table :id="pagePrefix()" cellspacing="0" cellpadding="0">
+            <colgroup>
+                <col span="1" style="width: 26%;"><!-- key -->
+                <col span="1" style="width: 28%;"><!-- old value -->
+                <col span="1" style="width: 28%;"><!-- new value -->
+                <col span="1" style="width: 4%;"><!-- sales channel name -->
+                <col span="1" style="width: 4%;"><!-- user -->
+                <col span="1" style="width: 7%;"><!-- created at -->
+                <col span="1" style="width: 3%;"><!-- revert -->
+            </colgroup>
             <thead>
                 <tr>
                     <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_key')">
@@ -37,11 +54,11 @@
                             v-html="sortDirectionArrow('configuration_value_new')">
                         </span>
                     </th>
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('sales_channel_id')">
-                        {{ $tc(transPrefix('grid.columnSalesChannel')) }}
+                    <th scope="col" v-on:click="changeSortByAndSortDirection('sales_channel_name')">
+                        {{ $tc(transPrefix('grid.columnSalesChannelName')) }}
                         <span
                             :class="pagePrefix('sort-direction')"
-                            v-html="sortDirectionArrow('sales_channel_id')">
+                            v-html="sortDirectionArrow('sales_channel_name')">
                         </span>
                     </th>
                     <th scope="col" v-on:click="changeSortByAndSortDirection('username')">
@@ -49,13 +66,6 @@
                         <span
                             :class="pagePrefix('sort-direction')"
                             v-html="sortDirectionArrow('username')">
-                        </span>
-                    </th>
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('action_type')">
-                        {{ $tc(transPrefix('grid.columnAction')) }}
-                        <span
-                            :class="pagePrefix('sort-direction')"
-                            v-html="sortDirectionArrow('action_type')">
                         </span>
                     </th>
                     <th scope="col" v-on:click="changeSortByAndSortDirection('created_at')">
@@ -78,10 +88,18 @@
                         <input type="text" :class="pagePrefix('filter-input')" v-model="filterConfigurationValueNew" />
                     </th>
                     <th scope="col">
-                        <input type="text" :class="pagePrefix('filter-input')" v-model="filterSalesChannelName" />
+                        <input
+                            type="text"
+                            :class="pagePrefix('filter-input') + ' ' + 'sales-channel-name'"
+                            v-model="filterSalesChannelName"
+                        />
                     </th>
                     <th scope="col">
-                        <input type="text" :class="pagePrefix('filter-input')" v-model="filterUsername" />
+                        <input
+                            type="text"
+                            :class="pagePrefix('filter-input') + ' ' + 'username'"
+                            v-model="filterUsername"
+                        />
                     </th>
                 </tr>
             </thead>
@@ -91,8 +109,10 @@
             <tbody v-if="rows.length > 0">
                 <tr v-for="row in rows">
                     <td :class="pagePrefix('td')">
-                        <span :class="pagePrefix('configuration-key')">
-                            {{ row.configuration_key }}
+                        <span
+                            :class="pagePrefix('configuration-key')"
+                            v-html="formatConfigurationKey(row.configuration_key)"
+                        />
                         </span>
                     </td>
                     <td :class="pagePrefix('td')">
@@ -119,8 +139,9 @@
                         <span :class="pagePrefix('sales-channel-name')">{{ row.sales_channel_name }}</span>
                     </td>
                     <td :class="pagePrefix('td')">{{ row.username }}</td>
-                    <td :class="pagePrefix('td')">{{ row.action_type }}</td>
-                    <td :class="pagePrefix('td')">{{ columnFormatDate(row.created_at) }}</td>
+                    <td :class="pagePrefix('td') + ' ' + pagePrefix('grid-column-created-at')">
+                        {{ columnFormatDate(row.created_at) }}
+                    </td>
                     <td :class="pagePrefix('td')">
                         <span :class="pagePrefix('revert-button')">
                             {{ $tc(transPrefix('grid.revertButton')) }}

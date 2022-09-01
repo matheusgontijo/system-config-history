@@ -16,7 +16,7 @@
             "columnKey": "Key",
             "columnOldValue": "Old Value",
             "columnNewValue": "New Value",
-            "columnSalesChannel": "Sales Channel",
+            "columnSalesChannelName": "Sales Channel",
             "columnUsername": "Username",
             "columnAction": "Action",
             "columnCreatedAt": "Created At",
@@ -24,7 +24,9 @@
             "noResultsWereFound": "No results were found for this search.",
             "defaultSalesChannelName": "Default",
             "buttonRefresh": "Refresh",
-            "buttonReset": "Reset"
+            "buttonReset": "Reset",
+            "totalRecords": "Total record(s): {total}"
+
         }
     }
   }

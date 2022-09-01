@@ -13,6 +13,7 @@
         text-align: left;
         padding: 6px;
         cursor: pointer;
+        white-space: nowrap;
     }
 
     tbody {
@@ -29,8 +30,21 @@
 
     &-no-results {
         display: block;
-        text-align: center;
         margin-top: 30px;
+    }
+
+    &-grid-select-limit {
+        width: 90px;
+        display: inline-flex;
+
+        .sw-field {
+            margin-bottom: 0;
+        }
+
+        select {
+            padding: 8px 30px 8px 8px;
+            text-align: center;
+        }
     }
 }
 
@@ -39,7 +53,13 @@
         width: 100%;
         padding: 8px;
         border: 1px solid #d1d9e0;
-        border-radius: 5px;
+        border-radius: 3px;
+        outline: none;
+
+        &:focus,
+        &:focus-visible {
+            border-color: #7b7b7b;
+        }
     }
 
     &-tr {
@@ -82,5 +102,9 @@
         border-radius: 5px;
         cursor: pointer;
         text-align: center;
+    }
+
+    &-column-created-at {
+        white-space: nowrap;
     }
 }

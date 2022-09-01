@@ -14,6 +14,8 @@ export default class YotpoConfigService extends ApiService {
     async getRows(localeCode, defaultSalesChannelName, filters, sortBy, sortDirection, page, limit) {
         const apiRoute = `${this.getApiBasePath()}/matheus-gontijo-system-config-history/rows`;
 
+        limit = parseInt(limit);
+
         return this.httpClient.post(
             apiRoute,
             {
