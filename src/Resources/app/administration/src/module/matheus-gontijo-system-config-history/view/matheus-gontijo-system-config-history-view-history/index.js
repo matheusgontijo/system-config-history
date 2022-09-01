@@ -248,6 +248,18 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 rightItems,
                 lastAddedPosition
             );
+        },
+
+        pagePrefix(value) {
+            if (value === undefined) {
+                return 'matheus-gontijo-system-config-history-view-history';
+            }
+
+            return 'matheus-gontijo-system-config-history-view-history-' + value;
+        },
+
+        transPrefix(value) {
+            return 'matheus-gontijo-system-config-history-config.historyTab.' + value;
         }
     }
 });

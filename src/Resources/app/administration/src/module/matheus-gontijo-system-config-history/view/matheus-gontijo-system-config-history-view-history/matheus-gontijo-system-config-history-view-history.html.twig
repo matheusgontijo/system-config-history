@@ -1,62 +1,62 @@
 {% block matheus_gontijo_system_config_history_view_history %}
-<div class="matheus-gontijo-system-config-history-view-history">
+<div :class="pagePrefix()">
     {% block matheus_gontijo_system_config_history_view_history %}
     <sw-card
-        :title="$tc('matheus-gontijo-system-config-history-config.historyTab.title')"
+        :title="$tc(transPrefix('title'))"
         class="matheus-gontijo-system-config-history-view-history__grid-card"
         position-identifier="matheus-gontijo-system-config-history-view-history"
         :is-loading="isLoading"
         :large="true"
     >
-        <table id="matheus-gontijo-system-config-history-view-history" cellspacing="0" cellpadding="0">
+        <table :id="pagePrefix()" cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
                     <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_key')">
-                        {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.columnKey') }}
+                        {{ $tc(transPrefix('grid.columnKey')) }}
                         <span
-                            class="matheus-gontijo-system-config-history-view-history-sort-direction"
+                            :class="pagePrefix('sort-direction')"
                             v-html="sortDirectionArrow('configuration_key')">
                         </span>
                     </th>
                     <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_value_old')">
-                        {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.columnOldValue') }}
+                        {{ $tc(transPrefix('grid.columnOldValue')) }}
                         <span
-                            class="matheus-gontijo-system-config-history-view-history-sort-direction"
+                            :class="pagePrefix('sort-direction')"
                             v-html="sortDirectionArrow('configuration_value_old')">
                         </span>
                     </th>
                     <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_value_new')">
-                        {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.columnNewValue') }}
+                        {{ $tc(transPrefix('grid.columnNewValue')) }}
                         <span
-                            class="matheus-gontijo-system-config-history-view-history-sort-direction"
+                            :class="pagePrefix('sort-direction')"
                             v-html="sortDirectionArrow('configuration_value_new')">
                         </span>
                     </th>
                     <th scope="col" v-on:click="changeSortByAndSortDirection('sales_channel_id')">
-                        {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.columnSalesChannel') }}
+                        {{ $tc(transPrefix('grid.columnSalesChannel')) }}
                         <span
-                            class="matheus-gontijo-system-config-history-view-history-sort-direction"
+                            :class="pagePrefix('sort-direction')"
                             v-html="sortDirectionArrow('sales_channel_id')">
                         </span>
                     </th>
                     <th scope="col" v-on:click="changeSortByAndSortDirection('username')">
-                        {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.columnUsername') }}
+                        {{ $tc(transPrefix('grid.columnUsername')) }}
                         <span
-                            class="matheus-gontijo-system-config-history-view-history-sort-direction"
+                            :class="pagePrefix('sort-direction')"
                             v-html="sortDirectionArrow('username')">
                         </span>
                     </th>
                     <th scope="col" v-on:click="changeSortByAndSortDirection('action_type')">
-                        {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.columnAction') }}
+                        {{ $tc(transPrefix('grid.columnAction')) }}
                         <span
-                            class="matheus-gontijo-system-config-history-view-history-sort-direction"
+                            :class="pagePrefix('sort-direction')"
                             v-html="sortDirectionArrow('action_type')">
                         </span>
                     </th>
                     <th scope="col" v-on:click="changeSortByAndSortDirection('created_at')">
-                        {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.columnCreatedAt') }}
+                        {{ $tc(transPrefix('grid.columnCreatedAt')) }}
                         <span
-                            class="matheus-gontijo-system-config-history-view-history-sort-direction"
+                            :class="pagePrefix('sort-direction')"
                             v-html="sortDirectionArrow('created_at')">
                         </span>
                     </th>
@@ -64,39 +64,19 @@
                 </tr>
                 <tr>
                     <th scope="col">
-                        <input
-                            type="text"
-                            class="matheus-gontijo-system-config-history-view-history-filter-input"
-                            v-model="filterConfigurationKey"
-                        />
+                        <input type="text" :class="pagePrefix('filter-input')" v-model="filterConfigurationKey" />
                     </th>
                     <th scope="col">
-                        <input
-                            type="text"
-                            class="matheus-gontijo-system-config-history-view-history-filter-input"
-                            v-model="filterConfigurationValueOld"
-                        />
+                        <input type="text" :class="pagePrefix('filter-input')" v-model="filterConfigurationValueOld" />
                     </th>
                     <th scope="col">
-                        <input
-                            type="text"
-                            class="matheus-gontijo-system-config-history-view-history-filter-input"
-                            v-model="filterConfigurationValueNew"
-                        />
+                        <input type="text" :class="pagePrefix('filter-input')" v-model="filterConfigurationValueNew" />
                     </th>
                     <th scope="col">
-                        <input
-                            type="text"
-                            class="matheus-gontijo-system-config-history-view-history-filter-input"
-                            v-model="filterSalesChannelName"
-                        />
+                        <input type="text" :class="pagePrefix('filter-input')" v-model="filterSalesChannelName" />
                     </th>
                     <th scope="col">
-                        <input
-                            type="text"
-                            class="matheus-gontijo-system-config-history-view-history-filter-input"
-                            v-model="filterUsername"
-                        />
+                        <input type="text" :class="pagePrefix('filter-input')" v-model="filterUsername" />
                     </th>
                 </tr>
             </thead>
@@ -105,56 +85,52 @@
 
             <tbody v-if="rows.length > 0">
                 <tr v-for="row in rows">
-                    <td class="matheus-gontijo-system-config-history-view-history-td">
-                        <span class="matheus-gontijo-system-config-history-view-history-configuration-key">
+                    <td :class="pagePrefix('td')">
+                        <span :class="pagePrefix('configuration-key')">
                             {{ row.configuration_key }}
                         </span>
                     </td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td">
-                        <span class="matheus-gontijo-system-config-history-view-history-configuration-value-old">
+                    <td :class="pagePrefix('td')">
+                        <span :class="pagePrefix('configuration-value-old')">
                             <span v-if="row.configuration_value_old == null">
-                                <span class="matheus-gontijo-system-config-history-view-history-td-null">null</span>
+                                <span :class="pagePrefix('td-null')">null</span>
                             </span>
                             <span v-else>
                                 {{ row.configuration_value_old }}
                             </span>
                         </span>
                     </td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td">
-                        <span class="matheus-gontijo-system-config-history-view-history-configuration-value-new">
+                    <td :class="pagePrefix('td')">
+                        <span :class="pagePrefix('configuration-value-new')">
                             <span v-if="row.configuration_value_new == null">
-                                <span class="matheus-gontijo-system-config-history-view-history-td-null">null</span>
+                                <span :class="pagePrefix('td-null')">null</span>
                             </span>
                             <span v-else>
                                 {{ row.configuration_value_new }}
                             </span>
                         </span>
                     </td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td">
-                        <span class="matheus-gontijo-system-config-history-view-history-sales-channel-name">
-                            {{ row.sales_channel_name }}
-                        </span>
+                    <td :class="pagePrefix('td')">
+                        <span :class="pagePrefix('sales-channel-name')">{{ row.sales_channel_name }}</span>
                     </td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td">{{ row.username }}</td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td">{{ row.action_type }}</td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td">
-                        {{ columnFormatDate(row.created_at) }}
-                    </td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td">
-                        <span class="matheus-gontijo-system-config-history-view-history-revert-button">
-                            {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.revertButton') }}
+                    <td :class="pagePrefix('td')">{{ row.username }}</td>
+                    <td :class="pagePrefix('td')">{{ row.action_type }}</td>
+                    <td :class="pagePrefix('td')">{{ columnFormatDate(row.created_at) }}</td>
+                    <td :class="pagePrefix('td')">
+                        <span :class="pagePrefix('revert-button')">
+                            {{ $tc(transPrefix('grid.revertButton')) }}
                         </span>
                     </td>
                 </tr>
             </tbody>
         </table>
 
-        <div id="matheus-gontijo-system-config-history-view-history-pagination" v-if="hasPagination">
-            <span class="matheus-gontijo-system-config-history-view-history-pagination-item"></span>
+        <div :id="pagePrefix('pagination')" v-if="hasPagination">
+            <span :class="pagePrefix('pagination-item')"></span>
         </div>
 
-        <span id="matheus-gontijo-system-config-history-view-history-no-results" v-if="rows.length === 0">
-            {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.noResultsWereFound') }}
+        <span :id="pagePrefix('no-results')" v-if="rows.length === 0">
+            {{ $tc(transPrefix('grid.noResultsWereFound')) }}
         </span>
 
         {{ getPaginationItems() }}

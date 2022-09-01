@@ -65,7 +65,7 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
 
         $defaultSalesChannelName = $translator->trans(
             'matheus-gontijo-system-config-history.historyTab.defaultSalesChannelName',
-            [],
+            ['fallbackLocale' => 'en_GB'],
             'administration',
             $locale->getCode()
         );

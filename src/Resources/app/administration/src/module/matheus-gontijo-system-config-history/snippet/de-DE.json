@@ -1,0 +1,28 @@
+{
+  "matheus-gontijo-system-config-history": {
+    "general": {
+      "mainMenuItemGeneral": "Verlauf der Systemkonfiguration",
+      "description": "Verwalten Sie den Systemkonfigurationsverlauf"
+    },
+    "page": {
+      "historyTab": "Geschichte",
+      "instancesTab": "Instanzen"
+    }
+  },
+  "matheus-gontijo-system-config-history-config": {
+    "historyTab": {
+        "title": "Geschichte",
+        "grid": {
+            "columnKey": "Taste",
+            "columnOldValue": "Alter Wert",
+            "columnNewValue": "Neuer Wert",
+            "columnSalesChannel": "Verkaufskanal",
+            "columnUsername": "Nutzername",
+            "columnAction": "Aktion",
+            "columnCreatedAt": "Hergestellt in",
+            "revertButton": "Zurückkehren",
+            "noResultsWereFound": "Für diese Suche wurden keine Ergebnisse gefunden."
+        }
+    }
+  }
+}
