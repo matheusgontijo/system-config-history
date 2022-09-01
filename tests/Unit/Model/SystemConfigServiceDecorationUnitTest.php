@@ -60,7 +60,7 @@ class SystemConfigServiceDecorationUnitTest extends TestCase
         $systemConfigServiceDecoration->set('my.custom.systemConfig', 'aaa', null);
     }
 
-    public function testSetDifferentValueWithoutRequest(): void
+    public function testSetDifferentValueWithoutAdminRequest(): void
     {
         $systemConfigServiceMock = $this->createMock(SystemConfigService::class);
         $systemConfigServiceDecorationRepositoryMock = $this->createMock(
@@ -87,10 +87,15 @@ class SystemConfigServiceDecorationUnitTest extends TestCase
             ->willReturn(null);
 
         $systemConfigServiceDecorationRepositoryMock->expects(static::exactly(1))
+            ->method('generateId')
+            ->willReturn('c6316df22e754fe1af0eae305fd3a495');
+
+        $systemConfigServiceDecorationRepositoryMock->expects(static::exactly(1))
             ->method('insert')
             ->withConsecutive(
                 [
                     [
+                        'id' => 'c6316df22e754fe1af0eae305fd3a495',
                         'configurationKey' => 'my.custom.systemConfig',
                         'configurationValueOld' => ['_value' => 'aaa'],
                         'configurationValueNew' => ['_value' => 'bbb'],
@@ -108,7 +113,7 @@ class SystemConfigServiceDecorationUnitTest extends TestCase
         $systemConfigServiceDecoration->set('my.custom.systemConfig', 'bbb');
     }
 
-    public function testSetDifferentValueWithRequest(): void
+    public function testSetDifferentValueWithAdminRequest(): void
     {
         $systemConfigServiceMock = $this->createMock(SystemConfigService::class);
         $systemConfigServiceDecorationRepositoryMock = $this->createMock(
@@ -172,10 +177,18 @@ class SystemConfigServiceDecorationUnitTest extends TestCase
             ->willReturn($userEntity);
 
         $systemConfigServiceDecorationRepositoryMock->expects(static::exactly(2))
+            ->method('generateId')
+            ->willReturnOnConsecutiveCalls(
+                '57da17dcc2b74e43a7ed4e570d756658',
+                'a6eb533c801b4e4abdba4428c28bcce0'
+            );
+
+        $systemConfigServiceDecorationRepositoryMock->expects(static::exactly(2))
             ->method('insert')
             ->withConsecutive(
                 [
                     [
+                        'id' => '57da17dcc2b74e43a7ed4e570d756658',
                         'configurationKey' => 'my.custom.systemConfig',
                         'configurationValueOld' => ['_value' => 'aaa'],
                         'configurationValueNew' => ['_value' => 'bbb'],
@@ -198,6 +211,7 @@ class SystemConfigServiceDecorationUnitTest extends TestCase
                 ],
                 [
                     [
+                        'id' => 'a6eb533c801b4e4abdba4428c28bcce0',
                         'configurationKey' => 'my.custom.systemConfig',
                         'configurationValueOld' => ['_value' => 'bbb'],
                         'configurationValueNew' => ['_value' => 'ccc'],

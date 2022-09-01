@@ -33,6 +33,11 @@ class SystemConfigServiceDecorationRepository
         $this->userRepository = $userRepository;
     }
 
+    public function generateId(): string
+    {
+        return Uuid::randomHex();
+    }
+
     /**
      * @return array<mixed>|null
      */

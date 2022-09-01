@@ -114,6 +114,7 @@ class SystemConfigServiceDecoration extends SystemConfigService
         ?string $salesChannelId = null
     ): void {
         $data = [
+            'id' => $this->systemConfigServiceDecorationRepository->generateId(),
             'configurationKey' => $key,
             'configurationValueOld' => $oldValue,
             'configurationValueNew' => $newValue,
@@ -135,6 +136,7 @@ class SystemConfigServiceDecoration extends SystemConfigService
         ?string $salesChannelId = null
     ): void {
         $data = [
+            'id' => $this->systemConfigServiceDecorationRepository->generateId(),
             'configurationKey' => $key,
             'configurationValueOld' => $oldValue,
             'configurationValueNew' => $newValue,

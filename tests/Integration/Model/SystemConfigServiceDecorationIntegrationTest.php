@@ -3,6 +3,7 @@
 namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\Model;
 
 // phpcs:ignore
+use MatheusGontijo\SystemConfigHistory\Model\SystemConfigServiceDecoration;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Framework\Context;
@@ -16,6 +17,14 @@ use Shopware\Core\System\SystemConfig\SystemConfigService;
 class SystemConfigServiceDecorationIntegrationTest extends TestCase
 {
     use IntegrationTestBehaviour;
+
+    public function testDecorationIsWorking(): void
+    {
+        $systemConfigService = $this->getContainer()->get(SystemConfigService::class);
+        \assert($systemConfigService instanceof SystemConfigService);
+
+        static::assertInstanceOf(SystemConfigServiceDecoration::class, $systemConfigService);
+    }
 
     public function testHistoryOfValues(): void
     {
