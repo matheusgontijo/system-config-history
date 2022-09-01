@@ -22,7 +22,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
     /**
      * @param array<string, mixed> $filters
      */
-    public function getCount(string $defaultSalesChannelName, array $filters): int
+    public function getCount(string $localeId, string $defaultSalesChannelName, array $filters): int
     {
         $subQuery = $this->buildSubQuery($defaultSalesChannelName, $filters);
 
@@ -34,7 +34,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
         $qb->from($subQueryString, 'subquery');
 
-        $qb = $this->setQueryBuilderParameters($qb, $defaultSalesChannelName, $filters);
+        $qb = $this->setQueryBuilderParameters($qb, $localeId, $defaultSalesChannelName, $filters);
 
         $executeResult = $qb->execute();
         \assert($executeResult instanceof Result);
@@ -48,6 +48,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
      * @return array<int, mixed>
      */
     public function getRows(
+        string $localeId,
         string $defaultSalesChannelName,
         array $filters,
         string $sortBy,
@@ -55,7 +56,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         int $page,
         int $limit
     ): array {
-        $qb = $this->buildQuery($defaultSalesChannelName, $filters, $sortBy, $sortDirection, $page, $limit);
+        $qb = $this->buildQuery($localeId, $defaultSalesChannelName, $filters, $sortBy, $sortDirection, $page, $limit);
 
         $executeResult = $qb->execute();
         \assert($executeResult instanceof Result);
@@ -69,6 +70,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
      * @param array<string, mixed> $filters
      */
     private function buildQuery(
+        string $localeId,
         string $defaultSalesChannelName,
         array $filters,
         string $sortBy,
@@ -96,7 +98,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
         $qb->from($subQueryString, 'subquery');
 
-        $qb = $this->setQueryBuilderParameters($qb, $defaultSalesChannelName, $filters);
+        $qb = $this->setQueryBuilderParameters($qb, $localeId, $defaultSalesChannelName, $filters);
 
         $qb->orderBy($sortBy, $sortDirection);
         $qb->addOrderBy('created_at', 'DESC');
@@ -112,10 +114,16 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
     /**
      * @param array<string, mixed> $filters
      */
-    private function setQueryBuilderParameters(QueryBuilder $qb, string $defaultSalesChannelName, array $filters): QueryBuilder
-    {
+    private function setQueryBuilderParameters(
+        QueryBuilder $qb,
+        string $localeId,
+        string $defaultSalesChannelName,
+        array $filters
+    ): QueryBuilder {
+        // @TODO: ADD DEFAULT SALES CHANNEL NAME.. in case missing translation
+
+        $qb->setParameter(':locale_id', Uuid::fromHexToBytes($localeId));
         $qb->setParameter(':default_sales_channel_name', $defaultSalesChannelName);
-        $qb->setParameter(':language_id', Uuid::fromHexToBytes('2fbb5fe2e29a4d70aa5854ce7ce3e20b'));
 
         if ($filters['configuration_key'] !== null && $filters['configuration_key'] !== '') {
             $qb->setParameter(':configuration_key', '%' . $filters['configuration_key'] . '%');
@@ -146,6 +154,12 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
      */
     private function buildSubQuery(string $defaultSalesChannelName, array $filters): QueryBuilder
     {
+        $subQb = $this->connection->createQueryBuilder();
+
+        $subQb->select(['la.id']);
+        $subQb->from('language', 'la');
+        $subQb->innerJoin('la', 'locale', 'lo', 'lo.id = la.locale_id and lo.id = :locale_id');
+
         $qb = $this->connection->createQueryBuilder();
 
         /*
@@ -166,12 +180,12 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
         $qb->from('matheus_gontijo_system_config_history', 'mgsch');
 
-        $qb->leftJoin(
-            'mgsch',
-            'sales_channel_translation',
-            'sct',
-            'sct.sales_channel_id = mgsch.sales_channel_id AND sct.language_id = :language_id'
+        $leftJoinCondition = sprintf(
+            'sct.sales_channel_id = mgsch.sales_channel_id AND sct.language_id = (%s)',
+            $subQb->getSQL()
         );
+
+        $qb->leftJoin('mgsch', 'sales_channel_translation', 'sct', $leftJoinCondition);
 
         if ($filters['configuration_key'] !== null && $filters['configuration_key'] !== '') {
             $qb->andWhere('mgsch.configuration_key LIKE :configuration_key');

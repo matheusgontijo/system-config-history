@@ -5,9 +5,12 @@ namespace MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHi
 // phpcs:ignore
 use MatheusGontijo\SystemConfigHistory\Repository\System\MatheusGontijoSystemConfigHistory\Api\MatheusGontijoSystemConfigHistoryRouteRepository;
 use Shopware\Core\Framework\Adapter\Translation\Translator;
+use Shopware\Core\Framework\Api\Context\AdminApiSource;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\System\Locale\LocaleEntity;
+use Shopware\Core\System\User\UserEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,7 +43,7 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
         Request $request,
         Context $context,
         TranslatorInterface $translator,
-        EntityRepositoryInterface $languageRepository,
+        EntityRepositoryInterface $userRepository,
         MatheusGontijoSystemConfigHistoryRouteRepository $matheusGontijoSystemConfigHistoryRouteRepository
     ): JsonResponse {
         $filters = $request->request->all()['filters'] ?? [];
@@ -58,11 +61,23 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
         $limit = $request->request->get('limit');
         \assert(\is_int($limit));
 
-        $defaultSalesChannelName = $this->getDefaultSalesChannelName($context, $languageRepository, $translator);
+        $locale = $this->getLocale($context, $userRepository);
 
-        $count = $matheusGontijoSystemConfigHistoryRouteRepository->getCount($defaultSalesChannelName, $filters);
+        $defaultSalesChannelName = $translator->trans(
+            'matheus-gontijo-system-config-history.historyTab.defaultSalesChannelName',
+            [],
+            'administration',
+            $locale->getCode()
+        );
+
+        $count = $matheusGontijoSystemConfigHistoryRouteRepository->getCount(
+            $locale->getId(),
+            $defaultSalesChannelName,
+            $filters
+        );
 
         $rows = $matheusGontijoSystemConfigHistoryRouteRepository->getRows(
+            $locale->getId(),
             $defaultSalesChannelName,
             $filters,
             $sortBy,
@@ -79,23 +94,25 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
         return new JsonResponse($data);
     }
 
-    private function getDefaultSalesChannelName(
+    private function getLocale(
         Context $context,
-        EntityRepositoryInterface $languageRepository,
-        TranslatorInterface $translator
-    ): string {
+        EntityRepositoryInterface $userRepository
+    ): LocaleEntity {
+        $source = $context->getSource();
+        assert($source instanceof AdminApiSource);
+
+        $userId = $source->getUserId();
+
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('id', $context->getLanguageId()));
+        $criteria->addFilter(new EqualsFilter('id', $userId));
         $criteria->addAssociation('locale');
-        $language = $languageRepository->search($criteria, Context::createDefaultContext())->first();
 
-        $localeCode = $language->getLocale()->getCode();
+        $user = $userRepository->search($criteria, Context::createDefaultContext())->first();
+        assert($user instanceof UserEntity);
 
-        return $translator->trans(
-            'matheus-gontijo-system-config-history.historyTab.defaultSalesChannelName',
-            [],
-            'administration',
-            $localeCode
-        );
+        $locale = $user->getLocale();
+        assert($locale instanceof LocaleEntity);
+
+        return $locale;
     }
 }
