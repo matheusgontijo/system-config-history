@@ -3,7 +3,7 @@
 namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\Model;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\PDO\Statement;
+use Doctrine\DBAL\ForwardCompatibility\Result;
 use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigServiceDecorationRepository;
 // phpcs:ignore
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryDefinition;
@@ -177,7 +177,7 @@ class SystemConfigServiceDecorationRepositoryIntegrationTest extends TestCase
         $qb->setParameter('id', Uuid::fromHexToBytes(Defaults::LANGUAGE_SYSTEM));
 
         $executeResult = $qb->execute();
-        \assert($executeResult instanceof Statement);
+        \assert($executeResult instanceof Result);
 
         $localeId = Uuid::fromBytesToHex($executeResult->fetchOne());
 

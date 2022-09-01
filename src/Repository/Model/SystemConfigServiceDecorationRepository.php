@@ -3,7 +3,7 @@
 namespace MatheusGontijo\SystemConfigHistory\Repository\Model;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\PDO\Statement;
+use Doctrine\DBAL\ForwardCompatibility\Result;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -54,7 +54,7 @@ class SystemConfigServiceDecorationRepository
         }
 
         $executeResult = $qb->execute();
-        \assert($executeResult instanceof Statement);
+        \assert($executeResult instanceof Result);
 
         return $this->decodeValue($executeResult->fetchOne());
     }

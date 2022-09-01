@@ -3,7 +3,7 @@
 namespace MatheusGontijo\SystemConfigHistory\Repository\System\MatheusGontijoSystemConfigHistory\Api;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\PDO\Statement;
+use Doctrine\DBAL\ForwardCompatibility\Result;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Shopware\Core\Framework\Uuid\Uuid;
 
@@ -34,7 +34,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         $qb = $this->setQueryBuilderParameters($qb, $localeId, $defaultSalesChannelName, $filters);
 
         $executeResult = $qb->execute();
-        \assert($executeResult instanceof Statement);
+        \assert($executeResult instanceof Result);
 
         return (int) $executeResult->fetchOne();
     }
@@ -56,7 +56,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         $qb = $this->buildQuery($localeId, $defaultSalesChannelName, $filters, $sortBy, $sortDirection, $page, $limit);
 
         $executeResult = $qb->execute();
-        \assert($executeResult instanceof Statement);
+        \assert($executeResult instanceof Result);
 
         $rows = $executeResult->fetchAllAssociative();
 
