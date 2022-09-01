@@ -10,53 +10,19 @@
     }
   },
   "matheus-gontijo-system-config-history-config": {
-    "header": "System Config History Config",
-    "general": {
-      "mainMenuItemGeneral": "System Config History"
-    },
-    "generalCard": {
-      "title": "General",
-      "enabledLabel": "Enabled",
-      "showReviewsInCategoryPageLabel": "Show Reviews in Category Page",
-      "showReviewsInProductPageLabel": "Show Reviews in Product Page"
-    },
-    "credentialsCard": {
-      "title": "Credentials",
-      "appKeyLabel": "App Key",
-      "appSecretLabel": "App Secret"
-    },
-    "productMappingCard": {
-      "title": "Product Mapping",
-      "groupNameLabel": "Group Name",
-      "brandLabel": "Brand",
-      "mpnLabel": "MPN",
-      "gtinEanLabel": "GTIN EAN",
-      "gtinUpcLabel": "GTIN UPC",
-      "gtinIsbnLabel": "GTIN ISBN"
-    },
-    "advancedCard": {
-      "title": "Advanced",
-      "baseUriLabel": "Base URI",
-      "timeoutLabel": "Timeout",
-      "logsEnabledLabel": "Logs Enabled"
-    },
-    "validation": {
-      "testCredentialsButton": "Test Credentials",
-      "success": "Credentials are working successfully.",
-      "error": "Credentials are not working. Error(s): {errorMessage}",
-      "errorUnknown": "Unknow error. Please, try later."
-    },
-    "generateAccessToken": {
-      "success": "Access Token has been generated successfully.",
-      "error": "Access Token has not been generated. Error(s): {errorMessage}",
-      "errorUnknown": "Unknow error. Please, try later."
-    }
-  },
-  "sw-privileges": {
-    "permissions": {
-      "yotpo": {
-        "label": "Yotpo Config"
-      }
+    "historyTab": {
+        "title": "History",
+        "grid": {
+            "columnKey": "Key",
+            "columnOldValue": "Old Value",
+            "columnNewValue": "New Value",
+            "columnSalesChannel": "Sales Channel",
+            "columnUsername": "Username",
+            "columnAction": "Action",
+            "columnCreatedAt": "Created At",
+            "revertButton": "Revert",
+            "noResultsWereFound": "No results were found for this search."
+        }
     }
   }
 }

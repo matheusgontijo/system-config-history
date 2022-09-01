@@ -94,10 +94,8 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
         return new JsonResponse($data);
     }
 
-    private function getLocale(
-        Context $context,
-        EntityRepositoryInterface $userRepository
-    ): LocaleEntity {
+    private function getLocale(Context $context, EntityRepositoryInterface $userRepository): LocaleEntity
+    {
         $source = $context->getSource();
         assert($source instanceof AdminApiSource);
 

@@ -2,7 +2,7 @@
 <div class="matheus-gontijo-system-config-history-view-history">
     {% block matheus_gontijo_system_config_history_view_history %}
     <sw-card
-        title="History"
+        :title="$tc('matheus-gontijo-system-config-history-config.historyTab.title')"
         class="matheus-gontijo-system-config-history-view-history__grid-card"
         position-identifier="matheus-gontijo-system-config-history-view-history"
         :is-loading="isLoading"
@@ -11,24 +11,93 @@
         <table id="matheus-gontijo-system-config-history-view-history" cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_key')">Key<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('configuration_key')"></span></th>
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_value_old')">Old Value<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('configuration_value_old')"></span></th>
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_value_new')">New Value<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('configuration_value_new')"></span></th>
-{#                    <th scope="col">Sales Channel<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('configuration_value_old')"></span></th>#}
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('sales_channel_id')">Sales Channel<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('sales_channel_id')"></span></th>
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('username')">Username<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('username')"></span></th>
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('action_type')">Action<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('action_type')"></span></th>
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('created_at')">Created At<span class="matheus-gontijo-system-config-history-view-history-sort-direction" v-html="sortDirectionArrow('created_at')"></span></th>
+                    <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_key')">
+                        {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.columnKey') }}
+                        <span
+                            class="matheus-gontijo-system-config-history-view-history-sort-direction"
+                            v-html="sortDirectionArrow('configuration_key')">
+                        </span>
+                    </th>
+                    <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_value_old')">
+                        {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.columnOldValue') }}
+                        <span
+                            class="matheus-gontijo-system-config-history-view-history-sort-direction"
+                            v-html="sortDirectionArrow('configuration_value_old')">
+                        </span>
+                    </th>
+                    <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_value_new')">
+                        {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.columnNewValue') }}
+                        <span
+                            class="matheus-gontijo-system-config-history-view-history-sort-direction"
+                            v-html="sortDirectionArrow('configuration_value_new')">
+                        </span>
+                    </th>
+                    <th scope="col" v-on:click="changeSortByAndSortDirection('sales_channel_id')">
+                        {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.columnSalesChannel') }}
+                        <span
+                            class="matheus-gontijo-system-config-history-view-history-sort-direction"
+                            v-html="sortDirectionArrow('sales_channel_id')">
+                        </span>
+                    </th>
+                    <th scope="col" v-on:click="changeSortByAndSortDirection('username')">
+                        {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.columnUsername') }}
+                        <span
+                            class="matheus-gontijo-system-config-history-view-history-sort-direction"
+                            v-html="sortDirectionArrow('username')">
+                        </span>
+                    </th>
+                    <th scope="col" v-on:click="changeSortByAndSortDirection('action_type')">
+                        {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.columnAction') }}
+                        <span
+                            class="matheus-gontijo-system-config-history-view-history-sort-direction"
+                            v-html="sortDirectionArrow('action_type')">
+                        </span>
+                    </th>
+                    <th scope="col" v-on:click="changeSortByAndSortDirection('created_at')">
+                        {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.columnCreatedAt') }}
+                        <span
+                            class="matheus-gontijo-system-config-history-view-history-sort-direction"
+                            v-html="sortDirectionArrow('created_at')">
+                        </span>
+                    </th>
                     <th scope="col"></th>
                 </tr>
                 <tr>
-                    <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterConfigurationKey"/></th>
-                    <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterConfigurationValueOld"/></th>
-                    <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterConfigurationValueNew"/></th>
-                    <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterSalesChannelName"/></th>
-                    <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterUsername"/></th>
-{#                    <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterConfigurationKey"/></th>#}
-{#                    <th scope="col"><input type="text" class="matheus-gontijo-system-config-history-view-history-filter-input" v-model="filterConfigurationKey"/></th>#}
+                    <th scope="col">
+                        <input
+                            type="text"
+                            class="matheus-gontijo-system-config-history-view-history-filter-input"
+                            v-model="filterConfigurationKey"
+                        />
+                    </th>
+                    <th scope="col">
+                        <input
+                            type="text"
+                            class="matheus-gontijo-system-config-history-view-history-filter-input"
+                            v-model="filterConfigurationValueOld"
+                        />
+                    </th>
+                    <th scope="col">
+                        <input
+                            type="text"
+                            class="matheus-gontijo-system-config-history-view-history-filter-input"
+                            v-model="filterConfigurationValueNew"
+                        />
+                    </th>
+                    <th scope="col">
+                        <input
+                            type="text"
+                            class="matheus-gontijo-system-config-history-view-history-filter-input"
+                            v-model="filterSalesChannelName"
+                        />
+                    </th>
+                    <th scope="col">
+                        <input
+                            type="text"
+                            class="matheus-gontijo-system-config-history-view-history-filter-input"
+                            v-model="filterUsername"
+                        />
+                    </th>
                 </tr>
             </thead>
 
@@ -36,28 +105,46 @@
 
             <tbody v-if="rows.length > 0">
                 <tr v-for="row in rows">
-                    <td class="matheus-gontijo-system-config-history-view-history-td"><span class="matheus-gontijo-system-config-history-view-history-configuration-key">{{ row.configuration_key }}</span></td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td"><span class="matheus-gontijo-system-config-history-view-history-configuration-value-old">
-                        <span v-if="row.configuration_value_old == null">
-                            <span class="matheus-gontijo-system-config-history-view-history-td-null">null</span>
+                    <td class="matheus-gontijo-system-config-history-view-history-td">
+                        <span class="matheus-gontijo-system-config-history-view-history-configuration-key">
+                            {{ row.configuration_key }}
                         </span>
-                        <span v-else>
-                            {{ row.configuration_value_old }}
+                    </td>
+                    <td class="matheus-gontijo-system-config-history-view-history-td">
+                        <span class="matheus-gontijo-system-config-history-view-history-configuration-value-old">
+                            <span v-if="row.configuration_value_old == null">
+                                <span class="matheus-gontijo-system-config-history-view-history-td-null">null</span>
+                            </span>
+                            <span v-else>
+                                {{ row.configuration_value_old }}
+                            </span>
                         </span>
-                    </span></td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td"><span class="matheus-gontijo-system-config-history-view-history-configuration-value-new">
-                        <span v-if="row.configuration_value_new == null">
-                            <span class="matheus-gontijo-system-config-history-view-history-td-null">null</span>
+                    </td>
+                    <td class="matheus-gontijo-system-config-history-view-history-td">
+                        <span class="matheus-gontijo-system-config-history-view-history-configuration-value-new">
+                            <span v-if="row.configuration_value_new == null">
+                                <span class="matheus-gontijo-system-config-history-view-history-td-null">null</span>
+                            </span>
+                            <span v-else>
+                                {{ row.configuration_value_new }}
+                            </span>
                         </span>
-                        <span v-else>
-                            {{ row.configuration_value_new }}
+                    </td>
+                    <td class="matheus-gontijo-system-config-history-view-history-td">
+                        <span class="matheus-gontijo-system-config-history-view-history-sales-channel-name">
+                            {{ row.sales_channel_name }}
                         </span>
-                    </span></td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td"><span class="matheus-gontijo-system-config-history-view-history-sales-channel-name">{{ row.sales_channel_name }}</span></td>
+                    </td>
                     <td class="matheus-gontijo-system-config-history-view-history-td">{{ row.username }}</td>
                     <td class="matheus-gontijo-system-config-history-view-history-td">{{ row.action_type }}</td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td">{{ columnFormatDate(row.created_at) }}</td>
-                    <td class="matheus-gontijo-system-config-history-view-history-td"><span class="matheus-gontijo-system-config-history-view-history-revert-button">Revert</span></td>
+                    <td class="matheus-gontijo-system-config-history-view-history-td">
+                        {{ columnFormatDate(row.created_at) }}
+                    </td>
+                    <td class="matheus-gontijo-system-config-history-view-history-td">
+                        <span class="matheus-gontijo-system-config-history-view-history-revert-button">
+                            {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.revertButton') }}
+                        </span>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -66,9 +153,9 @@
             <span class="matheus-gontijo-system-config-history-view-history-pagination-item"></span>
         </div>
 
-        <span id="matheus-gontijo-system-config-history-view-history-no-results" v-if="rows.length === 0">No results were found for this search.</span>
-
-
+        <span id="matheus-gontijo-system-config-history-view-history-no-results" v-if="rows.length === 0">
+            {{ $tc('matheus-gontijo-system-config-history-config.historyTab.grid.noResultsWereFound') }}
+        </span>
 
         {{ getPaginationItems() }}
     </sw-card>
