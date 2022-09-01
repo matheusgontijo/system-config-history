@@ -1,0 +1,17 @@
+parameters:
+    phpVersion: 74000
+    level: 8
+
+    paths:
+        - ./
+
+    bootstrapFiles:
+        - ../../../vendor/autoload.php
+
+    excludePaths:
+        - 'tests/TestBootstrap.php'
+        - 'tests/TestBootstrapper.php'
+    ignoreErrors:
+        -
+            message: '#Property MatheusGontijo\\SystemConfigHistory\\Model\\SystemConfigServiceDecoration::\$configs is never read, only written#'
+            path: src/Model/SystemConfigServiceDecoration.php

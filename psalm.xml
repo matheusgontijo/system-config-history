@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="5"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="src" />
+    </projectFiles>
+
+    <issueHandlers>
+        <InternalMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="Shopware\Core\Framework\Context::createDefaultContext" />
+            </errorLevel>
+            <errorLevel type="suppress">
+                <referencedMethod name="Shopware\Core\System\SystemConfig\SystemConfigService::__construct" />
+            </errorLevel>
+            <errorLevel type="suppress">
+                <referencedMethod name="Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition::decode" />
+            </errorLevel>
+        </InternalMethod>
+
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <file name="src/MatheusGontijoSystemConfigHistory.php" />
+            </errorLevel>
+            <errorLevel type="suppress">
+                <file name="src/System/MatheusGontijoSystemConfigHistory/Api/MatheusGontijoSystemConfigHistoryRoute.php" />
+            </errorLevel>
+            <errorLevel type="suppress">
+                <file name="src/System/MatheusGontijoSystemConfigHistory/MatheusGontijoSystemConfigHistoryDefinition.php" />
+            </errorLevel>
+        </PropertyNotSetInConstructor>
+
+        <MissingConstructor>
+            <errorLevel type="suppress">
+                <file name="src/System/MatheusGontijoSystemConfigHistory/MatheusGontijoSystemConfigHistoryEntity.php" />
+            </errorLevel>
+        </MissingConstructor>
+
+        <DeprecatedClass>
+            <errorLevel type="suppress">
+                <file name="src/System/MatheusGontijoSystemConfigHistory/MatheusGontijoSystemConfigHistoryHydrator.php" />
+            </errorLevel>
+            <errorLevel type="suppress">
+                <file name="../../../vendor/shopware/core/System/SystemConfig/SystemConfigService.php" />
+            </errorLevel>
+            <errorLevel type="suppress">
+                <referencedClass name="Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface" />
+            </errorLevel>
+        </DeprecatedClass>
+    </issueHandlers>
+</psalm>
