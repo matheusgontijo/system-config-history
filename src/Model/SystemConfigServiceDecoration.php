@@ -76,25 +76,38 @@ class SystemConfigServiceDecoration extends SystemConfigService
 
         $request = $this->requestStateRegistry->getRequest();
 
-        if ($request === null) {
-            $this->insertWithoutRequest($key, $oldValue, $newValue, $salesChannelId);
+        if ($this->hasAdminRequest()) {
+            $this->insertWithAdminRequest($request, $key, $oldValue, $newValue, $salesChannelId);
 
             return;
         }
 
-        /*
-         * @TODO: REFACTOR... IT'S NOT "INSERTWITHREQUEST"...
-         * IT'S ACTUALLY "INSERTWITHADMINCONTEXT".. OR SOMETHING LIKE THAT
-         */
+        $this->insertWithoutAdminRequest($key, $oldValue, $newValue, $salesChannelId);
+    }
 
-        $this->insertWithRequest($request, $key, $oldValue, $newValue, $salesChannelId);
+    private function hasAdminRequest(): bool {
+        $request = $this->requestStateRegistry->getRequest();
+
+        if ($request === null) {
+            return false;
+        }
+
+        $context = $request->attributes->get(PlatformRequest::ATTRIBUTE_CONTEXT_OBJECT);
+
+        if (!$context instanceof Context) {
+            return false;
+        }
+
+        $source = $context->getSource();
+
+        return $source instanceof AdminApiSource;
     }
 
     /**
      * @param array<mixed>|null $oldValue
      * @param array<mixed>|null $newValue
      */
-    private function insertWithoutRequest(
+    private function insertWithoutAdminRequest(
         string $key,
         ?array $oldValue,
         ?array $newValue,
@@ -114,7 +127,7 @@ class SystemConfigServiceDecoration extends SystemConfigService
      * @param array<mixed>|null $oldValue
      * @param array<mixed>|null $newValue
      */
-    private function insertWithRequest(
+    private function insertWithAdminRequest(
         Request $request,
         string $key,
         ?array $oldValue,
@@ -142,16 +155,10 @@ class SystemConfigServiceDecoration extends SystemConfigService
     private function addUserDataUserData(array $data, Request $request): array
     {
         $context = $request->attributes->get(PlatformRequest::ATTRIBUTE_CONTEXT_OBJECT);
-
-        if (!$context instanceof Context) {
-            return $data;
-        }
+        \assert($context instanceof Context);
 
         $source = $context->getSource();
-
-        if (!$source instanceof AdminApiSource) {
-            return $data;
-        }
+        \assert($source instanceof AdminApiSource);
 
         $userId = $source->getUserId();
         \assert(\is_string($userId));
