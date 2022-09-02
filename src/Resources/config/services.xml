@@ -31,13 +31,6 @@
         <service id="MatheusGontijo\SystemConfigHistory\Repository\SystemConfigRepositoryDecoration" decorates="system_config.repository" decoration-priority="-1000" public="true">
             <argument type="service" id=".inner"/>
             <argument type="service" id="MatheusGontijo\SystemConfigHistory\Model\SystemConfigRepositoryDecorationProcess"/>
-            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigDefinition"/>
-            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Read\EntityReaderInterface"/>
-            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\VersionManager"/>
-            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearcherInterface"/>
-            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Search\EntityAggregatorInterface"/>
-            <argument type="service" id="event_dispatcher"/>
-            <argument type="service" id="Shopware\Core\Framework\DataAbstractionLayer\Event\EntityLoadedEventFactory"/>
         </service>
 
         <service id="MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryDefinition">

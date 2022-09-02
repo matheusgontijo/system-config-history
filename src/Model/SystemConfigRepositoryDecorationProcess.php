@@ -56,6 +56,26 @@ class SystemConfigRepositoryDecorationProcess
         return $result;
     }
 
+    public function processDelete(\Closure $call, array $data): EntityWrittenContainerEvent
+    {
+        // @TODO: add test passing empty array... make sure it throws an exception
+        // @TODO: add enabled/disabled
+
+        $oldSystemConfigs = $this->getFreshSystemConfigData($data);
+
+        $result = $call($data);
+
+        $newSystemConfigs = $this->getFreshSystemConfigData($data);
+
+        if ($oldSystemConfigs === $newSystemConfigs) {
+            return $result;
+        }
+
+        $this->insertHistoryData($oldSystemConfigs, $newSystemConfigs);
+
+        return $result;
+    }
+
     private function insertHistoryData(array $oldSystemConfigs, array $newSystemConfigs): void
     {
         $data = [];

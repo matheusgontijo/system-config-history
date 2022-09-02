@@ -3,7 +3,8 @@
 namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\Model;
 
 // phpcs:ignore
-use MatheusGontijo\SystemConfigHistory\Model\SystemConfigServiceDecoration;
+use MatheusGontijo\SystemConfigHistory\Model\SystemConfigRepositoryDecorationProcess;
+use MatheusGontijo\SystemConfigHistory\Repository\SystemConfigRepositoryDecoration;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Framework\Context;
@@ -14,29 +15,29 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 
-class SystemConfigServiceDecorationIntegrationTest extends TestCase
+class SystemConfigRepositoryDecorationProcessIntegrationTest extends TestCase
 {
     use IntegrationTestBehaviour;
 
     public function testDecorationIsWorking(): void
     {
-        $systemConfigService = $this->getContainer()->get(SystemConfigService::class);
-        \assert($systemConfigService instanceof SystemConfigService);
+        $systemConfigRepository = $this->getContainer()->get('system_config.repository');
+        \assert($systemConfigRepository instanceof EntityRepository);
 
-        static::assertInstanceOf(SystemConfigServiceDecoration::class, $systemConfigService);
+        static::assertInstanceOf(SystemConfigRepositoryDecoration::class, $systemConfigRepository);
     }
 
-    public function testHistoryOfValues(): void
+    public function testSystemConfigServiceHistory(): void
     {
         $systemConfigService = $this->getContainer()->get(SystemConfigService::class);
         \assert($systemConfigService instanceof SystemConfigService);
 
-        $systemConfigService->set('matheusGontijo.systemConfigHistory.enabled', true);
+//        $systemConfigService->set('matheusGontijo.systemConfigHistory.enabled', true);
 
         $systemConfigService->set('my.configuration.key', 'aaa');
         $systemConfigService->set('my.configuration.key', 'bbb');
-        $systemConfigService->set('my.configuration.key', 'ccc');
         $systemConfigService->set('my.configuration.key', null);
+        $systemConfigService->set('my.configuration.key', 'ccc');
 
         $matheusGontijoSystemConfigHistoryRepository = $this->getContainer()->get(
             'matheus_gontijo_system_config_history.repository'
