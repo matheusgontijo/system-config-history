@@ -24,6 +24,39 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  */
 class SystemConfigServiceDecorationUnitTest extends TestCase
 {
+    public function testIsDisabled(): void
+    {
+        $systemConfigServiceMock = $this->createMock(SystemConfigService::class);
+        $systemConfigServiceDecorationRepositoryMock = $this->createMock(
+            SystemConfigServiceDecorationRepository::class
+        );
+
+        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        $systemConfigServiceMock->expects(static::exactly(1))
+            ->method('get')
+            ->withConsecutive(['matheusGontijo.systemConfigHistory.enabled'])
+            ->willReturnOnConsecutiveCalls(false);
+
+        $systemConfigServiceMock->expects(static::exactly(1))
+            ->method('set')
+            ->withConsecutive(['my.custom.systemConfig', 'aaa', null]);
+
+        $systemConfigServiceDecorationRepositoryMock->expects(static::never())
+            ->method(static::anything());
+
+        $requestStateRegistryMock->expects(static::never())
+            ->method(static::anything());
+
+        $systemConfigServiceDecoration = $this->createSystemConfigServiceDecoration(
+            $systemConfigServiceMock,
+            $systemConfigServiceDecorationRepositoryMock,
+            $requestStateRegistryMock
+        );
+
+        $systemConfigServiceDecoration->set('my.custom.systemConfig', 'aaa', null);
+    }
+
     public function testSetEqualValue(): void
     {
         $systemConfigServiceMock = $this->createMock(SystemConfigService::class);
@@ -32,6 +65,11 @@ class SystemConfigServiceDecorationUnitTest extends TestCase
         );
 
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        $systemConfigServiceMock->expects(static::exactly(1))
+            ->method('get')
+            ->withConsecutive(['matheusGontijo.systemConfigHistory.enabled'])
+            ->willReturnOnConsecutiveCalls(true);
 
         $systemConfigServiceDecorationRepositoryMock->expects(static::exactly(2))
             ->method('getValue')
@@ -67,6 +105,11 @@ class SystemConfigServiceDecorationUnitTest extends TestCase
             SystemConfigServiceDecorationRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        $systemConfigServiceMock->expects(static::exactly(1))
+            ->method('get')
+            ->withConsecutive(['matheusGontijo.systemConfigHistory.enabled'])
+            ->willReturnOnConsecutiveCalls(true);
 
         $systemConfigServiceDecorationRepositoryMock->expects(static::exactly(2))
             ->method('getValue')
@@ -120,6 +163,14 @@ class SystemConfigServiceDecorationUnitTest extends TestCase
             SystemConfigServiceDecorationRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        $systemConfigServiceMock->expects(static::exactly(2))
+            ->method('get')
+            ->withConsecutive(
+                ['matheusGontijo.systemConfigHistory.enabled'],
+                ['matheusGontijo.systemConfigHistory.enabled']
+            )
+            ->willReturnOnConsecutiveCalls(true, true);
 
         $systemConfigServiceDecorationRepositoryMock->expects(static::exactly(4))
             ->method('getValue')

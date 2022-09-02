@@ -31,6 +31,8 @@ class SystemConfigServiceDecorationIntegrationTest extends TestCase
         $systemConfigService = $this->getContainer()->get(SystemConfigService::class);
         \assert($systemConfigService instanceof SystemConfigService);
 
+        $systemConfigService->set('matheusGontijo.systemConfigHistory.enabled', true);
+
         $systemConfigService->set('my.configuration.key', 'aaa');
         $systemConfigService->set('my.configuration.key', 'bbb');
         $systemConfigService->set('my.configuration.key', 'ccc');

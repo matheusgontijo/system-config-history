@@ -58,11 +58,13 @@ class SystemConfigServiceDecoration extends SystemConfigService
      */
     public function set(string $key, $value, ?string $salesChannelId = null): void
     {
-        // @TODO: UNCOMMENT THIS
-//        if ($this->systemConfigService->get('') === false) {
-//            parent::set($key, $value, $salesChannelId);
-//            return;
-//        }
+        $isEnabled = $this->systemConfigService->get('matheusGontijo.systemConfigHistory.enabled') ?: false;
+        \assert(is_bool($isEnabled));
+
+        if (!$isEnabled) {
+            $this->systemConfigService->set($key, $value, $salesChannelId);
+            return;
+        }
 
         $oldValue = $this->systemConfigServiceDecorationRepository->getValue($key, $salesChannelId);
 
