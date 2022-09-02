@@ -29,6 +29,9 @@ class SystemConfigRepositoryDecorationProcess
         $this->requestStateRegistry = $requestStateRegistry;
     }
 
+    /**
+     * @param array<mixed> $data
+     */
     public function process(\Closure $call, array $data): EntityWrittenContainerEvent
     {
         // @TODO: add test passing empty array... make sure it throws an exception
@@ -49,6 +52,10 @@ class SystemConfigRepositoryDecorationProcess
         return $result;
     }
 
+    /**
+     * @param array<int, mixed> $oldSystemConfigs
+     * @param array<int, mixed> $newSystemConfigs
+     */
     private function insertHistoryData(array $oldSystemConfigs, array $newSystemConfigs): void
     {
         $data = [];
@@ -85,6 +92,11 @@ class SystemConfigRepositoryDecorationProcess
         $this->systemConfigRepositoryDecorationProcessRepository->insert($data);
     }
 
+    /**
+     * @param array<mixed> $data
+     *
+     * @return array<int, mixed>
+     */
     private function getFreshSystemConfigData(array $data): array
     {
         $systemConfigs = [];

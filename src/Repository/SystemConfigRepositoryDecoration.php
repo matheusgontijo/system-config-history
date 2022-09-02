@@ -42,6 +42,9 @@ class SystemConfigRepositoryDecoration extends EntityRepository
         $this->systemConfigRepositoryDecorationProcess = $systemConfigRepositoryDecorationProcess;
     }
 
+    /**
+     * @inerhitDoc
+     */
     public function setEntityLoadedEventFactory(EntityLoadedEventFactory $eventFactory): void
     {
         $this->entityRepository->setEntityLoadedEventFactory($eventFactory);
@@ -67,6 +70,9 @@ class SystemConfigRepositoryDecoration extends EntityRepository
         return $this->entityRepository->searchIds($criteria, $context);
     }
 
+    /**
+     * @param array<mixed> $data
+     */
     public function update(array $data, Context $context): EntityWrittenContainerEvent
     {
         $call = fn () => $this->entityRepository->update($data, $context);
@@ -74,6 +80,9 @@ class SystemConfigRepositoryDecoration extends EntityRepository
         return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
 
+    /**
+     * @param array<mixed> $data
+     */
     public function upsert(array $data, Context $context): EntityWrittenContainerEvent
     {
         $call = fn () => $this->entityRepository->upsert($data, $context);
@@ -81,6 +90,9 @@ class SystemConfigRepositoryDecoration extends EntityRepository
         return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
 
+    /**
+     * @param array<mixed> $data
+     */
     public function create(array $data, Context $context): EntityWrittenContainerEvent
     {
         $call = fn () => $this->entityRepository->create($data, $context);
@@ -88,6 +100,9 @@ class SystemConfigRepositoryDecoration extends EntityRepository
         return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
 
+    /**
+     * @param array<mixed> $ids
+     */
     public function delete(array $ids, Context $context): EntityWrittenContainerEvent
     {
         $searchIds = [];
