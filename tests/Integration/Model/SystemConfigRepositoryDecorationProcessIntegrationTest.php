@@ -80,7 +80,7 @@ class SystemConfigRepositoryDecorationProcessIntegrationTest extends TestCase
 
         static::assertSame('my.configuration.key', $matheusGontijoSystemConfigHistory->getConfigurationKey());
         static::assertSame(['_value' => 'bbb'], $matheusGontijoSystemConfigHistory->getConfigurationValueOld());
-        static::assertSame(['_value' => 'ccc'], $matheusGontijoSystemConfigHistory->getConfigurationValueNew());
+        static::assertNull($matheusGontijoSystemConfigHistory->getConfigurationValueNew());
         static::assertNull($matheusGontijoSystemConfigHistory->getSalesChannelId());
         static::assertNull($matheusGontijoSystemConfigHistory->getUsername());
         static::assertNull($matheusGontijoSystemConfigHistory->getUserData());
@@ -89,8 +89,8 @@ class SystemConfigRepositoryDecorationProcessIntegrationTest extends TestCase
         \assert($matheusGontijoSystemConfigHistory instanceof MatheusGontijoSystemConfigHistoryEntity);
 
         static::assertSame('my.configuration.key', $matheusGontijoSystemConfigHistory->getConfigurationKey());
-        static::assertSame(['_value' => 'ccc'], $matheusGontijoSystemConfigHistory->getConfigurationValueOld());
-        static::assertNull($matheusGontijoSystemConfigHistory->getConfigurationValueNew());
+        static::assertNull($matheusGontijoSystemConfigHistory->getConfigurationValueOld());
+        static::assertSame(['_value' => 'ccc'], $matheusGontijoSystemConfigHistory->getConfigurationValueNew());
         static::assertNull($matheusGontijoSystemConfigHistory->getSalesChannelId());
         static::assertNull($matheusGontijoSystemConfigHistory->getUsername());
         static::assertNull($matheusGontijoSystemConfigHistory->getUserData());

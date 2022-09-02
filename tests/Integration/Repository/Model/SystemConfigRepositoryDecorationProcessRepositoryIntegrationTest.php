@@ -4,8 +4,7 @@ namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\Model;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ForwardCompatibility\Result;
-use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigServiceDecorationRepository;
-// phpcs:ignore
+use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigRepositoryDecorationProcessRepository;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
@@ -13,24 +12,27 @@ use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Shopware\Core\System\User\UserEntity;
 
-class SystemConfigServiceDecorationProcessRepositoryIntegrationTest extends TestCase
+class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends TestCase
 {
     use IntegrationTestBehaviour;
 
     public function testGetValueWithNonExistingValue(): void
     {
-        $systemConfigServiceDecorationRepository = $this->getContainer()->get(
-            SystemConfigServiceDecorationRepository::class
+        $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
+            SystemConfigRepositoryDecorationProcessRepository::class
         );
-        \assert($systemConfigServiceDecorationRepository instanceof SystemConfigServiceDecorationRepository);
+        \assert($systemConfigRepositoryDecorationProcessRepository
+            instanceof SystemConfigRepositoryDecorationProcessRepository);
 
-        static::assertNull($systemConfigServiceDecorationRepository->getValue('my.custom.configKey'));
+        static::assertNull($systemConfigRepositoryDecorationProcessRepository->getValue('my.custom.configKey'));
     }
 
     public function testGetValueWithDifferentSalesChannels(): void
@@ -38,27 +40,28 @@ class SystemConfigServiceDecorationProcessRepositoryIntegrationTest extends Test
         $systemConfigService = $this->getContainer()->get(SystemConfigService::class);
         \assert($systemConfigService instanceof SystemConfigService);
 
-        $systemConfigServiceDecorationRepository = $this->getContainer()->get(
-            SystemConfigServiceDecorationRepository::class
+        $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
+            SystemConfigRepositoryDecorationProcessRepository::class
         );
-        \assert($systemConfigServiceDecorationRepository instanceof SystemConfigServiceDecorationRepository);
+        \assert($systemConfigRepositoryDecorationProcessRepository
+            instanceof SystemConfigRepositoryDecorationProcessRepository);
 
         $systemConfigService->set('my.custom.configKey', 'default');
         $systemConfigService->set('my.custom.configKey', 'English', TestDefaults::SALES_CHANNEL_ID_ENGLISH);
         $systemConfigService->set('my.custom.configKey', 'German', TestDefaults::SALES_CHANNEL_ID_GERMAN);
 
-        $defaultValue = $systemConfigServiceDecorationRepository->getValue('my.custom.configKey');
+        $defaultValue = $systemConfigRepositoryDecorationProcessRepository->getValue('my.custom.configKey');
 
         static::assertSame(['_value' => 'default'], $defaultValue);
 
-        $englishValue = $systemConfigServiceDecorationRepository->getValue(
+        $englishValue = $systemConfigRepositoryDecorationProcessRepository->getValue(
             'my.custom.configKey',
             TestDefaults::SALES_CHANNEL_ID_ENGLISH
         );
 
         static::assertSame(['_value' => 'English'], $englishValue);
 
-        $germanValue = $systemConfigServiceDecorationRepository->getValue(
+        $germanValue = $systemConfigRepositoryDecorationProcessRepository->getValue(
             'my.custom.configKey',
             TestDefaults::SALES_CHANNEL_ID_GERMAN
         );
@@ -74,33 +77,55 @@ class SystemConfigServiceDecorationProcessRepositoryIntegrationTest extends Test
      */
     public function testInsert($oldValue, $newValue, ?string $salesChannelId): void
     {
-        $systemConfigServiceDecorationRepository = $this->getContainer()->get(
-            SystemConfigServiceDecorationRepository::class
+        $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
+            SystemConfigRepositoryDecorationProcessRepository::class
         );
-        \assert($systemConfigServiceDecorationRepository instanceof SystemConfigServiceDecorationRepository);
+        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository);
 
         $serverAddr = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
             . ' (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36';
 
-        $systemConfigServiceDecorationRepository->insert([
-            'configurationKey' => 'my.custom.systemConfigTestInsertFull',
-            'configurationValueOld' => ['_value' => $oldValue],
-            'configurationValueNew' => ['_value' => $newValue],
-            'salesChannelId' => $salesChannelId,
-            'username' => 'johndoe',
-            'userData' => [
-                'user' => [
-                    'username' => 'johndoe',
-                    'first_name' => 'John',
-                    'last_name' => 'Doe',
-                    'email' => 'johndoe@example.com',
-                    'active' => true,
-                ],
-                'request' => [
-                    'HTTP_USER_AGENT' => '192.168.0.99',
-                    'SERVER_ADDR' => $serverAddr,
+        $systemConfigRepositoryDecorationProcessRepository->insert([
+            [
+                'configurationKey' => 'my.custom.systemConfigTestInsertFull1',
+                'configurationValueOld' => ['_value' => $oldValue],
+                'configurationValueNew' => ['_value' => $newValue],
+                'salesChannelId' => $salesChannelId,
+                'username' => 'johndoe',
+                'userData' => [
+                    'user' => [
+                        'username' => 'johndoe',
+                        'first_name' => 'John',
+                        'last_name' => 'Doe',
+                        'email' => 'johndoe@example.com',
+                        'active' => true,
+                    ],
+                    'request' => [
+                        'HTTP_USER_AGENT' => '192.168.0.99',
+                        'SERVER_ADDR' => $serverAddr,
+                    ],
                 ],
             ],
+            [
+                'configurationKey' => 'my.custom.systemConfigTestInsertFull2',
+                'configurationValueOld' => ['_value' => $oldValue],
+                'configurationValueNew' => ['_value' => $newValue],
+                'salesChannelId' => $salesChannelId,
+                'username' => 'johndoe',
+                'userData' => [
+                    'user' => [
+                        'username' => 'johndoe',
+                        'first_name' => 'John',
+                        'last_name' => 'Doe',
+                        'email' => 'johndoe@example.com',
+                        'active' => true,
+                    ],
+                    'request' => [
+                        'HTTP_USER_AGENT' => '192.168.0.99',
+                        'SERVER_ADDR' => $serverAddr,
+                    ],
+                ],
+            ]
         ]);
 
         $matheusGontijoSystemConfigHistoryRepository = $this->getContainer()->get(
@@ -108,18 +133,51 @@ class SystemConfigServiceDecorationProcessRepositoryIntegrationTest extends Test
         );
         \assert($matheusGontijoSystemConfigHistoryRepository instanceof EntityRepository);
 
+        $configurationKeys = [
+            'my.custom.systemConfigTestInsertFull1',
+            'my.custom.systemConfigTestInsertFull2',
+        ];
+
         $criteria = new Criteria();
-        $criteria->addFilter(new EqualsFilter('configurationKey', 'my.custom.systemConfigTestInsertFull'));
+        $criteria->addFilter(new EqualsAnyFilter('configurationKey', $configurationKeys));
         $criteria->addFilter(new EqualsFilter('salesChannelId', $salesChannelId));
+        $criteria->addSorting(new FieldSorting('configurationKey', FieldSorting::ASCENDING));
 
         $searchResult = $matheusGontijoSystemConfigHistoryRepository
             ->search($criteria, Context::createDefaultContext());
 
-        $matheusGontijoSystemConfigHistory = $searchResult->first();
+        static::assertSame(2, $searchResult->getTotal());
+
+        $matheusGontijoSystemConfigHistory = $searchResult->get($searchResult->getKeys()[0]);
         \assert($matheusGontijoSystemConfigHistory instanceof MatheusGontijoSystemConfigHistoryEntity);
 
         static::assertSame(
-            'my.custom.systemConfigTestInsertFull',
+            'my.custom.systemConfigTestInsertFull1',
+            $matheusGontijoSystemConfigHistory->getConfigurationKey()
+        );
+        static::assertSame(['_value' => $oldValue], $matheusGontijoSystemConfigHistory->getConfigurationValueOld());
+        static::assertSame(['_value' => $newValue], $matheusGontijoSystemConfigHistory->getConfigurationValueNew());
+        static::assertSame($salesChannelId, $matheusGontijoSystemConfigHistory->getSalesChannelId());
+        static::assertSame('johndoe', $matheusGontijoSystemConfigHistory->getUsername());
+        static::assertEquals([
+            'user' => [
+                'username' => 'johndoe',
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'email' => 'johndoe@example.com',
+                'active' => true,
+            ],
+            'request' => [
+                'HTTP_USER_AGENT' => '192.168.0.99',
+                'SERVER_ADDR' => $serverAddr,
+            ],
+        ], $matheusGontijoSystemConfigHistory->getUserData());
+
+        $matheusGontijoSystemConfigHistory = $searchResult->get($searchResult->getKeys()[1]);
+        \assert($matheusGontijoSystemConfigHistory instanceof MatheusGontijoSystemConfigHistoryEntity);
+
+        static::assertSame(
+            'my.custom.systemConfigTestInsertFull2',
             $matheusGontijoSystemConfigHistory->getConfigurationKey()
         );
         static::assertSame(['_value' => $oldValue], $matheusGontijoSystemConfigHistory->getConfigurationValueOld());
@@ -202,14 +260,14 @@ class SystemConfigServiceDecorationProcessRepositoryIntegrationTest extends Test
         $user = $searchResult->first();
         \assert($user instanceof UserEntity);
 
-        $systemConfigServiceDecorationRepository = $this->getContainer()->get(
-            SystemConfigServiceDecorationRepository::class
+        $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
+            SystemConfigRepositoryDecorationProcessRepository::class
         );
-        \assert($systemConfigServiceDecorationRepository instanceof SystemConfigServiceDecorationRepository);
+        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository);
 
         static::assertEquals(
             $user,
-            $systemConfigServiceDecorationRepository->loadUser($user->getId())
+            $systemConfigRepositoryDecorationProcessRepository->loadUser($user->getId())
         );
     }
 }
