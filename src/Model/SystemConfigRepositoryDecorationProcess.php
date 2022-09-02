@@ -5,17 +5,9 @@ namespace MatheusGontijo\SystemConfigHistory\Model;
 use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigRepositoryDecorationProcessRepository;
 use Shopware\Core\Framework\Api\Context\AdminApiSource;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityLoadedEventFactory;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent;
-use Shopware\Core\Framework\DataAbstractionLayer\Read\EntityReaderInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\EntityAggregatorInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearcherInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\VersionManager;
 use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\User\UserEntity;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SystemConfigRepositoryDecorationProcess
 {
@@ -43,27 +35,7 @@ class SystemConfigRepositoryDecorationProcess
 
         $oldSystemConfigs = $this->getFreshSystemConfigData($data);
 
-        $result = $call($data);
-
-        $newSystemConfigs = $this->getFreshSystemConfigData($data);
-
-        if ($oldSystemConfigs === $newSystemConfigs) {
-            return $result;
-        }
-
-        $this->insertHistoryData($oldSystemConfigs, $newSystemConfigs);
-
-        return $result;
-    }
-
-    public function processDelete(\Closure $call, array $data): EntityWrittenContainerEvent
-    {
-        // @TODO: add test passing empty array... make sure it throws an exception
-        // @TODO: add enabled/disabled
-
-        $oldSystemConfigs = $this->getFreshSystemConfigData($data);
-
-        $result = $call($data);
+        $result = $call();
 
         $newSystemConfigs = $this->getFreshSystemConfigData($data);
 

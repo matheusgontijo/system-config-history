@@ -11,8 +11,12 @@ use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEve
 use Shopware\Core\Framework\DataAbstractionLayer\Search\AggregationResult\AggregationResultCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\IdSearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\CloneBehavior;
+use Shopware\Core\System\SystemConfig\SystemConfigEntity;
+use Shopware\Core\System\User\UserEntity;
 
 class SystemConfigRepositoryDecoration extends EntityRepository
 {
@@ -55,7 +59,7 @@ class SystemConfigRepositoryDecoration extends EntityRepository
 
     public function update(array $data, Context $context): EntityWrittenContainerEvent
     {
-        $call = function($data) use ($context) {
+        $call = function() use ($data, $context) {
             return $this->entityRepository->update($data, $context);
         };
 
@@ -64,7 +68,7 @@ class SystemConfigRepositoryDecoration extends EntityRepository
 
     public function upsert(array $data, Context $context): EntityWrittenContainerEvent
     {
-        $call = function($data) use ($context) {
+        $call = function() use ($data, $context) {
             return $this->entityRepository->upsert($data, $context);
         };
 
@@ -73,7 +77,7 @@ class SystemConfigRepositoryDecoration extends EntityRepository
 
     public function create(array $data, Context $context): EntityWrittenContainerEvent
     {
-        $call = function($data) use ($context) {
+        $call = function() use ($data, $context) {
             return $this->entityRepository->create($data, $context);
         };
 
@@ -82,7 +86,35 @@ class SystemConfigRepositoryDecoration extends EntityRepository
 
     public function delete(array $ids, Context $context): EntityWrittenContainerEvent
     {
-        return $this->entityRepository->delete($ids, $context);
+        // @TODO: ADD ENABLED/DISABLED
+
+        $searchIds = [];
+
+        foreach ($ids as $id) {
+            $searchIds[] = $id['id'];
+        }
+
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsAnyFilter('id', $searchIds));
+
+        $systemConfigSearchResult = $this->entityRepository->search($criteria, Context::createDefaultContext());
+
+        $data = [];
+
+        foreach ($systemConfigSearchResult as $systemConfig) {
+            \assert($systemConfig instanceof SystemConfigEntity);
+
+            $data[] = [
+                'configurationKey' => $systemConfig->getConfigurationKey(),
+                'salesChannelId' => $systemConfig->getSalesChannelId(),
+            ];
+        }
+
+        $call = function() use ($ids, $context) {
+            return $this->entityRepository->delete($ids, $context);
+        };
+
+        return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
 
     public function createVersion(string $id, Context $context, ?string $name = null, ?string $versionId = null): string
