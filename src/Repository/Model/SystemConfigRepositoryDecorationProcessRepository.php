@@ -12,7 +12,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\User\UserEntity;
 
-class SystemConfigRepositoryDecorationRepository
+class SystemConfigRepositoryDecorationProcessRepository
 {
     private Connection $connection;
 

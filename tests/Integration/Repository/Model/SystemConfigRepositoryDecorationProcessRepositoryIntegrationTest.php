@@ -19,7 +19,7 @@ use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Shopware\Core\System\User\UserEntity;
 
-class SystemConfigServiceDecorationRepositoryIntegrationTest extends TestCase
+class SystemConfigServiceDecorationProcessRepositoryIntegrationTest extends TestCase
 {
     use IntegrationTestBehaviour;
 

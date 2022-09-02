@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace MatheusGontijo\SystemConfigHistory\Model;
+namespace MatheusGontijo\SystemConfigHistory\Repository;
 
+use MatheusGontijo\SystemConfigHistory\Model\SystemConfigRepositoryDecorationProcess;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -17,11 +18,11 @@ class SystemConfigRepositoryDecoration extends EntityRepository
 {
     private EntityRepository $entityRepository;
 
-    private Aaa $aaa;
+    private SystemConfigRepositoryDecorationProcess $systemConfigRepositoryDecorationProcess;
 
     public function __construct(
         EntityRepository $entityRepository,
-        Aaa $aaa,
+        SystemConfigRepositoryDecorationProcess $systemConfigRepositoryDecorationProcess,
         EntityDefinition $definition,
         EntityReaderInterface $reader,
         VersionManager $versionManager,
@@ -41,33 +42,33 @@ class SystemConfigRepositoryDecoration extends EntityRepository
         );
 
         $this->entityRepository = $entityRepository;
-        $this->aaa = $aaa;
+        $this->systemConfigRepositoryDecorationProcess = $systemConfigRepositoryDecorationProcess;
     }
 
     public function create(array $data, Context $context): EntityWrittenContainerEvent
     {
-        $call = function($data, $context) {
+        $call = function($data) use ($context) {
             return $this->entityRepository->create($data, $context);
         };
 
-        return $this->aaa->process($call, $data, $context);
+        return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
 
     public function upsert(array $data, Context $context): EntityWrittenContainerEvent
     {
-        $call = function($data, $context) {
+        $call = function($data) use ($context) {
             return $this->entityRepository->upsert($data, $context);
         };
 
-        return $this->aaa->process($call, $data, $context);
+        return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
 
     public function update(array $data, Context $context): EntityWrittenContainerEvent
     {
-        $call = function($data, $context) {
+        $call = function($data) use ($context) {
             return $this->entityRepository->update($data, $context);
         };
 
-        return $this->aaa->process($call, $data, $context);
+        return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
 }

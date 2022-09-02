@@ -2,7 +2,7 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Model;
 
-use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigRepositoryDecorationRepository;
+use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigRepositoryDecorationProcessRepository;
 use Shopware\Core\Framework\Api\Context\AdminApiSource;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
@@ -17,33 +17,33 @@ use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\User\UserEntity;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class Aaa
+class SystemConfigRepositoryDecorationProcess
 {
     /**
      * @var array<string, UserEntity>
      */
     private array $users = [];
 
-    private SystemConfigRepositoryDecorationRepository $systemConfigRepositoryDecorationRepository;
+    private SystemConfigRepositoryDecorationProcessRepository $systemConfigRepositoryDecorationProcessRepository;
 
     private RequestStateRegistry $requestStateRegistry;
 
     public function __construct(
-        SystemConfigRepositoryDecorationRepository $systemConfigRepositoryDecorationRepository,
+        SystemConfigRepositoryDecorationProcessRepository $systemConfigRepositoryDecorationProcessRepository,
         RequestStateRegistry $requestStateRegistry
     ) {
-        $this->systemConfigRepositoryDecorationRepository = $systemConfigRepositoryDecorationRepository;
+        $this->systemConfigRepositoryDecorationProcessRepository = $systemConfigRepositoryDecorationProcessRepository;
         $this->requestStateRegistry = $requestStateRegistry;
     }
 
-    public function process(\Closure $call, array $data, Context $context): EntityWrittenContainerEvent
+    public function process(\Closure $call, array $data): EntityWrittenContainerEvent
     {
         // @TODO: add test passing empty array... make sure it throws an exception
         // @TODO: add enabled/disabled
 
         $oldSystemConfigs = $this->getFreshSystemConfigData($data);
 
-        $result = $call($data, $context);
+        $result = $call($data);
 
         $newSystemConfigs = $this->getFreshSystemConfigData($data);
 
@@ -70,7 +70,7 @@ class Aaa
             }
 
             $historyData = [
-                'id' => $this->systemConfigRepositoryDecorationRepository->generateId(),
+                'id' => $this->systemConfigRepositoryDecorationProcessRepository->generateId(),
                 'configurationKey' => $oldSystemConfig['configurationKey'],
                 'salesChannelId' => $oldSystemConfig['salesChannelId'],
                 'configurationValueOld' => $oldSystemConfig['configurationValue'],
@@ -88,7 +88,7 @@ class Aaa
             $data[] = $historyData;
         }
 
-        $this->systemConfigRepositoryDecorationRepository->insert($data);
+        $this->systemConfigRepositoryDecorationProcessRepository->insert($data);
     }
 
     private function getFreshSystemConfigData(array $data): array
@@ -101,7 +101,7 @@ class Aaa
             }
 
             $salesChannelId = $element['salesChannelId'] ?? null;
-            $configurationValue = $this->systemConfigRepositoryDecorationRepository->getValue(
+            $configurationValue = $this->systemConfigRepositoryDecorationProcessRepository->getValue(
                 $element['configurationKey'],
                 $salesChannelId
             );
@@ -192,7 +192,7 @@ class Aaa
             return $this->users[$id];
         }
 
-        $this->users[$id] = $this->systemConfigRepositoryDecorationRepository->loadUser($id);
+        $this->users[$id] = $this->systemConfigRepositoryDecorationProcessRepository->loadUser($id);
 
         return $this->users[$id];
     }
