@@ -2,8 +2,6 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\Model;
 
-// phpcs:ignore
-use MatheusGontijo\SystemConfigHistory\Model\SystemConfigRepositoryDecorationProcess;
 use MatheusGontijo\SystemConfigHistory\Repository\SystemConfigRepositoryDecoration;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use PHPUnit\Framework\TestCase;

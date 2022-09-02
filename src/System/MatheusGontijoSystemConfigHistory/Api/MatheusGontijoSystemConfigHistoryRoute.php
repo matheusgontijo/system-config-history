@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @RouteScope(scopes={"api"})
+ * @psalm-suppress MissingConstructor
  */
 class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
 {

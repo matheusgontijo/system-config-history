@@ -8,6 +8,7 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent;
 use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\User\UserEntity;
+use Symfony\Component\HttpFoundation\Request;
 
 class SystemConfigRepositoryDecorationProcess
 {
@@ -71,6 +72,7 @@ class SystemConfigRepositoryDecorationProcess
 
             if (!$this->hasAdminRequest()) {
                 $data[] = $historyData;
+
                 continue;
             }
 
@@ -108,7 +110,8 @@ class SystemConfigRepositoryDecorationProcess
         return $systemConfigs;
     }
 
-    private function hasAdminRequest(): bool {
+    private function hasAdminRequest(): bool
+    {
         $request = $this->requestStateRegistry->getRequest();
 
         if ($request === null) {
@@ -135,11 +138,21 @@ class SystemConfigRepositoryDecorationProcess
     {
         $request = $this->requestStateRegistry->getRequest();
 
+        if (!$request instanceof Request) {
+            return $data;
+        }
+
         $context = $request->attributes->get(PlatformRequest::ATTRIBUTE_CONTEXT_OBJECT);
-        \assert($context instanceof Context);
+
+        if (!$context instanceof Context) {
+            return $data;
+        }
 
         $source = $context->getSource();
-        \assert($source instanceof AdminApiSource);
+
+        if (!$source instanceof AdminApiSource) {
+            return $data;
+        }
 
         $userId = $source->getUserId();
         \assert(\is_string($userId));
@@ -167,6 +180,10 @@ class SystemConfigRepositoryDecorationProcess
     private function addUserDataRequestData(array $data): array
     {
         $request = $this->requestStateRegistry->getRequest();
+
+        if (!$request instanceof Request) {
+            return $data;
+        }
 
         $data['userData']['request'] = [
             'HTTP_USER_AGENT' => $request->server->get('HTTP_USER_AGENT'),

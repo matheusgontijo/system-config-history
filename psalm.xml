@@ -16,41 +16,20 @@
                 <referencedMethod name="Shopware\Core\Framework\Context::createDefaultContext" />
             </errorLevel>
             <errorLevel type="suppress">
-                <referencedMethod name="Shopware\Core\System\SystemConfig\SystemConfigService::__construct" />
-            </errorLevel>
-            <errorLevel type="suppress">
                 <referencedMethod name="Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition::decode" />
             </errorLevel>
         </InternalMethod>
 
-        <PropertyNotSetInConstructor>
-            <errorLevel type="suppress">
-                <file name="src/MatheusGontijoSystemConfigHistory.php" />
-            </errorLevel>
-            <errorLevel type="suppress">
-                <file name="src/System/MatheusGontijoSystemConfigHistory/Api/MatheusGontijoSystemConfigHistoryRoute.php" />
-            </errorLevel>
-            <errorLevel type="suppress">
-                <file name="src/System/MatheusGontijoSystemConfigHistory/MatheusGontijoSystemConfigHistoryDefinition.php" />
-            </errorLevel>
-        </PropertyNotSetInConstructor>
-
-        <MissingConstructor>
-            <errorLevel type="suppress">
-                <file name="src/System/MatheusGontijoSystemConfigHistory/MatheusGontijoSystemConfigHistoryEntity.php" />
-            </errorLevel>
-        </MissingConstructor>
-
         <DeprecatedClass>
-            <errorLevel type="suppress">
-                <file name="src/System/MatheusGontijoSystemConfigHistory/MatheusGontijoSystemConfigHistoryHydrator.php" />
-            </errorLevel>
-            <errorLevel type="suppress">
-                <file name="../../../vendor/shopware/core/System/SystemConfig/SystemConfigService.php" />
-            </errorLevel>
             <errorLevel type="suppress">
                 <referencedClass name="Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface" />
             </errorLevel>
         </DeprecatedClass>
+
+        <DeprecatedInterface>
+            <errorLevel type="suppress">
+                <referencedClass name="Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface" />
+            </errorLevel>
+        </DeprecatedInterface>
     </issueHandlers>
 </psalm>

@@ -5,6 +5,9 @@ namespace MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHi
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 class MatheusGontijoSystemConfigHistoryEntity extends Entity
 {
     use EntityIdTrait;

@@ -80,7 +80,9 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
         $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
             SystemConfigRepositoryDecorationProcessRepository::class
         );
-        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository);
+        \assert(
+            $systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository
+        );
 
         $serverAddr = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
             . ' (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36';
@@ -125,7 +127,7 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
                         'SERVER_ADDR' => $serverAddr,
                     ],
                 ],
-            ]
+            ],
         ]);
 
         $matheusGontijoSystemConfigHistoryRepository = $this->getContainer()->get(
@@ -263,7 +265,9 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
         $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
             SystemConfigRepositoryDecorationProcessRepository::class
         );
-        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository);
+        \assert(
+            $systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository
+        );
 
         static::assertEquals(
             $user,

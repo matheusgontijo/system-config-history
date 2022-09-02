@@ -8,6 +8,9 @@ use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\Uuid\Uuid;
 
+/**
+ * @psalm-suppress DeprecatedClass
+ */
 // phpcs:disable SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
 class MatheusGontijoSystemConfigHistoryHydrator extends EntityHydrator
 {

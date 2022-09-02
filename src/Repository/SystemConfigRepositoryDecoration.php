@@ -12,18 +12,28 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\AggregationResult\Aggreg
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\IdSearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\CloneBehavior;
 use Shopware\Core\System\SystemConfig\SystemConfigEntity;
-use Shopware\Core\System\User\UserEntity;
 
+/**
+ * @psalm-suppress ConstructorSignatureMismatch
+ * @psalm-suppress DeprecatedMethod
+ * @psalm-suppress ImplementedParamTypeMismatch
+ * @psalm-suppress InvalidExtendClass
+ * @psalm-suppress MethodSignatureMismatch
+ * @psalm-suppress MissingClosureReturnType
+ * @psalm-suppress MissingImmutableAnnotation
+ */
 class SystemConfigRepositoryDecoration extends EntityRepository
 {
     private EntityRepository $entityRepository;
 
     private SystemConfigRepositoryDecorationProcess $systemConfigRepositoryDecorationProcess;
 
+    /**
+     * @inerhitDoc
+     */
     public function __construct(
         EntityRepository $entityRepository,
         SystemConfigRepositoryDecorationProcess $systemConfigRepositoryDecorationProcess
@@ -59,35 +69,27 @@ class SystemConfigRepositoryDecoration extends EntityRepository
 
     public function update(array $data, Context $context): EntityWrittenContainerEvent
     {
-        $call = function() use ($data, $context) {
-            return $this->entityRepository->update($data, $context);
-        };
+        $call = fn () => $this->entityRepository->update($data, $context);
 
         return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
 
     public function upsert(array $data, Context $context): EntityWrittenContainerEvent
     {
-        $call = function() use ($data, $context) {
-            return $this->entityRepository->upsert($data, $context);
-        };
+        $call = fn () => $this->entityRepository->upsert($data, $context);
 
         return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
 
     public function create(array $data, Context $context): EntityWrittenContainerEvent
     {
-        $call = function() use ($data, $context) {
-            return $this->entityRepository->create($data, $context);
-        };
+        $call = fn () => $this->entityRepository->create($data, $context);
 
         return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
 
     public function delete(array $ids, Context $context): EntityWrittenContainerEvent
     {
-        // @TODO: ADD ENABLED/DISABLED
-
         $searchIds = [];
 
         foreach ($ids as $id) {
@@ -110,9 +112,7 @@ class SystemConfigRepositoryDecoration extends EntityRepository
             ];
         }
 
-        $call = function() use ($ids, $context) {
-            return $this->entityRepository->delete($ids, $context);
-        };
+        $call = fn () => $this->entityRepository->delete($ids, $context);
 
         return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
@@ -127,8 +127,12 @@ class SystemConfigRepositoryDecoration extends EntityRepository
         $this->entityRepository->merge($versionId, $context);
     }
 
-    public function clone(string $id, Context $context, ?string $newId = null, ?CloneBehavior $behavior = null): EntityWrittenContainerEvent
-    {
+    public function clone(
+        string $id,
+        Context $context,
+        ?string $newId = null,
+        ?CloneBehavior $behavior = null
+    ): EntityWrittenContainerEvent {
         return $this->entityRepository->clone($id, $context, $newId, $behavior);
     }
 }

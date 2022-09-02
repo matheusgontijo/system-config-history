@@ -57,9 +57,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
-        $callMock = function (...$args) {
-            return $this->createMock(EntityWrittenContainerEvent::class);
-        };
+        $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
         $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(4))
             ->method('getValue')
@@ -67,13 +65,13 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
                 ['my.custom.systemConfig1', null],
                 ['my.custom.systemConfig2', null],
                 ['my.custom.systemConfig1', null],
-                ['my.custom.systemConfig2', null],
+                ['my.custom.systemConfig2', null]
             )
             ->willReturnOnConsecutiveCalls(
                 ['_value' => 'aaa'],
                 ['_value' => 'bbb'],
                 ['_value' => 'aaa'],
-                ['_value' => 'bbb'],
+                ['_value' => 'bbb']
             );
 
         $requestStateRegistryMock->expects(static::never())
@@ -106,9 +104,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
-        $callMock = function (...$args) {
-            return $this->createMock(EntityWrittenContainerEvent::class);
-        };
+        $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
         $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(4))
             ->method('getValue')
@@ -116,13 +112,13 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
                 ['my.custom.systemConfig1', null],
                 ['my.custom.systemConfig2', null],
                 ['my.custom.systemConfig1', null],
-                ['my.custom.systemConfig2', null],
+                ['my.custom.systemConfig2', null]
             )
             ->willReturnOnConsecutiveCalls(
                 ['_value' => 'aaa'],
                 ['_value' => 'bbb'],
                 ['_value' => 'bbb'],
-                ['_value' => 'aaa'],
+                ['_value' => 'aaa']
             );
 
         $requestStateRegistryMock->expects(static::exactly(2))
@@ -131,10 +127,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
 
         $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(2))
             ->method('generateId')
-            ->willReturnOnConsecutiveCalls(
-                'c6316df22e754fe1af0eae305fd3a495',
-                '1c957ed20cef4410ad1a6150079ab9f7'
-            );
+            ->willReturnOnConsecutiveCalls('c6316df22e754fe1af0eae305fd3a495', '1c957ed20cef4410ad1a6150079ab9f7');
 
         $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(1))
             ->method('insert')
@@ -154,7 +147,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
                         'configurationValueNew' => ['_value' => 'aaa'],
                         'salesChannelId' => null,
                     ],
-                ]
+                ],
             ]);
 
         $systemConfigServiceDecoration = new SystemConfigRepositoryDecorationProcess(
@@ -184,9 +177,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
-        $callMock = function (...$args) {
-            return $this->createMock(EntityWrittenContainerEvent::class);
-        };
+        $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
         $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(4))
             ->method('getValue')
@@ -194,13 +185,13 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
                 ['my.custom.systemConfig1', null],
                 ['my.custom.systemConfig2', null],
                 ['my.custom.systemConfig1', null],
-                ['my.custom.systemConfig2', null],
+                ['my.custom.systemConfig2', null]
             )
             ->willReturnOnConsecutiveCalls(
                 ['_value' => 'aaa'],
                 ['_value' => 'bbb'],
                 ['_value' => 'bbb'],
-                ['_value' => 'aaa'],
+                ['_value' => 'aaa']
             );
 
         $context = new Context(new AdminApiSource('72e7593c3a374ddc9c864abdf31dc766'));
@@ -238,10 +229,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
 
         $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(2))
             ->method('generateId')
-            ->willReturnOnConsecutiveCalls(
-                'c6316df22e754fe1af0eae305fd3a495',
-                '1c957ed20cef4410ad1a6150079ab9f7'
-            );
+            ->willReturnOnConsecutiveCalls('c6316df22e754fe1af0eae305fd3a495', '1c957ed20cef4410ad1a6150079ab9f7');
 
         $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(1))
             ->method('insert')
@@ -289,7 +277,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
                             ],
                         ],
                     ],
-                ]
+                ],
             ]);
 
         $systemConfigServiceDecoration = new SystemConfigRepositoryDecorationProcess(

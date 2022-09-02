@@ -13,6 +13,9 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopware\Core\System\SalesChannel\SalesChannelDefinition;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 class MatheusGontijoSystemConfigHistoryDefinition extends EntityDefinition
 {
     public const ENTITY_NAME = 'matheus_gontijo_system_config_history';
