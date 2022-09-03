@@ -35,40 +35,6 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
         static::assertNull($systemConfigRepositoryDecorationProcessRepository->getValue('my.custom.configKey'));
     }
 
-    public function testGetValueWithDifferentSalesChannels(): void
-    {
-        $systemConfigService = $this->getContainer()->get(SystemConfigService::class);
-        \assert($systemConfigService instanceof SystemConfigService);
-
-        $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
-            SystemConfigRepositoryDecorationProcessRepository::class
-        );
-        \assert($systemConfigRepositoryDecorationProcessRepository
-            instanceof SystemConfigRepositoryDecorationProcessRepository);
-
-        $systemConfigService->set('my.custom.configKey', 'default');
-        $systemConfigService->set('my.custom.configKey', 'English', TestDefaults::SALES_CHANNEL_ID_ENGLISH);
-        $systemConfigService->set('my.custom.configKey', 'German', TestDefaults::SALES_CHANNEL_ID_GERMAN);
-
-        $defaultValue = $systemConfigRepositoryDecorationProcessRepository->getValue('my.custom.configKey');
-
-        static::assertSame(['_value' => 'default'], $defaultValue);
-
-        $englishValue = $systemConfigRepositoryDecorationProcessRepository->getValue(
-            'my.custom.configKey',
-            TestDefaults::SALES_CHANNEL_ID_ENGLISH
-        );
-
-        static::assertSame(['_value' => 'English'], $englishValue);
-
-        $germanValue = $systemConfigRepositoryDecorationProcessRepository->getValue(
-            'my.custom.configKey',
-            TestDefaults::SALES_CHANNEL_ID_GERMAN
-        );
-
-        static::assertSame(['_value' => 'German'], $germanValue);
-    }
-
     /**
      * @param array<mixed>|bool|int|float|string $oldValue
      * @param array<mixed>|bool|int|float|string $newValue
