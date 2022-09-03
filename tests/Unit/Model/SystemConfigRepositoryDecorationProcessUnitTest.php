@@ -300,4 +300,32 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             ],
         ]);
     }
+
+    public function testInvalidValues(): void
+    {
+        $systemConfigRepositoryDecorationRepositoryMock = $this->createMock(
+            SystemConfigRepositoryDecorationProcessRepository::class
+        );
+        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+        $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
+
+        $systemConfigRepositoryDecorationRepositoryMock->expects(static::never())
+            ->method(static::anything());
+
+        $requestStateRegistryMock->expects(static::never())
+            ->method(static::anything());
+
+        $systemConfigRepositoryDecorationRepositoryMock->expects(static::never())
+            ->method(static::anything());
+
+        $systemConfigRepositoryDecorationRepositoryMock->expects(static::never())
+            ->method(static::anything());
+
+        $systemConfigServiceDecoration = new SystemConfigRepositoryDecorationProcess(
+            $systemConfigRepositoryDecorationRepositoryMock,
+            $requestStateRegistryMock
+        );
+
+        $systemConfigServiceDecoration->process($callMock, [[], []]);
+    }
 }

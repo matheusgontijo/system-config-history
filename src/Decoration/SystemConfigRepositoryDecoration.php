@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace MatheusGontijo\SystemConfigHistory\Repository;
+namespace MatheusGontijo\SystemConfigHistory\Decoration;
 
 use MatheusGontijo\SystemConfigHistory\Model\SystemConfigRepositoryDecorationProcess;
+use MatheusGontijo\SystemConfigHistory\Repository\Decoration\SystemConfigRepositoryDecorationRepository;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
@@ -31,15 +32,19 @@ class SystemConfigRepositoryDecoration extends EntityRepository
 
     private SystemConfigRepositoryDecorationProcess $systemConfigRepositoryDecorationProcess;
 
+    private SystemConfigRepositoryDecorationRepository $systemConfigRepositoryDecorationRepository;
+
     /**
      * @inerhitDoc
      */
     public function __construct(
         EntityRepository $entityRepository,
-        SystemConfigRepositoryDecorationProcess $systemConfigRepositoryDecorationProcess
+        SystemConfigRepositoryDecorationProcess $systemConfigRepositoryDecorationProcess,
+        SystemConfigRepositoryDecorationRepository $systemConfigRepositoryDecorationRepository
     ) {
         $this->entityRepository = $entityRepository;
         $this->systemConfigRepositoryDecorationProcess = $systemConfigRepositoryDecorationProcess;
+        $this->systemConfigRepositoryDecorationRepository = $systemConfigRepositoryDecorationRepository;
     }
 
     /**
@@ -111,14 +116,14 @@ class SystemConfigRepositoryDecoration extends EntityRepository
             $searchIds[] = $id['id'];
         }
 
-        $criteria = new Criteria();
-        $criteria->addFilter(new EqualsAnyFilter('id', $searchIds));
-
-        $systemConfigSearchResult = $this->entityRepository->search($criteria, Context::createDefaultContext());
+        $systemConfigs = $this->systemConfigRepositoryDecorationRepository->search(
+            $this->entityRepository,
+            $searchIds
+        );
 
         $data = [];
 
-        foreach ($systemConfigSearchResult as $systemConfig) {
+        foreach ($systemConfigs as $systemConfig) {
             \assert($systemConfig instanceof SystemConfigEntity);
 
             $data[] = [

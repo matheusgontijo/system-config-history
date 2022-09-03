@@ -2,7 +2,7 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\Model;
 
-use MatheusGontijo\SystemConfigHistory\Repository\SystemConfigRepositoryDecoration;
+use MatheusGontijo\SystemConfigHistory\Decoration\SystemConfigRepositoryDecoration;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Framework\Context;
