@@ -18,6 +18,11 @@ class SystemConfigServiceIntegrationTest extends TestCase
 {
     use IntegrationTestBehaviour;
 
+    public function __construct(?string $name = null, array $data = [], $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+    }
+
     public function testHistory(): void
     {
         $systemConfigService = $this->getContainer()->get(SystemConfigService::class);

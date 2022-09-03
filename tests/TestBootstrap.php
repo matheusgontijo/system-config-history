@@ -2,12 +2,14 @@
 
 // phpcs:ignoreFile
 
-use Shopware\Core\TestBootstrapper;
+use MatheusGontijo\SystemConfigHistory\Tests\TestBootstrapper;
 
-require __DIR__ . '/../../../../vendor/shopware/platform/src/Core/TestBootstrapper.php';
+require __DIR__ . '/TestBootstrapper.php';
+require __DIR__ . '/TestDefaults.php';
 
 return (new TestBootstrapper())
     ->setPlatformEmbedded(false)
     ->setForceInstallPlugins(true)
-    ->addActivePlugins('MatheusGontijoSystemConfigHistory')
+    ->addActivePlugins('MatheusGontijoSystemConfigHistory', 'MatheusGontijoSystemConfigHistoryTestSetup')
+    ->addCallingPlugin()
     ->bootstrap();
