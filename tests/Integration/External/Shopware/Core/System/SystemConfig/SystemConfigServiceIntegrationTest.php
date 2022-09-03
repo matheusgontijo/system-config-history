@@ -18,7 +18,7 @@ class SystemConfigServiceIntegrationTest extends TestCase
 {
     use IntegrationTestBehaviour;
 
-    public function testSystemConfigServiceHistory(): void
+    public function testHistory(): void
     {
         $systemConfigService = $this->getContainer()->get(SystemConfigService::class);
         \assert($systemConfigService instanceof SystemConfigService);
@@ -87,7 +87,7 @@ class SystemConfigServiceIntegrationTest extends TestCase
         static::assertNull($matheusGontijoSystemConfigHistory->getUserData());
     }
 
-    public function testGetValueWithDifferentSalesChannels(): void
+    public function testGetValuesWithDifferentSalesChannels(): void
     {
         $systemConfigService = $this->getContainer()->get(SystemConfigService::class);
         \assert($systemConfigService instanceof SystemConfigService);
@@ -98,23 +98,45 @@ class SystemConfigServiceIntegrationTest extends TestCase
         \assert($systemConfigRepositoryDecorationProcessRepository
             instanceof SystemConfigRepositoryDecorationProcessRepository);
 
-        $systemConfigService->set('my.custom.configKey', 'default');
-        $systemConfigService->set('my.custom.configKey', 'English', TestDefaults::SALES_CHANNEL_ID_ENGLISH);
-        $systemConfigService->set('my.custom.configKey', 'German', TestDefaults::SALES_CHANNEL_ID_GERMAN);
+        $systemConfigService->set('my.custom.configKey1', 'default');
+        $systemConfigService->set('my.custom.configKey1', 'English', TestDefaults::SALES_CHANNEL_ID_ENGLISH);
+        $systemConfigService->set('my.custom.configKey1', 'German', TestDefaults::SALES_CHANNEL_ID_GERMAN);
 
-        $defaultValue = $systemConfigRepositoryDecorationProcessRepository->getValue('my.custom.configKey');
+        $systemConfigService->set('my.custom.configKey2', 'default');
+        $systemConfigService->set('my.custom.configKey2', 'English', TestDefaults::SALES_CHANNEL_ID_ENGLISH);
+        $systemConfigService->set('my.custom.configKey2', 'German', TestDefaults::SALES_CHANNEL_ID_GERMAN);
+
+        $defaultValue = $systemConfigRepositoryDecorationProcessRepository->getValue('my.custom.configKey1');
 
         static::assertSame(['_value' => 'default'], $defaultValue);
 
         $englishValue = $systemConfigRepositoryDecorationProcessRepository->getValue(
-            'my.custom.configKey',
+            'my.custom.configKey1',
             TestDefaults::SALES_CHANNEL_ID_ENGLISH
         );
 
         static::assertSame(['_value' => 'English'], $englishValue);
 
         $germanValue = $systemConfigRepositoryDecorationProcessRepository->getValue(
-            'my.custom.configKey',
+            'my.custom.configKey1',
+            TestDefaults::SALES_CHANNEL_ID_GERMAN
+        );
+
+        static::assertSame(['_value' => 'German'], $germanValue);
+
+        $defaultValue = $systemConfigRepositoryDecorationProcessRepository->getValue('my.custom.configKey2');
+
+        static::assertSame(['_value' => 'default'], $defaultValue);
+
+        $englishValue = $systemConfigRepositoryDecorationProcessRepository->getValue(
+            'my.custom.configKey2',
+            TestDefaults::SALES_CHANNEL_ID_ENGLISH
+        );
+
+        static::assertSame(['_value' => 'English'], $englishValue);
+
+        $germanValue = $systemConfigRepositoryDecorationProcessRepository->getValue(
+            'my.custom.configKey2',
             TestDefaults::SALES_CHANNEL_ID_GERMAN
         );
 
