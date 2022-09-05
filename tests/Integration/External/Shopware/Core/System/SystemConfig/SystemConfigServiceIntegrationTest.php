@@ -3,9 +3,12 @@
 namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\External\Shopware\Core\System\SystemConfig;
 
 use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigRepositoryDecorationProcessRepository;
+// phpcs:ignore
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryCollection;
+// phpcs:ignore
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryDefinition;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
+// phpcs:ignore
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryHydrator;
 use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
@@ -99,9 +102,9 @@ class SystemConfigServiceIntegrationTest extends TestCase
         $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
             SystemConfigRepositoryDecorationProcessRepository::class
         );
-        \assert(
-            $systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository
-        );
+
+        // phpcs:ignore
+        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository);
 
         $systemConfigService->set('my.custom.configKey1', 'default');
         $systemConfigService->set('my.custom.configKey1', 'English', TestDefaults::SALES_CHANNEL_ID_ENGLISH);
@@ -153,7 +156,8 @@ class SystemConfigServiceIntegrationTest extends TestCase
         $matheusGontijoSystemConfigHistoryCollection = new MatheusGontijoSystemConfigHistoryCollection();
         \assert($matheusGontijoSystemConfigHistoryCollection instanceof MatheusGontijoSystemConfigHistoryCollection);
 
-        $entityClass = 'MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity';
+        $entityClass = 'MatheusGontijo\SystemConfigHistory\System\\' .
+            'MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity';
 
         $matheusGontijoSystemConfigHistoryDefinition = $this->getContainer()->get(
             MatheusGontijoSystemConfigHistoryDefinition::class
