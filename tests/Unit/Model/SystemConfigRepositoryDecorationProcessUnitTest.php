@@ -373,7 +373,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             ->withConsecutive(['my.custom.systemConfig1', null])
             ->willReturnOnConsecutiveCalls(
                 ['_value' => 'aaa'],
-                ['_value' => 'bbb'],
+                ['_value' => 'bbb']
             );
 
         $serverAddr = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
@@ -399,12 +399,14 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             $requestStateRegistryMock
         );
 
-        $systemConfigServiceDecoration->process($callMock, [[
-            'id' => 'c6316df22e754fe1af0eae305fd3a495',
-            'configurationKey' => 'my.custom.systemConfig1',
-            'configurationValue' => ['_value' => 'aaa'],
-            'salesChannelId' => null,
-        ]]);
+        $systemConfigServiceDecoration->process($callMock, [
+            [
+                'id' => 'c6316df22e754fe1af0eae305fd3a495',
+                'configurationKey' => 'my.custom.systemConfig1',
+                'configurationValue' => ['_value' => 'aaa'],
+                'salesChannelId' => null,
+            ],
+        ]);
     }
 
     public function testWithoutRequestWithoutAdminApiSource(): void
@@ -420,7 +422,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             ->withConsecutive(['my.custom.systemConfig1', null])
             ->willReturnOnConsecutiveCalls(
                 ['_value' => 'aaa'],
-                ['_value' => 'bbb'],
+                ['_value' => 'bbb']
             );
 
         $serverAddr = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
@@ -450,12 +452,14 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             $requestStateRegistryMock
         );
 
-        $systemConfigServiceDecoration->process($callMock, [[
-            'id' => 'c6316df22e754fe1af0eae305fd3a495',
-            'configurationKey' => 'my.custom.systemConfig1',
-            'configurationValue' => ['_value' => 'aaa'],
-            'salesChannelId' => null,
-        ]]);
+        $systemConfigServiceDecoration->process($callMock, [
+            [
+                'id' => 'c6316df22e754fe1af0eae305fd3a495',
+                'configurationKey' => 'my.custom.systemConfig1',
+                'configurationValue' => ['_value' => 'aaa'],
+                'salesChannelId' => null,
+            ],
+        ]);
     }
 
     public function testInvalidValues(): void

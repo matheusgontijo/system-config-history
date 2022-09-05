@@ -2,26 +2,12 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\Decoration;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ForwardCompatibility\Result;
 use MatheusGontijo\SystemConfigHistory\Repository\Decoration\SystemConfigRepositoryDecorationRepository;
-use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigRepositoryDecorationProcessRepository;
-use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
-use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
-use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
-use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
-use Shopware\Core\Framework\Uuid\Uuid;
-use Shopware\Core\System\SystemConfig\SystemConfigEntity;
-use Shopware\Core\System\SystemConfig\SystemConfigService;
-use Shopware\Core\System\User\UserEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
+use Shopware\Core\System\SystemConfig\SystemConfigEntity;
 
 class SystemConfigRepositoryDecorationRepositoryIntegrationTest extends TestCase
 {
@@ -32,8 +18,7 @@ class SystemConfigRepositoryDecorationRepositoryIntegrationTest extends TestCase
         $systemConfigRepositoryDecorationRepository = $this->getContainer()->get(
             SystemConfigRepositoryDecorationRepository::class
         );
-        \assert($systemConfigRepositoryDecorationRepository
-            instanceof SystemConfigRepositoryDecorationRepository);
+        \assert($systemConfigRepositoryDecorationRepository instanceof SystemConfigRepositoryDecorationRepository);
 
         $systemConfigRepository = $this->getContainer()->get('system_config.repository');
         \assert($systemConfigRepository instanceof EntityRepositoryInterface);
@@ -62,7 +47,7 @@ class SystemConfigRepositoryDecorationRepositoryIntegrationTest extends TestCase
         $ids = [
             'd3d2a03c66404c04b938fb0ccc59d1bb',
             '1815098dbf814e6885f677b4b2f34e9c',
-            'eb7b1d39f0c64874a0d7bb2d157955ea'
+            'eb7b1d39f0c64874a0d7bb2d157955ea',
         ];
 
         $searchResult = $systemConfigRepositoryDecorationRepository->search($systemConfigRepository, $ids);

@@ -12,7 +12,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEve
 use Shopware\Core\Framework\DataAbstractionLayer\Search\AggregationResult\AggregationResultCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\IdSearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\CloneBehavior;
 use Shopware\Core\System\SystemConfig\SystemConfigEntity;
@@ -116,10 +115,7 @@ class SystemConfigRepositoryDecoration extends EntityRepository
             $searchIds[] = $id['id'];
         }
 
-        $systemConfigs = $this->systemConfigRepositoryDecorationRepository->search(
-            $this->entityRepository,
-            $searchIds
-        );
+        $systemConfigs = $this->systemConfigRepositoryDecorationRepository->search($this->entityRepository, $searchIds);
 
         $data = [];
 

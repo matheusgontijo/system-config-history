@@ -2,15 +2,11 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Tests\Unit\Decoration;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use MatheusGontijo\SystemConfigHistory\Model\RequestStateRegistry;
-use MatheusGontijo\SystemConfigHistory\Model\SystemConfigRepositoryDecorationProcess;
 use MatheusGontijo\SystemConfigHistory\Decoration\SystemConfigRepositoryDecoration;
+use MatheusGontijo\SystemConfigHistory\Model\SystemConfigRepositoryDecorationProcess;
 use MatheusGontijo\SystemConfigHistory\Repository\Decoration\SystemConfigRepositoryDecorationRepository;
 use PHPUnit\Framework\TestCase;
-use Shopware\Core\Framework\Api\Context\AdminApiSource;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityLoadedEventFactory;
@@ -18,13 +14,9 @@ use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEve
 use Shopware\Core\Framework\DataAbstractionLayer\Search\AggregationResult\AggregationResultCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\IdSearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\CloneBehavior;
-use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\SystemConfig\SystemConfigEntity;
-use Shopware\Core\System\User\UserEntity;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @TODO: TEST ENABLED/DISABLED
@@ -184,7 +176,7 @@ class SystemConfigRepositoryDecorationUnitTest extends TestCase
         $contextMock = $this->createMock(Context::class);
         $entityWrittenContainerEventMock = $this->createMock(EntityWrittenContainerEvent::class);
 
-        $call = fn () => $entityWrittenContainerEventMock;
+        $call = static fn () => $entityWrittenContainerEventMock;
 
         $systemConfigRepositoryDecorationProcessMock->expects(static::exactly(1))
             ->method('process')
@@ -215,7 +207,7 @@ class SystemConfigRepositoryDecorationUnitTest extends TestCase
         $contextMock = $this->createMock(Context::class);
         $entityWrittenContainerEventMock = $this->createMock(EntityWrittenContainerEvent::class);
 
-        $call = fn () => $entityWrittenContainerEventMock;
+        $call = static fn () => $entityWrittenContainerEventMock;
 
         $systemConfigRepositoryDecorationProcessMock->expects(static::exactly(1))
             ->method('process')
@@ -246,7 +238,7 @@ class SystemConfigRepositoryDecorationUnitTest extends TestCase
         $contextMock = $this->createMock(Context::class);
         $entityWrittenContainerEventMock = $this->createMock(EntityWrittenContainerEvent::class);
 
-        $call = fn () => $entityWrittenContainerEventMock;
+        $call = static fn () => $entityWrittenContainerEventMock;
 
         $systemConfigRepositoryDecorationProcessMock->expects(static::exactly(1))
             ->method('process')
@@ -298,7 +290,7 @@ class SystemConfigRepositoryDecorationUnitTest extends TestCase
             ->withConsecutive([$entityRepositoryMock, $ids])
             ->willReturnOnConsecutiveCalls($systemConfigs);
 
-        $call = fn () => $entityWrittenContainerEventMock;
+        $call = static fn () => $entityWrittenContainerEventMock;
 
         $data = [
             [
@@ -350,7 +342,7 @@ class SystemConfigRepositoryDecorationUnitTest extends TestCase
                 '45b0fe46da4c4163b52ac0efd60f17e6',
                 Context::createDefaultContext(),
                 'foo',
-                '6e671d7b9cd94af8b4fe3df257d1a130'
+                '6e671d7b9cd94af8b4fe3df257d1a130',
             ])
             ->willReturn('ca9619937e694143bcff4049bcc29ae3');
 
@@ -412,7 +404,7 @@ class SystemConfigRepositoryDecorationUnitTest extends TestCase
                 '45b0fe46da4c4163b52ac0efd60f17e6',
                 Context::createDefaultContext(),
                 '50e99c4b393e450fbdb3fda0364b6517',
-                $cloneBehaviorMock
+                $cloneBehaviorMock,
             ])
             ->willReturnOnConsecutiveCalls($entityWrittenContainerEventMock);
 

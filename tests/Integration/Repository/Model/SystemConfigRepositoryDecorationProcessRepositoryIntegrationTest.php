@@ -6,7 +6,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ForwardCompatibility\Result;
 use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigRepositoryDecorationProcessRepository;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
-use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
@@ -17,7 +16,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\Framework\Uuid\Uuid;
-use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Shopware\Core\System\User\UserEntity;
 
 class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends TestCase
@@ -29,8 +27,9 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
         $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
             SystemConfigRepositoryDecorationProcessRepository::class
         );
-        \assert($systemConfigRepositoryDecorationProcessRepository
-            instanceof SystemConfigRepositoryDecorationProcessRepository);
+        \assert(
+            $systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository
+        );
 
         static::assertNull($systemConfigRepositoryDecorationProcessRepository->getValue('my.custom.configKey'));
     }

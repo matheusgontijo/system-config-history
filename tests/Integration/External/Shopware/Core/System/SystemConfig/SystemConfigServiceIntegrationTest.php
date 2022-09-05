@@ -99,8 +99,9 @@ class SystemConfigServiceIntegrationTest extends TestCase
         $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
             SystemConfigRepositoryDecorationProcessRepository::class
         );
-        \assert($systemConfigRepositoryDecorationProcessRepository
-            instanceof SystemConfigRepositoryDecorationProcessRepository);
+        \assert(
+            $systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository
+        );
 
         $systemConfigService->set('my.custom.configKey1', 'default');
         $systemConfigService->set('my.custom.configKey1', 'English', TestDefaults::SALES_CHANNEL_ID_ENGLISH);
@@ -159,17 +160,21 @@ class SystemConfigServiceIntegrationTest extends TestCase
         );
         \assert($matheusGontijoSystemConfigHistoryDefinition instanceof MatheusGontijoSystemConfigHistoryDefinition);
 
-        $rows = [[
-            'matheus_gontijo_system_config_history.id' => Uuid::fromHexToBytes('136f2285f9e742ac85369726bb90c93f'),
-            'matheus_gontijo_system_config_history.configurationKey' => 'my.configuration.key',
-            'matheus_gontijo_system_config_history.configurationValueOld' => '{"_value": "aaa"}',
-            'matheus_gontijo_system_config_history.configurationValueNew' => '{"_value": "bbb"}',
-            'matheus_gontijo_system_config_history.salesChannelId' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_ENGLISH),
-            'matheus_gontijo_system_config_history.username' => 'mgontijo',
-            'matheus_gontijo_system_config_history.userData' => '{"foo": "bar"}',
-            'matheus_gontijo_system_config_history.createdAt' => '2022-09-05 01:52:06.743',
-            'matheus_gontijo_system_config_history.updatedAt' => '2022-09-05 01:57:08.119',
-        ]];
+        $rows = [
+            [
+                'matheus_gontijo_system_config_history.id' => Uuid::fromHexToBytes('136f2285f9e742ac85369726bb90c93f'),
+                'matheus_gontijo_system_config_history.configurationKey' => 'my.configuration.key',
+                'matheus_gontijo_system_config_history.configurationValueOld' => '{"_value": "aaa"}',
+                'matheus_gontijo_system_config_history.configurationValueNew' => '{"_value": "bbb"}',
+                'matheus_gontijo_system_config_history.salesChannelId' => Uuid::fromHexToBytes(
+                    TestDefaults::SALES_CHANNEL_ID_ENGLISH
+                ),
+                'matheus_gontijo_system_config_history.username' => 'mgontijo',
+                'matheus_gontijo_system_config_history.userData' => '{"foo": "bar"}',
+                'matheus_gontijo_system_config_history.createdAt' => '2022-09-05 01:52:06.743',
+                'matheus_gontijo_system_config_history.updatedAt' => '2022-09-05 01:57:08.119',
+            ],
+        ];
 
         $root = 'matheus_gontijo_system_config_history';
 
@@ -203,10 +208,19 @@ class SystemConfigServiceIntegrationTest extends TestCase
         static::assertEquals($matheusGontijoSystemConfigHistory->getConfigurationKey(), 'my.configuration.key');
         static::assertEquals($matheusGontijoSystemConfigHistory->getConfigurationValueOld(), ['_value' => 'aaa']);
         static::assertEquals($matheusGontijoSystemConfigHistory->getConfigurationValueNew(), ['_value' => 'bbb']);
-        static::assertEquals($matheusGontijoSystemConfigHistory->getSalesChannelId(), 'd235f6b8ff854574bc4ef7ee5369b6e6');
+        static::assertEquals(
+            $matheusGontijoSystemConfigHistory->getSalesChannelId(),
+            'd235f6b8ff854574bc4ef7ee5369b6e6'
+        );
         static::assertEquals($matheusGontijoSystemConfigHistory->getUsername(), 'mgontijo');
         static::assertEquals($matheusGontijoSystemConfigHistory->getUserData(), ['foo' => 'bar']);
-        static::assertEquals($matheusGontijoSystemConfigHistory->getCreatedAt(), new \DateTimeImmutable('2022-09-05 01:52:06.743'));
-        static::assertEquals($matheusGontijoSystemConfigHistory->getUpdatedAt(), new \DateTimeImmutable('2022-09-05 01:57:08.119'));
+        static::assertEquals(
+            $matheusGontijoSystemConfigHistory->getCreatedAt(),
+            new \DateTimeImmutable('2022-09-05 01:52:06.743')
+        );
+        static::assertEquals(
+            $matheusGontijoSystemConfigHistory->getUpdatedAt(),
+            new \DateTimeImmutable('2022-09-05 01:57:08.119')
+        );
     }
 }
