@@ -22,6 +22,71 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
 {
     use IntegrationTestBehaviour;
 
+    public function testIsDisabledWhenNonExistingValue(): void
+    {
+        $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
+            SystemConfigRepositoryDecorationProcessRepository::class
+        );
+
+        // phpcs:ignore
+        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository);
+
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $qb = $connection->createQueryBuilder();
+        $qb->delete('system_config');
+        $qb->where('configuration_key = :configuration_key');
+        $qb->andWhere('sales_channel_id IS NULL');
+
+        $qb->setParameter(':configuration_key', 'matheusGontijo.systemConfigHistory.enabled');
+
+        $qb->execute();
+
+        static::assertSame(false, $systemConfigRepositoryDecorationProcessRepository->isEnabled());
+    }
+
+    public function testIsDisabledWhenValueIsFalse(): void
+    {
+        $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
+            SystemConfigRepositoryDecorationProcessRepository::class
+        );
+
+        // phpcs:ignore
+        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository);
+
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $qb = $connection->createQueryBuilder();
+        $qb->update('system_config');
+        $qb->set('configuration_value', ':configuration_value');
+        $qb->where('configuration_key = :configuration_key');
+        $qb->andWhere('sales_channel_id IS NULL');
+
+        $qb->setParameter(':configuration_value', '{"value":false}');
+        $qb->setParameter(':configuration_key', 'matheusGontijo.systemConfigHistory.enabled');
+
+        $qb->execute();
+
+        static::assertSame(false, $systemConfigRepositoryDecorationProcessRepository->isEnabled());
+    }
+
+    public function testIsEnabled(): void
+    {
+        $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
+            SystemConfigRepositoryDecorationProcessRepository::class
+        );
+
+        // phpcs:ignore
+        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository);
+
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        static::assertSame(true, $systemConfigRepositoryDecorationProcessRepository->isEnabled());
+    }
+
     public function testGetValueWithNonExistingValue(): void
     {
         $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(

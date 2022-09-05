@@ -14,43 +14,52 @@ use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\User\UserEntity;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * @TODO: TEST ENABLED/DISABLED
- */
 class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
 {
-//    public function testIsDisabled(): void
-//    {
-//        $systemConfigServiceMock = $this->createMock(SystemConfigService::class);
-//        $systemConfigRepositoryDecorationProcessRepositoryMock = $this->createMock(
-//            SystemConfigRepositoryDecorationProcessRepository::class
-//        );
-//
-//        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
-//
-//        $systemConfigServiceMock->expects(static::exactly(1))
-//            ->method('get')
-//            ->withConsecutive(['matheusGontijo.systemConfigHistory.enabled'])
-//            ->willReturnOnConsecutiveCalls(false);
-//
-//        $systemConfigServiceMock->expects(static::exactly(1))
-//            ->method('set')
-//            ->withConsecutive(['my.custom.systemConfig', 'aaa', null]);
-//
-//        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::never())
-//            ->method(static::anything());
-//
-//        $requestStateRegistryMock->expects(static::never())
-//            ->method(static::anything());
-//
-//        $systemConfigServiceDecoration = $this->createSystemConfigRepositoryDecorationProcess(
-//            $systemConfigServiceMock,
-//            $systemConfigRepositoryDecorationProcessRepositoryMock,
-//            $requestStateRegistryMock
-//        );
-//
-//        $systemConfigServiceDecoration->set('my.custom.systemConfig', 'aaa', null);
-//    }
+    public function testIsDisabled(): void
+    {
+        $systemConfigRepositoryDecorationProcessRepositoryMock = $this->createMock(
+            SystemConfigRepositoryDecorationProcessRepository::class
+        );
+        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+        $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
+
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
+            ->method('isEnabled')
+            ->willReturn(false);
+
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::never())
+            ->method('generateId');
+
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::never())
+            ->method('getValue');
+
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::never())
+            ->method('insert');
+
+        $requestStateRegistryMock->expects(static::never())
+            ->method(static::anything());
+
+        $systemConfigServiceDecoration = new SystemConfigRepositoryDecorationProcess(
+            $systemConfigRepositoryDecorationProcessRepositoryMock,
+            $requestStateRegistryMock
+        );
+
+        $systemConfigServiceDecoration->process($callMock, [
+            [
+                'id' => 'c6316df22e754fe1af0eae305fd3a495',
+                'configurationKey' => 'my.custom.systemConfig1',
+                'configurationValue' => ['_value' => 'aaa'],
+                'salesChannelId' => null,
+            ],
+            [
+                'id' => '1c957ed20cef4410ad1a6150079ab9f7',
+                'configurationKey' => 'my.custom.systemConfig2',
+                'configurationValue' => ['_value' => 'bbb'],
+                'salesChannelId' => null,
+            ],
+        ]);
+    }
 
     public function testEqualValues(): void
     {
