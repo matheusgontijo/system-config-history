@@ -7,12 +7,14 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
+use Shopware\Core\System\SystemConfig\SystemConfigEntity;
 
 class SystemConfigRepositoryDecorationRepository
 {
     /**
      * @param array<int, string> $ids
-     * @return array
+     *
+     * @return array<int, SystemConfigEntity>
      */
     public function search(EntityRepositoryInterface $systemConfigRepository, array $ids): array
     {

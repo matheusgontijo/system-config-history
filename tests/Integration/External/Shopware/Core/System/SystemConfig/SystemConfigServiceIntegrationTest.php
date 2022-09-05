@@ -17,16 +17,10 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
-use DateTimeImmutable;
 
 class SystemConfigServiceIntegrationTest extends TestCase
 {
     use IntegrationTestBehaviour;
-
-    public function __construct(?string $name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-    }
 
     public function testHistory(): void
     {
@@ -203,7 +197,7 @@ class SystemConfigServiceIntegrationTest extends TestCase
         static::assertCount(1, $matheusGontijoSystemConfigHistoryCollection->getElements());
 
         $matheusGontijoSystemConfigHistory = $matheusGontijoSystemConfigHistoryCollection->first();
-        assert($matheusGontijoSystemConfigHistory instanceof MatheusGontijoSystemConfigHistoryEntity);
+        \assert($matheusGontijoSystemConfigHistory instanceof MatheusGontijoSystemConfigHistoryEntity);
 
         static::assertEquals($matheusGontijoSystemConfigHistory->getId(), '136f2285f9e742ac85369726bb90c93f');
         static::assertEquals($matheusGontijoSystemConfigHistory->getConfigurationKey(), 'my.configuration.key');
@@ -212,7 +206,7 @@ class SystemConfigServiceIntegrationTest extends TestCase
         static::assertEquals($matheusGontijoSystemConfigHistory->getSalesChannelId(), 'd235f6b8ff854574bc4ef7ee5369b6e6');
         static::assertEquals($matheusGontijoSystemConfigHistory->getUsername(), 'mgontijo');
         static::assertEquals($matheusGontijoSystemConfigHistory->getUserData(), ['foo' => 'bar']);
-        static::assertEquals($matheusGontijoSystemConfigHistory->getCreatedAt(), new DateTimeImmutable('2022-09-05 01:52:06.743'));
-        static::assertEquals($matheusGontijoSystemConfigHistory->getUpdatedAt(), new DateTimeImmutable('2022-09-05 01:57:08.119'));
+        static::assertEquals($matheusGontijoSystemConfigHistory->getCreatedAt(), new \DateTimeImmutable('2022-09-05 01:52:06.743'));
+        static::assertEquals($matheusGontijoSystemConfigHistory->getUpdatedAt(), new \DateTimeImmutable('2022-09-05 01:57:08.119'));
     }
 }

@@ -70,27 +70,27 @@ class SystemConfigRepositoryDecorationRepositoryIntegrationTest extends TestCase
         static::assertCount(3, $searchResult);
 
         $systemConfig = $searchResult[0];
-        assert($systemConfig instanceof SystemConfigEntity);
+        \assert($systemConfig instanceof SystemConfigEntity);
 
         static::assertSame('d3d2a03c66404c04b938fb0ccc59d1bb', $systemConfig->getId());
         static::assertSame('my.custom.configKey1', $systemConfig->getConfigurationKey());
         static::assertSame('aaa', $systemConfig->getConfigurationValue());
-        static::assertSame(null, $systemConfig->getSalesChannelId());
+        static::assertNull($systemConfig->getSalesChannelId());
 
         $systemConfig = $searchResult[1];
-        assert($systemConfig instanceof SystemConfigEntity);
+        \assert($systemConfig instanceof SystemConfigEntity);
 
         static::assertSame('1815098dbf814e6885f677b4b2f34e9c', $systemConfig->getId());
         static::assertSame('my.custom.configKey2', $systemConfig->getConfigurationKey());
         static::assertSame('bbb', $systemConfig->getConfigurationValue());
-        static::assertSame(null, $systemConfig->getSalesChannelId());
+        static::assertNull($systemConfig->getSalesChannelId());
 
         $systemConfig = $searchResult[2];
-        assert($systemConfig instanceof SystemConfigEntity);
+        \assert($systemConfig instanceof SystemConfigEntity);
 
         static::assertSame('eb7b1d39f0c64874a0d7bb2d157955ea', $systemConfig->getId());
         static::assertSame('my.custom.configKey3', $systemConfig->getConfigurationKey());
         static::assertSame('ccc', $systemConfig->getConfigurationValue());
-        static::assertSame(null, $systemConfig->getSalesChannelId());
+        static::assertNull($systemConfig->getSalesChannelId());
     }
 }

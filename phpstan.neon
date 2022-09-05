@@ -14,5 +14,5 @@ parameters:
 
     ignoreErrors:
         -
-            message: '#Class MatheusGontijo\\SystemConfigHistory\\Repository\\SystemConfigRepositoryDecoration extends @final class Shopware\\Core\\Framework\\DataAbstractionLayer\\EntityRepository#'
-            path: src/Repository/SystemConfigRepositoryDecoration.php
+            message: '#Class MatheusGontijo\\SystemConfigHistory\\Decoration\\SystemConfigRepositoryDecoration extends @final class Shopware\\Core\\Framework\\DataAbstractionLayer\\EntityRepository.#'
+            path: src/Decoration/SystemConfigRepositoryDecoration.php
