@@ -33,6 +33,33 @@ class SystemConfigRepositoryDecorationProcessRepository
         $this->userRepository = $userRepository;
     }
 
+    public function isEnabled(): bool
+    {
+        $qb = $this->connection->createQueryBuilder();
+
+        $qb->select(['configuration_value']);
+        $qb->from('system_config');
+        $qb->where('configuration_key = :configuration_key');
+        $qb->andWhere('sales_channel_id IS NULL');
+
+        $qb->setParameter(':configuration_key', 'matheusGontijo.systemConfigHistory.enabled');
+
+        $qb->setMaxResults(1);
+
+        $executeResult = $qb->execute();
+        \assert($executeResult instanceof Result);
+
+        $value = $executeResult->fetchOne();
+
+        if ($value === false || $value === null) {
+            return false;
+        }
+
+        $decodedValue = json_decode($value, true);
+
+        return $decodedValue === ['_value' => true];
+    }
+
     public function generateId(): string
     {
         return Uuid::randomHex();

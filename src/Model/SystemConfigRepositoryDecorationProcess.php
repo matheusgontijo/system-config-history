@@ -2,16 +2,21 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Model;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ForwardCompatibility\Result;
 use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigRepositoryDecorationProcessRepository;
 use Shopware\Core\Framework\Api\Context\AdminApiSource;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent;
 use Shopware\Core\PlatformRequest;
+use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Shopware\Core\System\User\UserEntity;
 use Symfony\Component\HttpFoundation\Request;
 
 class SystemConfigRepositoryDecorationProcess
 {
+    private ?bool $isEnabled = null;
+
     /**
      * @var array<string, UserEntity>
      */
@@ -34,8 +39,11 @@ class SystemConfigRepositoryDecorationProcess
      */
     public function process(\Closure $call, array $data): EntityWrittenContainerEvent
     {
-        // @TODO: add test passing empty array... make sure it throws an exception
-        // @TODO: add enabled/disabled
+        if (!$this->isEnabled()) {
+            return $call();
+        }
+
+        // @TODO: add test passing empty array...
 
         $data = $this->cleanUpData($data);
 
@@ -52,6 +60,17 @@ class SystemConfigRepositoryDecorationProcess
         $this->insertHistoryData($oldSystemConfigs, $newSystemConfigs);
 
         return $result;
+    }
+
+    private function isEnabled(): bool
+    {
+        if ($this->isEnabled !== null) {
+            return $this->isEnabled;
+        }
+
+        $this->isEnabled = $this->systemConfigRepositoryDecorationProcessRepository->isEnabled();
+
+        return $this->isEnabled;
     }
 
     /**

@@ -85,6 +85,7 @@ class TestBootstrapper
         }
 
         $this->createSalesChannel();
+        $this->enablePlugin();
 
         return $this;
     }
@@ -94,6 +95,18 @@ class TestBootstrapper
         $application = new Application($this->getKernel());
         $refreshCommand = $application->find('matheus-gontijo:system-config-history-test-setup:create-sales-channels');
         $refreshCommand->run(new ArrayInput([], $refreshCommand->getDefinition()), $this->getOutput());
+
+        KernelLifecycleManager::bootKernel();
+    }
+
+    private function enablePlugin(): void
+    {
+        $application = new Application($this->getKernel());
+        $refreshCommand = $application->find('system:config:set');
+        $refreshCommand->run(new ArrayInput([
+            'key' => 'matheusGontijo.systemConfigHistory.enabled',
+            'value' => true,
+        ], $refreshCommand->getDefinition()), $this->getOutput());
 
         KernelLifecycleManager::bootKernel();
     }

@@ -22,7 +22,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
 //    public function testIsDisabled(): void
 //    {
 //        $systemConfigServiceMock = $this->createMock(SystemConfigService::class);
-//        $systemConfigRepositoryDecorationRepositoryMock = $this->createMock(
+//        $systemConfigRepositoryDecorationProcessRepositoryMock = $this->createMock(
 //            SystemConfigRepositoryDecorationProcessRepository::class
 //        );
 //
@@ -37,7 +37,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
 //            ->method('set')
 //            ->withConsecutive(['my.custom.systemConfig', 'aaa', null]);
 //
-//        $systemConfigRepositoryDecorationRepositoryMock->expects(static::never())
+//        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::never())
 //            ->method(static::anything());
 //
 //        $requestStateRegistryMock->expects(static::never())
@@ -45,7 +45,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
 //
 //        $systemConfigServiceDecoration = $this->createSystemConfigRepositoryDecorationProcess(
 //            $systemConfigServiceMock,
-//            $systemConfigRepositoryDecorationRepositoryMock,
+//            $systemConfigRepositoryDecorationProcessRepositoryMock,
 //            $requestStateRegistryMock
 //        );
 //
@@ -54,13 +54,17 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
 
     public function testEqualValues(): void
     {
-        $systemConfigRepositoryDecorationRepositoryMock = $this->createMock(
+        $systemConfigRepositoryDecorationProcessRepositoryMock = $this->createMock(
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
-        $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(4))
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(4))
             ->method('getValue')
             ->withConsecutive(
                 ['my.custom.systemConfig1', null],
@@ -79,7 +83,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             ->method(static::anything());
 
         $systemConfigServiceDecoration = new SystemConfigRepositoryDecorationProcess(
-            $systemConfigRepositoryDecorationRepositoryMock,
+            $systemConfigRepositoryDecorationProcessRepositoryMock,
             $requestStateRegistryMock
         );
 
@@ -101,13 +105,17 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
 
     public function testMixedDifferentAndEqualValues(): void
     {
-        $systemConfigRepositoryDecorationRepositoryMock = $this->createMock(
+        $systemConfigRepositoryDecorationProcessRepositoryMock = $this->createMock(
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
-        $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(6))
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(6))
             ->method('getValue')
             ->withConsecutive(
                 ['my.custom.systemConfig1', null],
@@ -131,7 +139,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             ->willReturn(null);
 
         $systemConfigServiceDecoration = new SystemConfigRepositoryDecorationProcess(
-            $systemConfigRepositoryDecorationRepositoryMock,
+            $systemConfigRepositoryDecorationProcessRepositoryMock,
             $requestStateRegistryMock
         );
 
@@ -159,13 +167,17 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
 
     public function testDifferentValuesWithoutAdminRequest(): void
     {
-        $systemConfigRepositoryDecorationRepositoryMock = $this->createMock(
+        $systemConfigRepositoryDecorationProcessRepositoryMock = $this->createMock(
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
-        $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(4))
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(4))
             ->method('getValue')
             ->withConsecutive(
                 ['my.custom.systemConfig1', null],
@@ -184,11 +196,11 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             ->method('getRequest')
             ->willReturn(null);
 
-        $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(2))
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(2))
             ->method('generateId')
             ->willReturnOnConsecutiveCalls('c6316df22e754fe1af0eae305fd3a495', '1c957ed20cef4410ad1a6150079ab9f7');
 
-        $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(1))
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
             ->method('insert')
             ->withConsecutive([
                 [
@@ -210,7 +222,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             ]);
 
         $systemConfigServiceDecoration = new SystemConfigRepositoryDecorationProcess(
-            $systemConfigRepositoryDecorationRepositoryMock,
+            $systemConfigRepositoryDecorationProcessRepositoryMock,
             $requestStateRegistryMock
         );
 
@@ -232,13 +244,17 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
 
     public function testDifferentValuesWithAdminRequest(): void
     {
-        $systemConfigRepositoryDecorationRepositoryMock = $this->createMock(
+        $systemConfigRepositoryDecorationProcessRepositoryMock = $this->createMock(
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
-        $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(4))
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(4))
             ->method('getValue')
             ->withConsecutive(
                 ['my.custom.systemConfig1', null],
@@ -282,15 +298,15 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
         $userEntity->setEmail('johndoe@example.com');
         $userEntity->setActive(true);
 
-        $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(1))
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
             ->method('loadUser')
             ->willReturn($userEntity);
 
-        $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(2))
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(2))
             ->method('generateId')
             ->willReturnOnConsecutiveCalls('c6316df22e754fe1af0eae305fd3a495', '1c957ed20cef4410ad1a6150079ab9f7');
 
-        $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(1))
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
             ->method('insert')
             ->withConsecutive([
                 [
@@ -340,7 +356,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             ]);
 
         $systemConfigServiceDecoration = new SystemConfigRepositoryDecorationProcess(
-            $systemConfigRepositoryDecorationRepositoryMock,
+            $systemConfigRepositoryDecorationProcessRepositoryMock,
             $requestStateRegistryMock
         );
 
@@ -362,13 +378,17 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
 
     public function testWithoutRequestAttributeContextObject(): void
     {
-        $systemConfigRepositoryDecorationRepositoryMock = $this->createMock(
+        $systemConfigRepositoryDecorationProcessRepositoryMock = $this->createMock(
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
-        $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(2))
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(2))
             ->method('getValue')
             ->withConsecutive(['my.custom.systemConfig1', null])
             ->willReturnOnConsecutiveCalls(
@@ -395,7 +415,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             ->willReturn($request);
 
         $systemConfigServiceDecoration = new SystemConfigRepositoryDecorationProcess(
-            $systemConfigRepositoryDecorationRepositoryMock,
+            $systemConfigRepositoryDecorationProcessRepositoryMock,
             $requestStateRegistryMock
         );
 
@@ -411,13 +431,17 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
 
     public function testWithoutRequestWithoutAdminApiSource(): void
     {
-        $systemConfigRepositoryDecorationRepositoryMock = $this->createMock(
+        $systemConfigRepositoryDecorationProcessRepositoryMock = $this->createMock(
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
-        $systemConfigRepositoryDecorationRepositoryMock->expects(static::exactly(2))
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(2))
             ->method('getValue')
             ->withConsecutive(['my.custom.systemConfig1', null])
             ->willReturnOnConsecutiveCalls(
@@ -448,7 +472,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             ->willReturn($request);
 
         $systemConfigServiceDecoration = new SystemConfigRepositoryDecorationProcess(
-            $systemConfigRepositoryDecorationRepositoryMock,
+            $systemConfigRepositoryDecorationProcessRepositoryMock,
             $requestStateRegistryMock
         );
 
@@ -464,26 +488,30 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
 
     public function testInvalidValues(): void
     {
-        $systemConfigRepositoryDecorationRepositoryMock = $this->createMock(
+        $systemConfigRepositoryDecorationProcessRepositoryMock = $this->createMock(
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
-        $systemConfigRepositoryDecorationRepositoryMock->expects(static::never())
-            ->method(static::anything());
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::never())
+            ->method('generateId');
+
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::never())
+            ->method('getValue');
+
+        $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::never())
+            ->method('insert');
 
         $requestStateRegistryMock->expects(static::never())
             ->method(static::anything());
 
-        $systemConfigRepositoryDecorationRepositoryMock->expects(static::never())
-            ->method(static::anything());
-
-        $systemConfigRepositoryDecorationRepositoryMock->expects(static::never())
-            ->method(static::anything());
-
         $systemConfigServiceDecoration = new SystemConfigRepositoryDecorationProcess(
-            $systemConfigRepositoryDecorationRepositoryMock,
+            $systemConfigRepositoryDecorationProcessRepositoryMock,
             $requestStateRegistryMock
         );
 
