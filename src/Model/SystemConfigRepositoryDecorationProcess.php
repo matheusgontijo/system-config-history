@@ -37,6 +37,8 @@ class SystemConfigRepositoryDecorationProcess
         // @TODO: add test passing empty array... make sure it throws an exception
         // @TODO: add enabled/disabled
 
+        $data = $this->cleanUpData($data);
+
         $oldSystemConfigs = $this->getFreshSystemConfigData($data);
 
         $result = $call();
@@ -53,6 +55,26 @@ class SystemConfigRepositoryDecorationProcess
     }
 
     /**
+     * @param array<mixed> $data
+     *
+     * @return array<mixed>
+     */
+    private function cleanUpData(array $data): array
+    {
+        $newData = [];
+
+        foreach ($data as $element) {
+            if (!isset($element['configurationKey'])) {
+                continue;
+            }
+
+            $newData[] = $element;
+        }
+
+        return $newData;
+    }
+
+    /**
      * @param array<int, mixed> $oldSystemConfigs
      * @param array<int, mixed> $newSystemConfigs
      */
@@ -61,10 +83,6 @@ class SystemConfigRepositoryDecorationProcess
         $data = [];
 
         foreach ($oldSystemConfigs as $key => $oldSystemConfig) {
-            if (!isset($newSystemConfigs[$key])) {
-                continue;
-            }
-
             if ($oldSystemConfig === $newSystemConfigs[$key]) {
                 continue;
             }
@@ -76,12 +94,6 @@ class SystemConfigRepositoryDecorationProcess
                 'configurationValueOld' => $oldSystemConfig['configurationValue'],
                 'configurationValueNew' => $newSystemConfigs[$key]['configurationValue'],
             ];
-
-            if (!$this->hasAdminRequest()) {
-                $data[] = $historyData;
-
-                continue;
-            }
 
             $historyData = $this->addUserDataUserData($historyData);
             $historyData = $this->addUserDataRequestData($historyData);
@@ -102,10 +114,6 @@ class SystemConfigRepositoryDecorationProcess
         $systemConfigs = [];
 
         foreach ($data as $key => $element) {
-            if (!isset($element['configurationKey'])) {
-                continue;
-            }
-
             $salesChannelId = $element['salesChannelId'] ?? null;
             $configurationValue = $this->systemConfigRepositoryDecorationProcessRepository->getValue(
                 $element['configurationKey'],
@@ -120,25 +128,6 @@ class SystemConfigRepositoryDecorationProcess
         }
 
         return $systemConfigs;
-    }
-
-    private function hasAdminRequest(): bool
-    {
-        $request = $this->requestStateRegistry->getRequest();
-
-        if ($request === null) {
-            return false;
-        }
-
-        $context = $request->attributes->get(PlatformRequest::ATTRIBUTE_CONTEXT_OBJECT);
-
-        if (!$context instanceof Context) {
-            return false;
-        }
-
-        $source = $context->getSource();
-
-        return $source instanceof AdminApiSource;
     }
 
     /**
