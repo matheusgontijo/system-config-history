@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\External\Shopware\Core\System\SystemConfig;
+namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\OtherNamespaces\Shopware\Core\System\SystemConfig;
 
 use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigRepositoryDecorationProcessRepository;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;

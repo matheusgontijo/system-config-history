@@ -104,6 +104,15 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             }
         },
 
+        changePage: {
+            get: function() {
+                return this.page;
+            },
+            set: function(v) {
+                return this.page = v;
+            }
+        },
+
         selectLimit: {
             get: function() {
                 return this.limit;
@@ -129,6 +138,10 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 100,
                 250,
             ];
+        },
+
+        hasPagination() {
+            return this.count > this.limit;
         },
     },
 
@@ -200,35 +213,44 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             return format.date(date, options);
         },
 
-        hasPagination() {
-            return !this.isLoading && this.count > this.limit;
-        },
-
         getPaginationItems() {
-            let maxPaginationItems = 10;
-            let totalPages = Math.ceil(this.count / this.limit);
+            let [leftItems, rightItems] = this.calculatePaginationItems(this.page, 9, this.count, this.limit);
 
-            let paginationItems = this.calculatePaginationItems(
-                this.page,
-                totalPages,
-                maxPaginationItems
-            );
+            let paginationItems = [];
+
+            paginationItems.push({
+                page: this.page,
+                current: true,
+            });
+
+            for (let i = 1; i <= rightItems; i++) {
+                paginationItems.push({
+                    page: i,
+                    current: false,
+                });
+            }
+
+            console.log(paginationItems)
 
 
+
+
+
+
+            return paginationItems;
         },
 
-        calculatePaginationItems(
-            currentPage,
-            totalPages,
-            maxPaginationItems
-        ) {
+        calculatePaginationItems(currentPage, maxPaginationItems, count, limit) {
+            let totalPages = Math.ceil(count / limit);
+
             return this.calculatePaginationItemsInternal(
                 currentPage,
                 totalPages,
                 maxPaginationItems,
                 0,
                 0,
-                'right'
+                'right',
+                0
             );
         },
 
@@ -240,7 +262,12 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             rightItems,
             lastAddedPosition
         ) {
-            // @TODO: REMOVE IT
+            // console.log('jjj:' + jjj);
+            // if (jjj > 100) {
+            //     return;
+            // }
+
+            // // @TODO: REMOVE IT
             // console.log('currentPage:' + currentPage);
             // console.log('totalPages:' + totalPages);
             // console.log('maxPaginationItems:' + maxPaginationItems);
@@ -251,11 +278,6 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             // console.log('--------------------');
             // console.log('--------------------');
             // console.log('--------------------');
-
-
-            if (totalPages >= maxPaginationItems) {
-                return [leftItems, rightItems];
-            }
 
             let totalItemsAdded = leftItems + rightItems;
 
@@ -312,13 +334,19 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
         },
 
         formatConfigurationKey(value) {
-            if (!value.includes(".")) {
+            const maxCharacters = 40;
+
+            if (value.length <= maxCharacters) {
                 return value;
             }
 
-            let valuesSplitted = value.split('.');
+            let valuesSplitted = [];
 
-            return valuesSplitted.join('.<br />');
-        }
+            for (let i = 0; i < value.length; i += maxCharacters) {
+                valuesSplitted.push(value.substring(i, i + maxCharacters));
+            }
+
+            return valuesSplitted.join('<br />');
+        },
     }
 });
