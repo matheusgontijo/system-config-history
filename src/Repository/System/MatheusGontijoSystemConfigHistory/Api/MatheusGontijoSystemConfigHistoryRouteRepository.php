@@ -116,8 +116,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         string $defaultSalesChannelName,
         array $filters
     ): QueryBuilder {
-        // @TODO: ADD DEFAULT SALES CHANNEL NAME.. in case missing translation
-
         $qb->setParameter(':locale_id', Uuid::fromHexToBytes($localeId));
         $qb->setParameter(':default_sales_channel_name', $defaultSalesChannelName);
 

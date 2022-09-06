@@ -388,6 +388,233 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         ], $rows[1]);
     }
 
+    public function testNonEnGbDefaultSalesName(): void
+    {
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $rows = [
+            [
+                'id' => Uuid::fromHexToBytes('b424c12e1a5d405988436037b5a48713'),
+                'configuration_key' => 'foo.bar.enabled1',
+                'configuration_value_old' => '{"_value": "123"}',
+                'configuration_value_new' => '{"_value": "456"}',
+                'sales_channel_id' => null,
+                'username' => 'aaa.john',
+                'created_at' => '2022-01-03 00:00:00.000',
+                'updated_at' => null,
+            ],
+            [
+                'id' => Uuid::fromHexToBytes('ce8942b6a5da4d04a43f8f9c1acf8629'),
+                'configuration_key' => 'foo.bar.enabled2',
+                'configuration_value_old' => '{"_value": "123"}',
+                'configuration_value_new' => '{"_value": "456"}',
+                'sales_channel_id' => null,
+                'username' => 'matheus.gontijo',
+                'created_at' => '2022-01-02 00:00:00.000',
+                'updated_at' => null,
+            ],
+            [
+                'id' => Uuid::fromHexToBytes('fc162568816f4c2c8940d24d66d9c305'),
+                'configuration_key' => 'foo.bar.enabled3',
+                'configuration_value_old' => '{"_value": "123"}',
+                'configuration_value_new' => '{"_value": "456"}',
+                'sales_channel_id' => null,
+                'username' => 'matheus.gontijo',
+                'created_at' => '2022-01-01 00:00:00.000',
+                'updated_at' => null,
+            ],
+        ];
+
+        foreach ($rows as $row) {
+            $connection->insert('matheus_gontijo_system_config_history', $row);
+        }
+
+        $qb = $connection->createQueryBuilder();
+        $qb->select(['id']);
+        $qb->from('locale');
+        $qb->where('code = \'de-DE\'');
+        $qb->setMaxResults(1);
+
+        $executeResult = $qb->execute();
+
+        $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
+
+        $deDeLocaleId = Uuid::fromBytesToHex($defaultEnGbLocaleIdBin);
+
+        $filters = [
+            'configuration_key' => 'foo.bar.enabled',
+            'configuration_value_old' => null,
+            'configuration_value_new' => null,
+            'username' => null,
+            'sales_channel_name' => 'standard'
+        ];
+
+        $matheusGontijoSystemConfigHistoryRouteRepository = $this->getContainer()->get(
+            MatheusGontijoSystemConfigHistoryRouteRepository::class
+        );
+
+        \assert($matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository);
+
+        $rows = $matheusGontijoSystemConfigHistoryRouteRepository->getRows(
+            $deDeLocaleId,
+            'Standard',
+            $filters,
+            'created_at',
+            'ASC',
+            1,
+            100
+        );
+
+        static::assertCount(3, $rows);
+
+        static::assertSame([
+            'id' => 'fc162568816f4c2c8940d24d66d9c305',
+            'configuration_key' => 'foo.bar.enabled3',
+            'configuration_value_old' => '123',
+            'configuration_value_new' => '456',
+            'sales_channel_name' => 'Standard',
+            'username' => 'matheus.gontijo',
+            'user_data' => null,
+            'created_at' => '2022-01-01 00:00:00.000',
+        ], $rows[0]);
+
+        static::assertSame([
+            'id' => 'ce8942b6a5da4d04a43f8f9c1acf8629',
+            'configuration_key' => 'foo.bar.enabled2',
+            'configuration_value_old' => '123',
+            'configuration_value_new' => '456',
+            'sales_channel_name' => 'Standard',
+            'username' => 'matheus.gontijo',
+            'user_data' => null,
+            'created_at' => '2022-01-02 00:00:00.000',
+        ], $rows[1]);
+
+        static::assertSame([
+            'id' => 'b424c12e1a5d405988436037b5a48713',
+            'configuration_key' => 'foo.bar.enabled1',
+            'configuration_value_old' => '123',
+            'configuration_value_new' => '456',
+            'sales_channel_name' => 'Standard',
+            'username' => 'aaa.john',
+            'user_data' => null,
+            'created_at' => '2022-01-03 00:00:00.000',
+        ], $rows[2]);
+    }
+
+    public function testCountWithoutFilters(): void
+    {
+        $matheusGontijoSystemConfigHistoryRouteRepository = $this->getContainer()->get(
+            MatheusGontijoSystemConfigHistoryRouteRepository::class
+        );
+
+        \assert($matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository);
+
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $qb = $connection->createQueryBuilder();
+        $qb->select(['id']);
+        $qb->from('locale');
+        $qb->where('code = \'en-GB\'');
+        $qb->setMaxResults(1);
+
+        $executeResult = $qb->execute();
+
+        $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
+
+        $defaultEnGbLocaleId = Uuid::fromBytesToHex($defaultEnGbLocaleIdBin);
+
+        $count = $matheusGontijoSystemConfigHistoryRouteRepository->getCount(
+            $defaultEnGbLocaleId,
+            'Default',
+            [
+                'configuration_key' => null,
+                'configuration_value_old' => null,
+                'configuration_value_new' => null,
+                'username' => null,
+                'sales_channel_name' => null,
+            ]
+        );
+
+        static::assertSame(101, $count);
+    }
+
+    public function testCountWithFilters(): void
+    {
+        $matheusGontijoSystemConfigHistoryRouteRepository = $this->getContainer()->get(
+            MatheusGontijoSystemConfigHistoryRouteRepository::class
+        );
+
+        \assert($matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository);
+
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $qb = $connection->createQueryBuilder();
+        $qb->select(['id']);
+        $qb->from('locale');
+        $qb->where('code = \'en-GB\'');
+        $qb->setMaxResults(1);
+
+        $executeResult = $qb->execute();
+
+        $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
+
+        $defaultEnGbLocaleId = Uuid::fromBytesToHex($defaultEnGbLocaleIdBin);
+
+        $rows = [
+            [
+                'id' => Uuid::fromHexToBytes('fc162568816f4c2c8940d24d66d9c305'),
+                'configuration_key' => 'foo.bar.enabled3',
+                'configuration_value_old' => '{"_value": "123"}',
+                'configuration_value_new' => '{"_value": "456"}',
+                'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_GERMAN),
+                'username' => 'matheus.gontijo',
+                'created_at' => '2022-01-01 00:00:00.000',
+                'updated_at' => null,
+            ],
+            [
+                'id' => Uuid::fromHexToBytes('ce8942b6a5da4d04a43f8f9c1acf8629'),
+                'configuration_key' => 'foo.bar.enabled2',
+                'configuration_value_old' => '{"_value": "123"}',
+                'configuration_value_new' => '{"_value": "456"}',
+                'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_ENGLISH),
+                'username' => 'matheus.gontijo',
+                'created_at' => '2022-01-02 00:00:00.000',
+                'updated_at' => null,
+            ],
+            [
+                'id' => Uuid::fromHexToBytes('b424c12e1a5d405988436037b5a48713'),
+                'configuration_key' => 'foo.bar.enabled1',
+                'configuration_value_old' => '{"_value": "123"}',
+                'configuration_value_new' => '{"_value": "456"}',
+                'sales_channel_id' => null,
+                'username' => 'aaa.john',
+                'created_at' => '2022-01-03 00:00:00.000',
+                'updated_at' => null,
+            ],
+        ];
+
+        foreach ($rows as $row) {
+            $connection->insert('matheus_gontijo_system_config_history', $row);
+        }
+
+        $count = $matheusGontijoSystemConfigHistoryRouteRepository->getCount(
+            $defaultEnGbLocaleId,
+            'Default',
+            [
+                'configuration_key' => 'foo.bar.enabled',
+                'configuration_value_old' => null,
+                'configuration_value_new' => null,
+                'username' => null,
+                'sales_channel_name' => null,
+            ]
+        );
+
+        static::assertSame(3, $count);
+    }
+
     private function populateTableWithData()
     {
         $connection = $this->getContainer()->get(Connection::class);
