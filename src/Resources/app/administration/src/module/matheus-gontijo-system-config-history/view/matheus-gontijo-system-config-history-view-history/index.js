@@ -104,15 +104,6 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             }
         },
 
-        changePage: {
-            get: function() {
-                return this.page;
-            },
-            set: function(v) {
-                return this.page = v;
-            }
-        },
-
         selectLimit: {
             get: function() {
                 return this.limit;
@@ -142,6 +133,44 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
 
         hasPagination() {
             return this.count > this.limit;
+        },
+
+        getPaginationItems() {
+            let [leftItems, rightItems] = this.calculatePaginationItemsMethod(this.page, 9, this.count, this.limit);
+
+            let paginationItems = [];
+
+            let jjj = 0;
+
+            for (let i = leftItems; i >= 1; i--) {
+                console.log('leftItems:' + leftItems);
+                console.log('i:' + i);
+                console.log('-------------------');
+
+
+                if (jjj >= 100) {
+                    break;
+                }
+
+                paginationItems.push({
+                    page: this.page - i,
+                    current: false,
+                });
+            }
+
+            paginationItems.push({
+                page: this.page,
+                current: true,
+            });
+
+            for (let i = 1; i <= rightItems; i++) {
+                paginationItems.push({
+                    page: this.page + i,
+                    current: false,
+                });
+            }
+
+            return paginationItems;
         },
     },
 
@@ -213,65 +242,45 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             return format.date(date, options);
         },
 
-        getPaginationItems() {
-            let [leftItems, rightItems] = this.calculatePaginationItems(this.page, 9, this.count, this.limit);
-
-            let paginationItems = [];
-
-            paginationItems.push({
-                page: this.page,
-                current: true,
-            });
-
-            for (let i = 1; i <= rightItems; i++) {
-                paginationItems.push({
-                    page: i,
-                    current: false,
-                });
-            }
-
-            console.log(paginationItems)
-
-
-
-
-
-
-            return paginationItems;
-        },
-
-        calculatePaginationItems(currentPage, maxPaginationItems, count, limit) {
+        calculatePaginationItemsMethod(currentPage, maxPaginationItems, count, limit) {
             let totalPages = Math.ceil(count / limit);
 
-            return this.calculatePaginationItemsInternal(
+            return this.calculatePaginationItems(
                 currentPage,
                 totalPages,
                 maxPaginationItems,
+                false,
                 0,
+                false,
                 0,
                 'right',
                 0
             );
         },
 
-        calculatePaginationItemsInternal(
+        calculatePaginationItems(
             currentPage,
             totalPages,
             maxPaginationItems,
+            leftCompleted,
             leftItems,
+            rightCompleted,
             rightItems,
-            lastAddedPosition
+            lastAddedPosition,
+            jjj
         ) {
-            // console.log('jjj:' + jjj);
-            // if (jjj > 100) {
-            //     return;
-            // }
+            console.log('jjj:' + jjj);
+            if (jjj > 100) {
+                return;
+            }
 
-            // // @TODO: REMOVE IT
+            // @TODO: REMOVE IT
             // console.log('currentPage:' + currentPage);
             // console.log('totalPages:' + totalPages);
             // console.log('maxPaginationItems:' + maxPaginationItems);
+            // console.log('leftCompleted:' + leftCompleted);
             // console.log('leftItems:' + leftItems);
+            // console.log('rightCompleted:' + rightCompleted);
             // console.log('rightItems:' + rightItems);
             // console.log('lastAddedPosition:' + lastAddedPosition);
             // console.log('--------------------');
@@ -285,23 +294,38 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 return [leftItems, rightItems];
             }
 
+            if ((currentPage - leftItems - 1) < 1) {
+                leftCompleted = true;
+            }
+
+            if ((currentPage + rightItems + 1) > totalPages) {
+                rightCompleted = true;
+            }
+
+            if (leftCompleted && rightCompleted) {
+                return [leftItems, rightItems];
+            }
+
             lastAddedPosition = lastAddedPosition === 'left' ? 'right' : 'left';
 
-            if (lastAddedPosition === 'left' && (currentPage - leftItems - 1) >= 1) {
+            if (lastAddedPosition === 'left' && leftCompleted === false) {
                 leftItems++;
             }
 
-            if (lastAddedPosition === 'right' && (currentPage + rightItems + 1) <= Number.MAX_SAFE_INTEGER) {
+            if (lastAddedPosition === 'right' && rightCompleted === false) {
                 rightItems++;
             }
 
-            return this.calculatePaginationItemsInternal(
+            return this.calculatePaginationItems(
                 currentPage,
                 totalPages,
                 maxPaginationItems,
+                leftCompleted,
                 leftItems,
+                rightCompleted,
                 rightItems,
-                lastAddedPosition
+                lastAddedPosition,
+                jjj + 1
             );
         },
 
@@ -348,5 +372,9 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
 
             return valuesSplitted.join('<br />');
         },
+
+        changePage(page) {
+            this.page = page;
+        }
     }
 });

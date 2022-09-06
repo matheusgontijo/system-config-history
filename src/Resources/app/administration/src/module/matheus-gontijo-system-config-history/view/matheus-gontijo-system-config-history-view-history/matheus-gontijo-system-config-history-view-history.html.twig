@@ -156,7 +156,7 @@
         </span>
 
         <div :id="pagePrefix('pagination')" v-if="hasPagination">
-            <span v-for="paginationItem in getPaginationItems()" v-on:click="changePage(paginationItem.page)" style="background: red; padding: 5px; margin-right: 5px;">
+            <span v-for="paginationItem in getPaginationItems" @click="changePage(paginationItem.page)" style="background: red; padding: 5px; margin-right: 5px; cursor: pointer;">
                 {{ paginationItem.page }}
             </span>
 
