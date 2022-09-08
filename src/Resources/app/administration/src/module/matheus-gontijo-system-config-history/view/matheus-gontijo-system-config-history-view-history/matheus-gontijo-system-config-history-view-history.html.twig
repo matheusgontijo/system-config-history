@@ -2,6 +2,7 @@
 <div :class="pagePrefix()">
 
     <div :id="pagePrefix('grid-buttons')">
+        <sw-button variant="context" v-if="isLoadingSpin"><div :id="pagePrefix('grid-buttons-loader')"></div></sw-button>
         <sw-button variant="context">{{ $tc(transPrefix('grid.totalRecords'), 0, { 'total': count}) }}</sw-button>
         <sw-button variant="ghost" v-on:click="refreshGrid()">{{ $tc(transPrefix('grid.buttonRefresh')) }}</sw-button>
         <sw-button variant="ghost" v-on:click="resetGrid()">{{ $tc(transPrefix('grid.buttonReset')) }}</sw-button>
@@ -23,13 +24,13 @@
     >
         <table :id="pagePrefix()" cellspacing="0" cellpadding="0">
             <colgroup>
-                <col span="1" style="width: 26%;"><!-- key -->
-                <col span="1" style="width: 28%;"><!-- old value -->
-                <col span="1" style="width: 28%;"><!-- new value -->
-                <col span="1" style="width: 4%;"><!-- sales channel name -->
-                <col span="1" style="width: 4%;"><!-- user -->
-                <col span="1" style="width: 7%;"><!-- created at -->
-                <col span="1" style="width: 3%;"><!-- revert -->
+                <col span="1" style="width: 26%;">
+                <col span="1" style="width: 28%;">
+                <col span="1" style="width: 28%;">
+                <col span="1" style="width: 4%;">
+                <col span="1" style="width: 4%;">
+                <col span="1" style="width: 7%;">
+                <col span="1" style="width: 3%;">
             </colgroup>
             <thead>
                 <tr>
@@ -156,13 +157,12 @@
         </span>
 
         <div :id="pagePrefix('pagination')" v-if="hasPagination">
-            <span v-for="paginationItem in getPaginationItems" @click="changePage(paginationItem.page)" style="background: red; padding: 5px; margin-right: 5px; cursor: pointer;">
+            <span
+                v-for="paginationItem in getPaginationItems"
+                @click="changePage(paginationItem.page)"
+                :class="getPaginationItemClass(paginationItem)">
                 {{ paginationItem.page }}
             </span>
-
-
-
-{#            {{ getPaginationItems() }}#}
         </div>
     </sw-card>
     {% endblock %}

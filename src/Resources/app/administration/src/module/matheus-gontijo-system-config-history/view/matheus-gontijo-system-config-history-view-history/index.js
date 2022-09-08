@@ -12,7 +12,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
 
     data() {
         return {
-            isLoading: false,
+            isLoadingSpin: false,
             filters: {
                 configuration_key: null,
                 configuration_value_old: null,
@@ -23,7 +23,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             sortBy: 'created_at',
             sortDirection: 'DESC',
             page: 1,
-            limit: "20",
+            limit: '20',
             count: 0,
             rows: [],
         };
@@ -143,15 +143,6 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             let jjj = 0;
 
             for (let i = leftItems; i >= 1; i--) {
-                console.log('leftItems:' + leftItems);
-                console.log('i:' + i);
-                console.log('-------------------');
-
-
-                if (jjj >= 100) {
-                    break;
-                }
-
                 paginationItems.push({
                     page: this.page - i,
                     current: false,
@@ -180,9 +171,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
         },
 
         loadGridData() {
-            // @TODO: ONLY USE LOADING AFTER FEW SECONDS... BETTER FOR UX
-
-            // this.isLoading = true;
+            this.isLoadingSpin = true;
 
             let defaultSalesChannelName = this.$tc(this.transPrefix('grid.defaultSalesChannelName'));
             let localeCode = Shopware.Application.getContainer('factory').locale.getLastKnownLocale();
@@ -198,7 +187,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             ).then((response) => {
                 this.count = response.count;
                 this.rows = response.rows;
-                this.isLoading = false;
+                this.isLoadingSpin = false;
                 // @TODO: ADD FINALLY HERE? IN CASE OF ERROR
             });
         },
@@ -253,8 +242,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 0,
                 false,
                 0,
-                'right',
-                0
+                'right'
             );
         },
 
@@ -266,28 +254,8 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             leftItems,
             rightCompleted,
             rightItems,
-            lastAddedPosition,
-            jjj
+            lastAddedPosition
         ) {
-            console.log('jjj:' + jjj);
-            if (jjj > 100) {
-                return;
-            }
-
-            // @TODO: REMOVE IT
-            // console.log('currentPage:' + currentPage);
-            // console.log('totalPages:' + totalPages);
-            // console.log('maxPaginationItems:' + maxPaginationItems);
-            // console.log('leftCompleted:' + leftCompleted);
-            // console.log('leftItems:' + leftItems);
-            // console.log('rightCompleted:' + rightCompleted);
-            // console.log('rightItems:' + rightItems);
-            // console.log('lastAddedPosition:' + lastAddedPosition);
-            // console.log('--------------------');
-            // console.log('--------------------');
-            // console.log('--------------------');
-            // console.log('--------------------');
-
             let totalItemsAdded = leftItems + rightItems;
 
             if (totalItemsAdded >= maxPaginationItems) {
@@ -324,8 +292,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 leftItems,
                 rightCompleted,
                 rightItems,
-                lastAddedPosition,
-                jjj + 1
+                lastAddedPosition
             );
         },
 
@@ -375,6 +342,19 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
 
         changePage(page) {
             this.page = page;
+
+            const element = document.getElementsByClassName('sw-tabs__content')[0];
+            element.scrollIntoView();
+        },
+
+        getPaginationItemClass(paginationItem) {
+            let paginationClass = this.pagePrefix('pagination-item');
+
+            if (paginationItem.current) {
+                return paginationClass + ' ' + this.pagePrefix('pagination-item-current');
+            }
+
+            return paginationClass;
         }
     }
 });

@@ -9,6 +9,20 @@
     width: 100%;
     border-collapse: collapse;
 
+    &-grid-buttons-loader {
+        border: 4px solid #dcdcdc;
+        border-radius: 50%;
+        border-top: 4px solid #3498db;
+        width: 20px;
+        height: 20px;
+        animation: spin 0.5s linear infinite;
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    }
+
     thead th {
         text-align: left;
         padding: 6px;
@@ -45,6 +59,10 @@
             padding: 8px 30px 8px 8px;
             text-align: center;
         }
+    }
+
+    &-pagination {
+        margin-top: 20px;
     }
 }
 
@@ -106,5 +124,22 @@
 
     &-column-created-at {
         white-space: nowrap;
+    }
+
+    &-pagination-item {
+        background: #f1f1f1;
+        padding: 5px 11px;
+        margin-right: 7px;
+        cursor: pointer;
+        color: #7e7e7e;
+        border-radius: 4px;
+        text-align: center;
+        min-width: 27px;
+        display: inline-block;
+
+        &-current {
+            background: #189eff;
+            color: #fff;
+        }
     }
 }
