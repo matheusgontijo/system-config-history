@@ -370,6 +370,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
 
         openModal(id) {
             this.modalId = id;
+            this.modalData = null;
             this.loadModalData();
         },
 

@@ -219,12 +219,12 @@
                     </tr>
                     <tr>
                         <td :class="pagePrefix('modal-table-td-key')">SERVER_ADDR</td>
-                        <td>{{ modalData.request.SERVER_ADDR }}</td>
+                        <td :class="pagePrefix('modal-monospace')">{{ modalData.request.SERVER_ADDR }}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td :class="pagePrefix('modal-table-td-key')">HTTP_USER_AGENT</td>
-                        <td>{{ modalData.request.HTTP_USER_AGENT }}</td>
+                        <td :class="pagePrefix('modal-monospace')">{{ modalData.request.HTTP_USER_AGENT }}</td>
                         <td></td>
                     </tr>
                 </tbody>
