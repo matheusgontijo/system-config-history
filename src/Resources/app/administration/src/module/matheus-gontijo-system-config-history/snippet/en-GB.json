@@ -25,7 +25,15 @@
             "buttonRefresh": "Refresh",
             "buttonReset": "Reset",
             "totalRecords": "Total record(s): {total}"
-
+        },
+        "modal": {
+            "configurationKey": "Key:",
+            "configurationValueOld": "Old Value:",
+            "configurationValueNew": "New Value:",
+            "salesChannelName": "Sales Channel Name:",
+            "modifiedAt": "Modified At:",
+            "userSectionTitle": "User",
+            "username": "Username:"
         }
     }
   }

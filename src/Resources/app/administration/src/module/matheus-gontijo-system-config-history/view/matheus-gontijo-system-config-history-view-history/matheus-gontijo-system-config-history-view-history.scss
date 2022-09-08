@@ -143,4 +143,37 @@
             color: #fff;
         }
     }
+
+    &-modal-section {
+        margin-bottom: 60px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &-modal-monospace {
+        font-family: monospace;
+    }
+
+    &-modal-table {
+        width: 100%;
+
+        tbody {
+            tr {
+                &:nth-child(even) {
+                    background: #f0f2f5;
+                }
+
+                td {
+                    vertical-align: top;
+                    padding: 6px;
+                }
+            }
+        }
+
+        &-td-key {
+            font-weight: bold;
+        }
+    }
 }

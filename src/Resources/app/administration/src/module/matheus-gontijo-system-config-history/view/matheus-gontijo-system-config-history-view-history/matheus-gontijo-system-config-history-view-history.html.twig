@@ -4,8 +4,8 @@
     <div :id="pagePrefix('grid-buttons')">
         <sw-button variant="context" v-if="isLoadingSpin"><div :id="pagePrefix('grid-buttons-loader')"></div></sw-button>
         <sw-button variant="context">{{ $tc(transPrefix('grid.totalRecords'), 0, { 'total': count}) }}</sw-button>
-        <sw-button variant="ghost" v-on:click="refreshGrid()">{{ $tc(transPrefix('grid.buttonRefresh')) }}</sw-button>
-        <sw-button variant="ghost" v-on:click="resetGrid()">{{ $tc(transPrefix('grid.buttonReset')) }}</sw-button>
+        <sw-button variant="ghost" @click="refreshGrid()">{{ $tc(transPrefix('grid.buttonRefresh')) }}</sw-button>
+        <sw-button variant="ghost" @click="resetGrid()">{{ $tc(transPrefix('grid.buttonReset')) }}</sw-button>
         <div :id="pagePrefix('grid-select-limit')">
             <sw-select-field v-model="selectLimit" :id="pagePrefix('grid-select-limit')">
                 <option v-for="limitOption in limitOptions" :key="limitOption" :value="limitOption">
@@ -33,42 +33,42 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_key')">
+                    <th scope="col" @click="changeSortByAndSortDirection('configuration_key')">
                         {{ $tc(transPrefix('grid.columnKey')) }}
                         <span
                             :class="pagePrefix('sort-direction')"
                             v-html="sortDirectionArrow('configuration_key')">
                         </span>
                     </th>
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_value_old')">
+                    <th scope="col" @click="changeSortByAndSortDirection('configuration_value_old')">
                         {{ $tc(transPrefix('grid.columnOldValue')) }}
                         <span
                             :class="pagePrefix('sort-direction')"
                             v-html="sortDirectionArrow('configuration_value_old')">
                         </span>
                     </th>
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('configuration_value_new')">
+                    <th scope="col" @click="changeSortByAndSortDirection('configuration_value_new')">
                         {{ $tc(transPrefix('grid.columnNewValue')) }}
                         <span
                             :class="pagePrefix('sort-direction')"
                             v-html="sortDirectionArrow('configuration_value_new')">
                         </span>
                     </th>
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('sales_channel_name')">
+                    <th scope="col" @click="changeSortByAndSortDirection('sales_channel_name')">
                         {{ $tc(transPrefix('grid.columnSalesChannelName')) }}
                         <span
                             :class="pagePrefix('sort-direction')"
                             v-html="sortDirectionArrow('sales_channel_name')">
                         </span>
                     </th>
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('username')">
+                    <th scope="col" @click="changeSortByAndSortDirection('username')">
                         {{ $tc(transPrefix('grid.columnUsername')) }}
                         <span
                             :class="pagePrefix('sort-direction')"
                             v-html="sortDirectionArrow('username')">
                         </span>
                     </th>
-                    <th scope="col" v-on:click="changeSortByAndSortDirection('created_at')">
+                    <th scope="col" @click="changeSortByAndSortDirection('created_at')">
                         {{ $tc(transPrefix('grid.columnCreatedAt')) }}
                         <span
                             :class="pagePrefix('sort-direction')"
@@ -107,7 +107,7 @@
             <!-- @TODO: ESCAPE ALL OUTPUT FROM DATABASE -->
 
             <tbody v-if="rows.length > 0">
-                <tr v-for="row in rows">
+                <tr v-for="row in rows" @click="openModal(row.id)">
                     <td :class="pagePrefix('td')">
                         <span
                             :class="pagePrefix('configuration-key')"
@@ -140,7 +140,7 @@
                     </td>
                     <td :class="pagePrefix('td')">{{ row.username }}</td>
                     <td :class="pagePrefix('td') + ' ' + pagePrefix('grid-column-created-at')">
-                        {{ columnFormatDate(row.created_at) }}
+                        {{ formatDate(row.created_at) }}
                     </td>
                 </tr>
             </tbody>
@@ -160,5 +160,76 @@
         </div>
     </sw-card>
     {% endblock %}
+
+    <sw-modal
+        v-if="showModal"
+        :variant="pagePrefix()"
+        @modal-close="closeModal"
+    >
+        <div :class="pagePrefix('modal-section')">
+            <table v-if="showModalData" cellspacing="0" cellpadding="0" :class="pagePrefix('modal-table')">
+                <colgroup>
+                    <col span="1" style="width: 15%;">
+                    <col span="1" style="width: 75%;">
+                    <col span="1" style="width: 10%;">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.configurationKey')) }}</td>
+                        <td :class="pagePrefix('modal-monospace')">{{ modalData.general.configurationKey }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.configurationValueOld')) }}</td>
+                        <td :class="pagePrefix('modal-monospace')">{{ modalData.general.configurationValueOld }}</td>
+                        <td><em>{{ modalData.general.configurationValueOldType }}</em></td>
+                    </tr>
+                    <tr>
+                        <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.configurationValueNew')) }}</td>
+                        <td :class="pagePrefix('modal-monospace')">{{ modalData.general.configurationValueOld }}</td>
+                        <td><em>{{ modalData.general.configurationValueOldType }}</em></td>
+                    </tr>
+                    <tr>
+                        <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.salesChannelName')) }}</td>
+                        <td>{{ modalData.general.salesChannelName }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.modifiedAt')) }}</td>
+                        <td>{{ formatDate(modalData.general.modifiedAt) }}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div :class="pagePrefix('modal-section')" v-if="modalData.user !== undefined">
+            <h2>{{ $tc(transPrefix('modal.userSectionTitle')) }}</h2>
+            <table v-if="showModalData" cellspacing="0" cellpadding="0" :class="pagePrefix('modal-table')">
+                <colgroup>
+                    <col span="1" style="width: 15%;">
+                    <col span="1" style="width: 75%;">
+                    <col span="1" style="width: 10%;">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.username')) }}</td>
+                        <td>{{ modalData.user.username }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td :class="pagePrefix('modal-table-td-key')">SERVER_ADDR</td>
+                        <td>{{ modalData.request.SERVER_ADDR }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td :class="pagePrefix('modal-table-td-key')">HTTP_USER_AGENT</td>
+                        <td>{{ modalData.request.HTTP_USER_AGENT }}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </sw-modal>
 </div>
 {% endblock %}

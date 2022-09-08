@@ -4,6 +4,7 @@ namespace MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHi
 
 // phpcs:ignore
 use MatheusGontijo\SystemConfigHistory\Repository\System\MatheusGontijoSystemConfigHistory\Api\MatheusGontijoSystemConfigHistoryRouteRepository;
+use MatheusGontijo\SystemConfigHistory\View\Admin\MatheusGontijoSystemConfig\HistoryTab;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -36,7 +37,7 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
      *     defaults={"_acl"={"system_config:read"}}
      * )
      */
-    public function matheusGontijoSystemConfigHistoryList(
+    public function matheusGontijoSystemConfigHistoryRows(
         Request $request,
         EntityRepositoryInterface $localeRepository,
         MatheusGontijoSystemConfigHistoryRouteRepository $matheusGontijoSystemConfigHistoryRouteRepository
@@ -57,11 +58,9 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
         \assert(\is_int($limit));
 
         $defaultSalesChannelName = $request->request->get('defaultSalesChannelName');
-
         \assert(\is_string($defaultSalesChannelName));
 
         $localeCode = $request->request->get('localeCode');
-
         \assert(\is_string($localeCode));
 
         $locale = $this->getLocale($localeCode, $localeRepository);
@@ -88,6 +87,36 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
         ];
 
         return new JsonResponse($data);
+    }
+
+    /**
+     * @Since("6.0.0.0")
+     * @Route(
+     *     "/api/_action/matheus-gontijo/matheus-gontijo-system-config-history/modal-data",
+     *     name="api.action.core.matheus-gontijo.matheus-gontijo-system-config-history.modata-data",
+     *     methods={"POST"},
+     *     defaults={"_acl"={"system_config:read"}}
+     * )
+     */
+    public function matheusGontijoSystemConfigHistoryModalData(
+        Request $request,
+        EntityRepositoryInterface $localeRepository,
+        MatheusGontijoSystemConfigHistoryRouteRepository $matheusGontijoSystemConfigHistoryRouteRepository,
+        HistoryTab $historyTab
+    ): JsonResponse {
+        $defaultSalesChannelName = $request->request->get('defaultSalesChannelName');
+        \assert(\is_string($defaultSalesChannelName));
+
+        $matheusGontijoSystemConfigHistoryId = $request->request->get('modalId');
+        \assert(\is_string($matheusGontijoSystemConfigHistoryId));
+
+        $matheusGontijoSystemConfigHistory = $matheusGontijoSystemConfigHistoryRouteRepository->getMatheusGontijoSystemConfigHistory(
+            $matheusGontijoSystemConfigHistoryId
+        );
+
+        $modalData = $historyTab->formatModalData($defaultSalesChannelName, $matheusGontijoSystemConfigHistory);
+
+        return new JsonResponse($modalData);
     }
 
     private function getLocale(string $localeCode, EntityRepositoryInterface $localeRepository): LocaleEntity

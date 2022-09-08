@@ -5,7 +5,14 @@ namespace MatheusGontijo\SystemConfigHistory\Repository\System\MatheusGontijoSys
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ForwardCompatibility\Result;
 use Doctrine\DBAL\Query\QueryBuilder;
+use MatheusGontijo\SystemConfigHistory\MatheusGontijoSystemConfigHistory;
+use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\System\Locale\LocaleEntity;
 
 class MatheusGontijoSystemConfigHistoryRouteRepository
 {
@@ -13,9 +20,14 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
     private Connection $connection;
 
-    public function __construct(Connection $connection)
-    {
+    private EntityRepositoryInterface $matheusGontijoSystemConfigHistoryRepository;
+
+    public function __construct(
+        Connection $connection,
+        EntityRepositoryInterface $matheusGontijoSystemConfigHistoryRepository
+    ) {
         $this->connection = $connection;
+        $this->matheusGontijoSystemConfigHistoryRepository = $matheusGontijoSystemConfigHistoryRepository;
     }
 
     /**
@@ -63,6 +75,20 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         $rows = $executeResult->fetchAllAssociative();
 
         return $this->normalizeData($rows);
+    }
+
+    public function getMatheusGontijoSystemConfigHistory(string $modalId): MatheusGontijoSystemConfigHistoryEntity
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('id', $modalId));
+
+        $matheusGontijoSystemConfigHistoryRepository = $this->matheusGontijoSystemConfigHistoryRepository->search(
+            $criteria, Context::createDefaultContext()
+        )->first();
+
+        \assert($matheusGontijoSystemConfigHistoryRepository instanceof MatheusGontijoSystemConfigHistory);
+
+        return $matheusGontijoSystemConfigHistoryRepository;
     }
 
     /**
@@ -187,15 +213,17 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         }
 
         if ($filters['configuration_value_old'] !== null && $filters['configuration_value_old'] !== '') {
-            $qb->andWhere(
-                'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_old, "$._value")) LIKE :configuration_value_old'
-            );
+            $like = 'CAST(JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_old, "$._value")) AS CHAR) '
+                . 'LIKE :configuration_value_old';
+
+            $qb->andWhere($like);
         }
 
         if ($filters['configuration_value_new'] !== null && $filters['configuration_value_new'] !== '') {
-            $qb->andWhere(
-                'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_new, "$._value")) LIKE :configuration_value_new'
-            );
+            $like = 'CAST(JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_new, "$._value")) AS CHAR)'
+                . 'LIKE :configuration_value_new';
+
+            $qb->andWhere($like);
         }
 
         if ($filters['username'] !== null && $filters['username'] !== '') {

@@ -12,6 +12,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
 
     data() {
         return {
+            isLoading: false,
             isLoadingSpin: false,
             filters: {
                 configuration_key: null,
@@ -26,6 +27,8 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             limit: '50',
             count: 0,
             rows: [],
+            modalId: null,
+            modalData: null,
         };
     },
 
@@ -163,6 +166,14 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
 
             return paginationItems;
         },
+
+        showModal() {
+            return this.modalId !== null;
+        },
+
+        showModalData() {
+            return this.modalData !== null;
+        },
     },
 
     methods: {
@@ -173,8 +184,8 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
         loadGridData() {
             this.isLoadingSpin = true;
 
-            let defaultSalesChannelName = this.$tc(this.transPrefix('grid.defaultSalesChannelName'));
             let localeCode = Shopware.Application.getContainer('factory').locale.getLastKnownLocale();
+            let defaultSalesChannelName = this.$tc(this.transPrefix('grid.defaultSalesChannelName'));
 
             this.MatheusGontijoSystemConfigHistoryViewHistoryService.getRows(
                 localeCode,
@@ -222,7 +233,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             return '⬇';
         },
 
-        columnFormatDate(date) {
+        formatDate(date) {
             /**
              * @TODO: TEST THIS ON AMERICAN FORMAT (en-US)... to see if it will really change the format accordindly
              */
@@ -355,6 +366,33 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             }
 
             return paginationClass;
-        }
+        },
+
+        openModal(id) {
+            this.modalId = id;
+            this.loadModalData();
+        },
+
+        closeModal() {
+            this.modalId = null;
+        },
+
+        loadModalData() {
+            // this.isLoading = true;
+
+            let localeCode = Shopware.Application.getContainer('factory').locale.getLastKnownLocale();
+            let defaultSalesChannelName = this.$tc(this.transPrefix('grid.defaultSalesChannelName'));
+
+            this.MatheusGontijoSystemConfigHistoryViewHistoryService.getModalData(
+                localeCode,
+                defaultSalesChannelName,
+                this.modalId
+            ).then((response) => {
+                this.modalData = response;
+
+                // this.isLoading = false;
+                // @TODO: ADD FINALLY HERE? IN CASE OF ERROR
+            });
+        },
     }
 });
