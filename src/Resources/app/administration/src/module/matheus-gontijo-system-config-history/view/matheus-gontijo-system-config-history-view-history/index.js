@@ -23,7 +23,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             sortBy: 'created_at',
             sortDirection: 'DESC',
             page: 1,
-            limit: '20',
+            limit: '50',
             count: 0,
             rows: [],
         };
@@ -321,11 +321,11 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             this.sortBy = 'created_at';
             this.sortDirection = 'DESC';
             this.page = 1;
-            this.limit = 20;
+            this.limit = 50;
         },
 
         formatConfigurationKey(value) {
-            const maxCharacters = 40;
+            const maxCharacters = 50;
 
             if (value.length <= maxCharacters) {
                 return value;
@@ -344,7 +344,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             this.page = page;
 
             const element = document.getElementsByClassName('sw-tabs__content')[0];
-            element.scrollIntoView();
+            element.scrollIntoView({behavior: "smooth"});
         },
 
         getPaginationItemClass(paginationItem) {

@@ -24,13 +24,12 @@
     >
         <table :id="pagePrefix()" cellspacing="0" cellpadding="0">
             <colgroup>
-                <col span="1" style="width: 26%;">
                 <col span="1" style="width: 28%;">
                 <col span="1" style="width: 28%;">
-                <col span="1" style="width: 4%;">
+                <col span="1" style="width: 28%;">
+                <col span="1" style="width: 5%;">
                 <col span="1" style="width: 4%;">
                 <col span="1" style="width: 7%;">
-                <col span="1" style="width: 3%;">
             </colgroup>
             <thead>
                 <tr>
@@ -142,11 +141,6 @@
                     <td :class="pagePrefix('td')">{{ row.username }}</td>
                     <td :class="pagePrefix('td') + ' ' + pagePrefix('grid-column-created-at')">
                         {{ columnFormatDate(row.created_at) }}
-                    </td>
-                    <td :class="pagePrefix('td')">
-                        <span :class="pagePrefix('revert-button')">
-                            {{ $tc(transPrefix('grid.revertButton')) }}
-                        </span>
                     </td>
                 </tr>
             </tbody>

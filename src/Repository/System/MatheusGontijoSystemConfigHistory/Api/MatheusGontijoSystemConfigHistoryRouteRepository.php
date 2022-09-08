@@ -9,6 +9,8 @@ use Shopware\Core\Framework\Uuid\Uuid;
 
 class MatheusGontijoSystemConfigHistoryRouteRepository
 {
+    private const MAX_CHARACTERS_PER_COLUMN = 600;
+
     private Connection $connection;
 
     public function __construct(Connection $connection)
@@ -216,6 +218,16 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
             $row = $unnormalizedRow;
 
             $row['id'] = Uuid::fromBytesToHex($row['id']);
+
+            if (strlen($row['configuration_value_old']) > self::MAX_CHARACTERS_PER_COLUMN) {
+                $shorterValue = substr($row['configuration_value_old'], 0, self::MAX_CHARACTERS_PER_COLUMN);
+                $row['configuration_value_old'] = $shorterValue . ' (...)';
+            }
+
+            if (strlen($row['configuration_value_new']) > self::MAX_CHARACTERS_PER_COLUMN) {
+                $shorterValue = substr($row['configuration_value_new'], 0, self::MAX_CHARACTERS_PER_COLUMN);;
+                $row['configuration_value_new'] = $shorterValue . ' (...)';
+            }
 
             $rows[] = $row;
         }
