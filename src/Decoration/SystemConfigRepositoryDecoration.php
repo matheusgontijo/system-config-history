@@ -17,7 +17,9 @@ use Shopware\Core\Framework\DataAbstractionLayer\Write\CloneBehavior;
 use Shopware\Core\System\SystemConfig\SystemConfigEntity;
 
 /**
- * @psalm-suppress ConstructorSignatureMismatch DeprecatedMethod ImplementedParamTypeMismatch InvalidExtendClass MethodSignatureMismatch MissingClosureReturnType MissingImmutableAnnotation
+ * @psalm-suppress InvalidExtendClass
+ *
+ * @inerhitDoc
  */
 class SystemConfigRepositoryDecoration extends EntityRepository
 {
@@ -28,7 +30,7 @@ class SystemConfigRepositoryDecoration extends EntityRepository
     private SystemConfigRepositoryDecorationRepository $systemConfigRepositoryDecorationRepository;
 
     /**
-     * @inerhitDoc
+     * @psalm-suppress MethodSignatureMismatch
      */
     public function __construct(
         EntityRepository $entityRepository,
@@ -41,34 +43,48 @@ class SystemConfigRepositoryDecoration extends EntityRepository
     }
 
     /**
-     * @inerhitDoc
+     * @psalm-suppress MethodSignatureMismatch
      */
     public function setEntityLoadedEventFactory(EntityLoadedEventFactory $eventFactory): void
     {
         $this->entityRepository->setEntityLoadedEventFactory($eventFactory);
     }
 
+    /**
+     * @psalm-suppress MethodSignatureMismatch
+     */
     public function getDefinition(): EntityDefinition
     {
         return $this->entityRepository->getDefinition();
     }
 
+    /**
+     * @psalm-suppress MethodSignatureMismatch
+     */
     public function search(Criteria $criteria, Context $context): EntitySearchResult
     {
         return $this->entityRepository->search($criteria, $context);
     }
 
+    /**
+     * @psalm-suppress MethodSignatureMismatch
+     */
     public function aggregate(Criteria $criteria, Context $context): AggregationResultCollection
     {
         return $this->entityRepository->aggregate($criteria, $context);
     }
 
+    /**
+     * @psalm-suppress MethodSignatureMismatch
+     */
     public function searchIds(Criteria $criteria, Context $context): IdSearchResult
     {
         return $this->entityRepository->searchIds($criteria, $context);
     }
 
     /**
+     * @psalm-suppress MethodSignatureMismatch
+     *
      * @param array<mixed> $data
      */
     public function update(array $data, Context $context): EntityWrittenContainerEvent
@@ -79,6 +95,8 @@ class SystemConfigRepositoryDecoration extends EntityRepository
     }
 
     /**
+     * @psalm-suppress MethodSignatureMismatch
+     *
      * @param array<mixed> $data
      */
     public function upsert(array $data, Context $context): EntityWrittenContainerEvent
@@ -89,6 +107,8 @@ class SystemConfigRepositoryDecoration extends EntityRepository
     }
 
     /**
+     * @psalm-suppress MethodSignatureMismatch
+     *
      * @param array<mixed> $data
      */
     public function create(array $data, Context $context): EntityWrittenContainerEvent
@@ -99,6 +119,8 @@ class SystemConfigRepositoryDecoration extends EntityRepository
     }
 
     /**
+     * @psalm-suppress MethodSignatureMismatch
+     *
      * @param array<mixed> $ids
      */
     public function delete(array $ids, Context $context): EntityWrittenContainerEvent
@@ -127,16 +149,25 @@ class SystemConfigRepositoryDecoration extends EntityRepository
         return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
 
+    /**
+     * @psalm-suppress MethodSignatureMismatch
+     */
     public function createVersion(string $id, Context $context, ?string $name = null, ?string $versionId = null): string
     {
         return $this->entityRepository->createVersion($id, $context, $name, $versionId);
     }
 
+    /**
+     * @psalm-suppress MethodSignatureMismatch
+     */
     public function merge(string $versionId, Context $context): void
     {
         $this->entityRepository->merge($versionId, $context);
     }
 
+    /**
+     * @psalm-suppress MethodSignatureMismatch
+     */
     public function clone(
         string $id,
         Context $context,
