@@ -81,14 +81,14 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('id', $modalId));
 
-        $matheusGontijoSystemConfigHistoryRepository = $this->matheusGontijoSystemConfigHistoryRepository->search(
+        $matheusGontijoSystemConfigHistory = $this->matheusGontijoSystemConfigHistoryRepository->search(
             $criteria,
             Context::createDefaultContext()
         )->first();
 
-        \assert($matheusGontijoSystemConfigHistoryRepository instanceof MatheusGontijoSystemConfigHistory);
+        \assert($matheusGontijoSystemConfigHistory instanceof MatheusGontijoSystemConfigHistoryEntity);
 
-        return $matheusGontijoSystemConfigHistoryRepository;
+        return $matheusGontijoSystemConfigHistory;
     }
 
     /**
@@ -247,12 +247,12 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
             $row['id'] = Uuid::fromBytesToHex($row['id']);
 
-            if (strlen($row['configuration_value_old']) > self::MAX_CHARACTERS_PER_COLUMN) {
+            if (\strlen($row['configuration_value_old']) > self::MAX_CHARACTERS_PER_COLUMN) {
                 $shorterValue = substr($row['configuration_value_old'], 0, self::MAX_CHARACTERS_PER_COLUMN);
                 $row['configuration_value_old'] = $shorterValue . ' (...)';
             }
 
-            if (strlen($row['configuration_value_new']) > self::MAX_CHARACTERS_PER_COLUMN) {
+            if (\strlen($row['configuration_value_new']) > self::MAX_CHARACTERS_PER_COLUMN) {
                 $shorterValue = substr($row['configuration_value_new'], 0, self::MAX_CHARACTERS_PER_COLUMN);
 
                 $row['configuration_value_new'] = $shorterValue . ' (...)';

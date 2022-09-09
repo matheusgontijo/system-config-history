@@ -3,6 +3,7 @@
 namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\Repository\System\MatheusGontijoSystemConfigHistory\Api;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ForwardCompatibility\Result;
 use MatheusGontijo\SystemConfigHistory\Repository\System\MatheusGontijoSystemConfigHistory\Api\MatheusGontijoSystemConfigHistoryRouteRepository; // phpcs:ignore
 use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
@@ -438,6 +439,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $qb->setMaxResults(1);
 
         $executeResult = $qb->execute();
+        assert($executeResult instanceof Result);
 
         $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
 
@@ -521,6 +523,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $qb->setMaxResults(1);
 
         $executeResult = $qb->execute();
+        assert($executeResult instanceof Result);
 
         $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
 
@@ -559,6 +562,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $qb->setMaxResults(1);
 
         $executeResult = $qb->execute();
+        assert($executeResult instanceof Result);
 
         $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
 
@@ -651,6 +655,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $qb->setMaxResults(1);
 
         $executeResult = $qb->execute();
+        assert($executeResult instanceof Result);
 
         $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
 
@@ -667,7 +672,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $filtersKeys = array_keys($filters);
 
         foreach ($defaultFilters as $defaultFilterKey => $defaultFilter) {
-            if (in_array($defaultFilterKey, $filtersKeys, true)) {
+            if (\in_array($defaultFilterKey, $filtersKeys, true)) {
                 continue;
             }
 

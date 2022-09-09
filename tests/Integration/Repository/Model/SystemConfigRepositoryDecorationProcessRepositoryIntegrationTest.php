@@ -42,7 +42,7 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
 
         $qb->execute();
 
-        static::assertSame(false, $systemConfigRepositoryDecorationProcessRepository->isEnabled());
+        static::assertFalse($systemConfigRepositoryDecorationProcessRepository->isEnabled());
     }
 
     public function testIsDisabledWhenValueIsFalse(): void
@@ -67,7 +67,7 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
 
         $qb->execute();
 
-        static::assertSame(false, $systemConfigRepositoryDecorationProcessRepository->isEnabled());
+        static::assertFalse($systemConfigRepositoryDecorationProcessRepository->isEnabled());
     }
 
     public function testIsEnabled(): void
@@ -81,7 +81,7 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);
 
-        static::assertSame(true, $systemConfigRepositoryDecorationProcessRepository->isEnabled());
+        static::assertTrue($systemConfigRepositoryDecorationProcessRepository->isEnabled());
     }
 
     public function testGetValueWithNonExistingValue(): void

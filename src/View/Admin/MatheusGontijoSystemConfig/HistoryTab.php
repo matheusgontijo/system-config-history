@@ -2,7 +2,6 @@
 
 namespace MatheusGontijo\SystemConfigHistory\View\Admin\MatheusGontijoSystemConfig;
 
-use Exception;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use Shopware\Core\Defaults;
 
@@ -33,9 +32,14 @@ class HistoryTab
      */
     private function formatGeneralSection(string $defaultSalesChannelName, array $rootData): array
     {
+        assert($this->matheusGontijoSystemConfigHistory !== null);
+
         $data = [];
 
-        $data['configurationKey'] = $this->matheusGontijoSystemConfigHistory->getConfigurationKey();
+        $configurationKey = $this->matheusGontijoSystemConfigHistory->getConfigurationKey();
+        assert($configurationKey !== null);
+
+        $data['configurationKey'] = $configurationKey;
 
         $configurationValueOld = null;
 
@@ -59,8 +63,10 @@ class HistoryTab
 
         $data['salesChannelName'] = $defaultSalesChannelName;
 
-        $data['modifiedAt'] = $this->matheusGontijoSystemConfigHistory->getCreatedAt()
-            ->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+        $createdAt = $this->matheusGontijoSystemConfigHistory->getCreatedAt();
+        assert($createdAt instanceof \DateTimeInterface);
+
+        $data['modifiedAt'] = $createdAt->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
         $rootData['general'] = $data;
 
@@ -74,6 +80,8 @@ class HistoryTab
      */
     private function formatUserSection(array $rootData): array
     {
+        assert($this->matheusGontijoSystemConfigHistory !== null);
+
         if ($this->matheusGontijoSystemConfigHistory->getUserData() === null) {
             return $rootData;
         }
@@ -93,26 +101,24 @@ class HistoryTab
             return 'null';
         }
 
-        if (is_string($value)) {
+        if (\is_string($value)) {
             return 'string';
         }
 
-        if (is_int($value)) {
+        if (\is_int($value)) {
             return 'integer';
         }
 
-        if (is_float($value)) {
+        if (\is_float($value)) {
             return 'float';
         }
 
-        if (is_bool($value)) {
+        if (\is_bool($value)) {
             return 'boolean';
         }
 
-        if (is_array($value)) {
+        if (\is_array($value)) {
             return 'array';
         }
-
-        throw new Exception('Unknown type');
     }
 }

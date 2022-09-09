@@ -21,8 +21,8 @@ class MatheusGontijoSystemConfigHistoryHydratorIntegrationTest extends TestCase
         $matheusGontijoSystemConfigHistoryCollection = new MatheusGontijoSystemConfigHistoryCollection();
         \assert($matheusGontijoSystemConfigHistoryCollection instanceof MatheusGontijoSystemConfigHistoryCollection);
 
-        $entityClass = 'MatheusGontijo\SystemConfigHistory\System\\' .
-            'MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity';
+        $entityClass = 'MatheusGontijo\SystemConfigHistory\System\\'
+            . 'MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity';
 
         $matheusGontijoSystemConfigHistoryDefinition = $this->getContainer()->get(
             MatheusGontijoSystemConfigHistoryDefinition::class
