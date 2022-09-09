@@ -16,6 +16,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
     public function setUp(): void
     {
         parent::setUp();
+
         $this->populateTableWithData();
     }
 
@@ -447,14 +448,16 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_old' => null,
             'configuration_value_new' => null,
             'username' => null,
-            'sales_channel_name' => 'standard'
+            'sales_channel_name' => 'standard',
         ];
 
         $matheusGontijoSystemConfigHistoryRouteRepository = $this->getContainer()->get(
             MatheusGontijoSystemConfigHistoryRouteRepository::class
         );
 
-        \assert($matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository);
+        \assert(
+            $matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository
+        );
 
         $rows = $matheusGontijoSystemConfigHistoryRouteRepository->getRows(
             $deDeLocaleId,
@@ -508,7 +511,9 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             MatheusGontijoSystemConfigHistoryRouteRepository::class
         );
 
-        \assert($matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository);
+        \assert(
+            $matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository
+        );
 
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);
@@ -546,7 +551,9 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             MatheusGontijoSystemConfigHistoryRouteRepository::class
         );
 
-        \assert($matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository);
+        \assert(
+            $matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository
+        );
 
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);
@@ -615,7 +622,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         static::assertSame(3, $count);
     }
 
-    private function populateTableWithData()
+    private function populateTableWithData(): void
     {
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);
@@ -633,7 +640,9 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             MatheusGontijoSystemConfigHistoryRouteRepository::class
         );
 
-        \assert($matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository);
+        \assert(
+            $matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository
+        );
 
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);

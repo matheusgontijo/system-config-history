@@ -22,6 +22,8 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
         $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
@@ -67,6 +69,8 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
         $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
@@ -118,6 +122,8 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
         $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
@@ -180,6 +186,8 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
         $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
@@ -257,6 +265,8 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
         $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
@@ -391,6 +401,8 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
         $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
@@ -444,6 +456,8 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
         $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))
@@ -501,6 +515,8 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
             SystemConfigRepositoryDecorationProcessRepository::class
         );
         $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter
         $callMock = fn (...$args) => $this->createMock(EntityWrittenContainerEvent::class);
 
         $systemConfigRepositoryDecorationProcessRepositoryMock->expects(static::exactly(1))

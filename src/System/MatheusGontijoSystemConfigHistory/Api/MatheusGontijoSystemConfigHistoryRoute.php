@@ -100,7 +100,6 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
      */
     public function matheusGontijoSystemConfigHistoryModalData(
         Request $request,
-        EntityRepositoryInterface $localeRepository,
         MatheusGontijoSystemConfigHistoryRouteRepository $matheusGontijoSystemConfigHistoryRouteRepository,
         HistoryTab $historyTab
     ): JsonResponse {
@@ -110,6 +109,7 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
         $matheusGontijoSystemConfigHistoryId = $request->request->get('modalId');
         \assert(\is_string($matheusGontijoSystemConfigHistoryId));
 
+        // phpcs:ignore
         $matheusGontijoSystemConfigHistory = $matheusGontijoSystemConfigHistoryRouteRepository->getMatheusGontijoSystemConfigHistory(
             $matheusGontijoSystemConfigHistoryId
         );

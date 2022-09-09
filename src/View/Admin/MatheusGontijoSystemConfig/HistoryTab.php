@@ -2,14 +2,17 @@
 
 namespace MatheusGontijo\SystemConfigHistory\View\Admin\MatheusGontijoSystemConfig;
 
-use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use Exception;
+use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use Shopware\Core\Defaults;
 
 class HistoryTab
 {
     private ?MatheusGontijoSystemConfigHistoryEntity $matheusGontijoSystemConfigHistory = null;
 
+    /**
+     * @return array<string, mixed>
+     */
     public function formatModalData(
         string $defaultSalesChannelName,
         MatheusGontijoSystemConfigHistoryEntity $matheusGontijoSystemConfigHistory
@@ -19,11 +22,15 @@ class HistoryTab
         $data = [];
 
         $data = $this->formatGeneralSection($defaultSalesChannelName, $data);
-        $data = $this->formatUserSection($data);
 
-        return $data;
+        return $this->formatUserSection($data);
     }
 
+    /**
+     * @param array<string, mixed> $rootData
+     *
+     * @return array<string, mixed>
+     */
     private function formatGeneralSection(string $defaultSalesChannelName, array $rootData): array
     {
         $data = [];
@@ -60,6 +67,11 @@ class HistoryTab
         return $rootData;
     }
 
+    /**
+     * @param array<string, mixed> $rootData
+     *
+     * @return array<string, mixed>
+     */
     private function formatUserSection(array $rootData): array
     {
         if ($this->matheusGontijoSystemConfigHistory->getUserData() === null) {
@@ -72,7 +84,10 @@ class HistoryTab
         return $rootData;
     }
 
-    private function typeOf($value)
+    /**
+     * @param array<string, mixed>|bool|float|int|string|null $value
+     */
+    private function typeOf($value): string
     {
         if ($value === null) {
             return 'null';

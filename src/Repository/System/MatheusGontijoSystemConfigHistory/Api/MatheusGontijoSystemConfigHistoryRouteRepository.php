@@ -8,11 +8,10 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use MatheusGontijo\SystemConfigHistory\MatheusGontijoSystemConfigHistory;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\System\Locale\LocaleEntity;
 
 class MatheusGontijoSystemConfigHistoryRouteRepository
 {
@@ -83,7 +82,8 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         $criteria->addFilter(new EqualsFilter('id', $modalId));
 
         $matheusGontijoSystemConfigHistoryRepository = $this->matheusGontijoSystemConfigHistoryRepository->search(
-            $criteria, Context::createDefaultContext()
+            $criteria,
+            Context::createDefaultContext()
         )->first();
 
         \assert($matheusGontijoSystemConfigHistoryRepository instanceof MatheusGontijoSystemConfigHistory);
@@ -253,7 +253,8 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
             }
 
             if (strlen($row['configuration_value_new']) > self::MAX_CHARACTERS_PER_COLUMN) {
-                $shorterValue = substr($row['configuration_value_new'], 0, self::MAX_CHARACTERS_PER_COLUMN);;
+                $shorterValue = substr($row['configuration_value_new'], 0, self::MAX_CHARACTERS_PER_COLUMN);
+
                 $row['configuration_value_new'] = $shorterValue . ' (...)';
             }
 

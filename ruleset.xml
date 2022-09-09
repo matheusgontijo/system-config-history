@@ -601,5 +601,6 @@
         <exclude name="SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint"/>
         <exclude name="SlevomatCodingStandard.Whitespaces.DuplicateSpaces"/>
         <exclude name="SlevomatCodingStandard.Complexity"/>
+        <exclude name="SlevomatCodingStandard.Files.FileLength.FileTooLong"/>
     </rule>
 </ruleset>
