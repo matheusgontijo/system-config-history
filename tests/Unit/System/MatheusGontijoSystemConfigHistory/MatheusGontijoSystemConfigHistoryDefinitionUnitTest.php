@@ -2,13 +2,10 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Tests\Unit\System\MatheusGontijoSystemConfigHistory;
 
-// phpcs:ignore
-use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryCollection;
-// phpcs:ignore
-use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryDefinition;
+use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryCollection; // phpcs:ignore
+use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryDefinition; // phpcs:ignore
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
-// phpcs:ignore
-use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryHydrator;
+use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryHydrator; // phpcs:ignore
 use PHPUnit\Framework\TestCase;
 
 class MatheusGontijoSystemConfigHistoryDefinitionUnitTest extends TestCase

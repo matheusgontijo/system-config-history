@@ -94,8 +94,7 @@ class SystemConfigServiceIntegrationTest extends TestCase
             SystemConfigRepositoryDecorationProcessRepository::class
         );
 
-        // phpcs:ignore
-        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository);
+        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository); // phpcs:ignore
 
         $systemConfigService->set('my.custom.configKey1', 'default');
         $systemConfigService->set('my.custom.configKey1', 'English', TestDefaults::SALES_CHANNEL_ID_ENGLISH);

@@ -3,7 +3,6 @@
 namespace MatheusGontijo\SystemConfigHistory\Tests\Unit\Model;
 
 use MatheusGontijo\SystemConfigHistory\Model\RequestStateRegistry;
-// phpcs:ignore
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 

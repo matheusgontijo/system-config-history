@@ -2,8 +2,7 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Tests\Unit\System\MatheusGontijoSystemConfigHistory;
 
-//phpcs:ignore
-use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryCollection;
+use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryCollection; //phpcs:ignore
 use PHPUnit\Framework\TestCase;
 
 class MatheusGontijoSystemConfigHistoryCollectionUnitTest extends TestCase
