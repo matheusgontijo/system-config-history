@@ -602,5 +602,6 @@
         <exclude name="SlevomatCodingStandard.Whitespaces.DuplicateSpaces"/>
         <exclude name="SlevomatCodingStandard.Complexity"/>
         <exclude name="SlevomatCodingStandard.Files.FileLength.FileTooLong"/>
+        <exclude name="SlevomatCodingStandard.Classes.ClassLength.ClassTooLong"/>
     </rule>
 </ruleset>

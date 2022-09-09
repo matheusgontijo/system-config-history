@@ -3,7 +3,7 @@
 namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\Repository\System\MatheusGontijoSystemConfigHistory\Api;
 
 use Doctrine\DBAL\Connection;
-use MatheusGontijo\SystemConfigHistory\Repository\System\MatheusGontijoSystemConfigHistory\Api\MatheusGontijoSystemConfigHistoryRouteRepository;
+use MatheusGontijo\SystemConfigHistory\Repository\System\MatheusGontijoSystemConfigHistory\Api\MatheusGontijoSystemConfigHistoryRouteRepository; // phpcs:ignore
 use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
@@ -455,9 +455,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             MatheusGontijoSystemConfigHistoryRouteRepository::class
         );
 
-        \assert(
-            $matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository
-        );
+        \assert($matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository);  // phpcs:ignore
 
         $rows = $matheusGontijoSystemConfigHistoryRouteRepository->getRows(
             $deDeLocaleId,
@@ -511,9 +509,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             MatheusGontijoSystemConfigHistoryRouteRepository::class
         );
 
-        \assert(
-            $matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository
-        );
+        \assert($matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository);  // phpcs:ignore
 
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);
@@ -551,9 +547,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             MatheusGontijoSystemConfigHistoryRouteRepository::class
         );
 
-        \assert(
-            $matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository
-        );
+        \assert($matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository);  // phpcs:ignore
 
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);
@@ -634,15 +628,18 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         }
     }
 
+    /**
+     * @param array<string, mixed> $filters
+     *
+     * @return array<int, mixed>
+     */
     private function getRows(array $filters, string $sortBy): array
     {
         $matheusGontijoSystemConfigHistoryRouteRepository = $this->getContainer()->get(
             MatheusGontijoSystemConfigHistoryRouteRepository::class
         );
 
-        \assert(
-            $matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository
-        );
+        \assert($matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository); // phpcs:ignore
 
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);
