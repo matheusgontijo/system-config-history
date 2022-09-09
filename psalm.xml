@@ -31,5 +31,11 @@
                 <referencedClass name="Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface" />
             </errorLevel>
         </DeprecatedInterface>
+
+        <DeprecatedMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="Shopware\Core\Framework\Struct\Collection::getIterator"/>
+            </errorLevel>
+        </DeprecatedMethod>
     </issueHandlers>
 </psalm>

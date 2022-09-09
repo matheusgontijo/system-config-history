@@ -44,7 +44,10 @@ class HistoryTab
         $configurationValueOld = null;
 
         if ($this->matheusGontijoSystemConfigHistory->getConfigurationValueOld() !== null) {
-            $configurationValueOld = $this->matheusGontijoSystemConfigHistory->getConfigurationValueOld()['_value'];
+            $configurationValueOldArray = $this->matheusGontijoSystemConfigHistory->getConfigurationValueOld();
+
+            assert(isset($configurationValueOldArray['_value']));
+            $configurationValueOld = $configurationValueOldArray['_value'];
         }
 
         $data['configurationValueOld'] = $configurationValueOld;
@@ -54,7 +57,10 @@ class HistoryTab
         $configurationValueNew = null;
 
         if ($this->matheusGontijoSystemConfigHistory->getConfigurationValueNew() !== null) {
-            $configurationValueNew = $this->matheusGontijoSystemConfigHistory->getConfigurationValueNew()['_value'];
+            $configurationValueNewArray = $this->matheusGontijoSystemConfigHistory->getConfigurationValueNew();
+
+            assert(isset($configurationValueNewArray['_value']));
+            $configurationValueNew = $configurationValueNewArray['_value'];
         }
 
         $data['configurationValueNew'] = $configurationValueNew;
@@ -86,8 +92,13 @@ class HistoryTab
             return $rootData;
         }
 
-        $rootData['user'] = $this->matheusGontijoSystemConfigHistory->getUserData()['user'];
-        $rootData['request'] = $this->matheusGontijoSystemConfigHistory->getUserData()['request'];
+        $userData = $this->matheusGontijoSystemConfigHistory->getUserData();
+
+        assert(isset($userData['user']));
+        $rootData['user'] = $userData['user'];
+
+        assert(isset($userData['request']));
+        $rootData['request'] = $userData['request'];
 
         return $rootData;
     }
@@ -101,8 +112,8 @@ class HistoryTab
             return 'null';
         }
 
-        if (\is_string($value)) {
-            return 'string';
+        if (\is_array($value)) {
+            return 'array';
         }
 
         if (\is_int($value)) {
@@ -117,8 +128,6 @@ class HistoryTab
             return 'boolean';
         }
 
-        if (\is_array($value)) {
-            return 'array';
-        }
+        return 'string';
     }
 }

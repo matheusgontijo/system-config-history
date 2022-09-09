@@ -17,13 +17,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Write\CloneBehavior;
 use Shopware\Core\System\SystemConfig\SystemConfigEntity;
 
 /**
- * @psalm-suppress ConstructorSignatureMismatch
- * @psalm-suppress DeprecatedMethod
- * @psalm-suppress ImplementedParamTypeMismatch
- * @psalm-suppress InvalidExtendClass
- * @psalm-suppress MethodSignatureMismatch
- * @psalm-suppress MissingClosureReturnType
- * @psalm-suppress MissingImmutableAnnotation
+ * @psalm-suppress ConstructorSignatureMismatch DeprecatedMethod ImplementedParamTypeMismatch InvalidExtendClass MethodSignatureMismatch MissingClosureReturnType MissingImmutableAnnotation
  */
 class SystemConfigRepositoryDecoration extends EntityRepository
 {
