@@ -37,5 +37,23 @@
                 <referencedMethod name="Shopware\Core\Framework\Struct\Collection::getIterator"/>
             </errorLevel>
         </DeprecatedMethod>
+
+        <MethodSignatureMismatch>
+            <errorLevel type="suppress">
+                <file name="src/Decoration/SystemConfigRepositoryDecoration.php"/>
+            </errorLevel>
+        </MethodSignatureMismatch>
+
+        <ConstructorSignatureMismatch>
+            <errorLevel type="suppress">
+                <file name="src/Decoration/SystemConfigRepositoryDecoration.php"/>
+            </errorLevel>
+        </ConstructorSignatureMismatch>
+
+        <ImplementedParamTypeMismatch>
+            <errorLevel type="suppress">
+                <file name="src/Decoration/SystemConfigRepositoryDecoration.php"/>
+            </errorLevel>
+        </ImplementedParamTypeMismatch>
     </issueHandlers>
 </psalm>
