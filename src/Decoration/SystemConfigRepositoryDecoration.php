@@ -47,10 +47,14 @@ class SystemConfigRepositoryDecoration extends EntityRepository
      */
     public function setEntityLoadedEventFactory(EntityLoadedEventFactory $eventFactory): void
     {
+        /**
+         * @psalm-suppress DeprecatedMethod
+         */
         $this->entityRepository->setEntityLoadedEventFactory($eventFactory);
     }
 
     /**
+     * @psalm-suppress MissingImmutableAnnotation
      * @psalm-suppress MethodSignatureMismatch
      */
     public function getDefinition(): EntityDefinition
@@ -89,7 +93,7 @@ class SystemConfigRepositoryDecoration extends EntityRepository
      */
     public function update(array $data, Context $context): EntityWrittenContainerEvent
     {
-        $call = fn () => $this->entityRepository->update($data, $context);
+        $call = fn (): EntityWrittenContainerEvent => $this->entityRepository->update($data, $context);
 
         return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
@@ -101,7 +105,7 @@ class SystemConfigRepositoryDecoration extends EntityRepository
      */
     public function upsert(array $data, Context $context): EntityWrittenContainerEvent
     {
-        $call = fn () => $this->entityRepository->upsert($data, $context);
+        $call = fn (): EntityWrittenContainerEvent => $this->entityRepository->upsert($data, $context);
 
         return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
@@ -113,7 +117,7 @@ class SystemConfigRepositoryDecoration extends EntityRepository
      */
     public function create(array $data, Context $context): EntityWrittenContainerEvent
     {
-        $call = fn () => $this->entityRepository->create($data, $context);
+        $call = fn (): EntityWrittenContainerEvent => $this->entityRepository->create($data, $context);
 
         return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
@@ -136,15 +140,13 @@ class SystemConfigRepositoryDecoration extends EntityRepository
         $data = [];
 
         foreach ($systemConfigs as $systemConfig) {
-            \assert($systemConfig instanceof SystemConfigEntity);
-
             $data[] = [
                 'configurationKey' => $systemConfig->getConfigurationKey(),
                 'salesChannelId' => $systemConfig->getSalesChannelId(),
             ];
         }
 
-        $call = fn () => $this->entityRepository->delete($ids, $context);
+        $call = fn (): EntityWrittenContainerEvent => $this->entityRepository->delete($ids, $context);
 
         return $this->systemConfigRepositoryDecorationProcess->process($call, $data);
     }
