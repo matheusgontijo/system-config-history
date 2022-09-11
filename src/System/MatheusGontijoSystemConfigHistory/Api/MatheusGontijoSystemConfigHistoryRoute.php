@@ -89,7 +89,7 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
      *     "/api/_action/matheus-gontijo/matheus-gontijo-system-config-history/modal-data",
      *     name="api.action.core.matheus-gontijo.matheus-gontijo-system-config-history.modata-data",
      *     methods={"POST"},
-     *     defaults={"_acl"={"system_config:read"}}
+     *     defaults={"auth_required"=true, "_acl"={"system_config:read"}}
      * )
      */
     public function matheusGontijoSystemConfigHistoryModalData(

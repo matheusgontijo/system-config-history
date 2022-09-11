@@ -115,7 +115,7 @@ Link: https://system-config-history.matheusgontijo.com/
 
 ## 🙋 FAQ - Frequently Asked Questions
 
-Please visit the [FAQ (Frequently Asked Questions)](https://www.matheusgontijo.com) page. There are +15 questions answered. <!-- @TODO: change qty here -->
+Please visit the [FAQ (Frequently Asked Questions)](https://github.com/matheusgontijo/system-config-history/wiki/%5BFAQ%5D-Frequently-Asked-Questions) page.
 
 <br/>
 
