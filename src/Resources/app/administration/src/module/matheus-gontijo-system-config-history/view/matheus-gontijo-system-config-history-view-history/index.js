@@ -27,8 +27,9 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             limit: '50',
             count: 0,
             rows: [],
-            modalId: null,
-            modalData: null,
+            informationModalId: null,
+            informationModalData: null,
+            warningModal: false,
         };
     },
 
@@ -173,12 +174,16 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             return paginationItems;
         },
 
-        showModal() {
-            return this.modalId !== null;
+        showInformationModal() {
+            return this.informationModalId !== null && !this.warningModal;
         },
 
-        showModalData() {
-            return this.modalData !== null;
+        showInformationModalData() {
+            return this.informationModalData !== null;
+        },
+
+        showWarningModal() {
+            return this.warningModal;
         },
     },
 
@@ -374,32 +379,34 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             return paginationClass;
         },
 
-        openModal(id) {
-            this.modalId = id;
-            this.modalData = null;
-            this.loadModalData();
+        openInformationModal(id) {
+            this.informationModalId = id;
+            this.informationModalData = null;
+            this.loadInformationModalData();
         },
 
-        closeModal() {
-            this.modalId = null;
+        closeInformationModal() {
+            this.informationModalId = null;
         },
 
-        loadModalData() {
-            // this.isLoading = true;
+        openWarningModal() {
+            this.warningModal = true;
+        },
 
+        closeWarningModal() {
+            this.warningModal = false;
+        },
+
+        loadInformationModalData() {
             let localeCode = Shopware.Application.getContainer('factory').locale.getLastKnownLocale();
             let defaultSalesChannelName = this.$tc(this.transPrefix('grid.defaultSalesChannelName'));
 
             this.MatheusGontijoSystemConfigHistoryViewHistoryService.getModalData(
                 localeCode,
                 defaultSalesChannelName,
-                this.modalId
+                this.informationModalId
             ).then((response) => {
-                this.modalData = response;
-
-                console.log(response)
-
-                // this.isLoading = false;
+                this.informationModalData = response;
                 // @TODO: ADD FINALLY HERE? IN CASE OF ERROR
             });
         },

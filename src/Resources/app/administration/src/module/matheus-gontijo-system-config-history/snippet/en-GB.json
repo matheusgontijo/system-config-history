@@ -33,7 +33,10 @@
             "salesChannelName": "Sales Channel Name:",
             "modifiedAt": "Modified At:",
             "userSectionTitle": "User",
-            "username": "Username:"
+            "username": "Username:",
+            "revertButton": "Click here to revert to \"Old Value\"",
+            "revertWarningMessage": "Are you sure you want to revert the configuration to the following value?",
+            "revertConfirmButton": "Confirm"
         }
     }
   }
