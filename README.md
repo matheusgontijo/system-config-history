@@ -9,11 +9,8 @@
 ![php 7.4+](https://img.shields.io/badge/php-min%207.4-green.svg)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/matheusgontijo/system-config-history/blob/main/LICENSE)
 [![Author](https://img.shields.io/badge/author-@mhgontijo-blue.svg)](https://twitter.com/mhgontijo)
-[![CI Status](https://github.com/matheusgontijo/system-config-history/workflows/CI/badge.svg?branch=main&event=push)](https://phpunit.de/build-status.html) <!-- @TODO: update -->
 [![Total Downloads](https://img.shields.io/packagist/dt/matheusgontijo/system-config-history.svg)](https://packagist.org/packages/matheusgontijo/system-config-history)
 [![Latest Stable Version](https://img.shields.io/packagist/v/matheusgontijo/system-config-history)](https://packagist.org/packages/matheusgontijo/system-config-history)
-[![Code Coverage](https://codecov.io/gh/matheusgontijo/system-config-history/branch/main/graph/badge.svg)](https://codecov.io/gh/matheusgontijo/system-config-history/branch/main) <!-- @TODO: update -->
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/matheusgontijo/system-config-history/badges/build.png?b=main)](https://scrutinizer-ci.com/g/matheusgontijo/system-config-history/build-status/main)
 
 <!-- @TODO: ADD IMAGE LIKE THAT: https://github.com/DenverCoder1/readme-typing-svg
 <a href="https://clipboardjs.com/"><img width="728" src="https://cloud.githubusercontent.com/assets/398893/16165747/a0f6fc46-349a-11e6-8c9b-c5fd58d9099c.png" alt="Demo"></a>
