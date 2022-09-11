@@ -60,11 +60,6 @@ class MatheusGontijoSystemConfigHistoryHydrator extends EntityHydrator
             $entity->setUsername($row[$root . '.username']);
         }
 
-        if (\array_key_exists($root . '.userData', $row)) {
-            $userData = $definition->decode('userData', self::value($row, $root, 'userData'));
-            $entity->setUserData($userData);
-        }
-
         if (isset($row[$root . '.updatedAt'])) {
             $entity->setUpdatedAt(new \DateTimeImmutable($row[$root . '.updatedAt']));
         }

@@ -71,7 +71,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => 'true',
             'sales_channel_name' => 'Default',
             'username' => null,
-            'user_data' => null,
             'created_at' => '2022-01-03 00:00:00.000',
         ], $rows[0]);
 
@@ -82,7 +81,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => 'false',
             'sales_channel_name' => 'English Sales Channel',
             'username' => null,
-            'user_data' => null,
             'created_at' => '2022-01-02 00:00:00.000',
         ], $rows[1]);
 
@@ -93,7 +91,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => 'true',
             'sales_channel_name' => 'German Sales Channel',
             'username' => null,
-            'user_data' => null,
             'created_at' => '2022-01-01 00:00:00.000',
         ], $rows[2]);
     }
@@ -148,7 +145,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => 'mycustomvalue_111',
             'sales_channel_name' => 'Default',
             'username' => null,
-            'user_data' => null,
             'created_at' => '2022-01-03 00:00:00.000',
         ], $rows[0]);
 
@@ -159,7 +155,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => 'mycustomvalue_111',
             'sales_channel_name' => 'English Sales Channel',
             'username' => null,
-            'user_data' => null,
             'created_at' => '2022-01-02 00:00:00.000',
         ], $rows[1]);
 
@@ -170,7 +165,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => 'mycustomvalue_111',
             'sales_channel_name' => 'German Sales Channel',
             'username' => null,
-            'user_data' => null,
             'created_at' => '2022-01-01 00:00:00.000',
         ], $rows[2]);
     }
@@ -225,7 +219,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => 'mycustomvalue_123',
             'sales_channel_name' => 'Default',
             'username' => null,
-            'user_data' => null,
             'created_at' => '2022-01-03 00:00:00.000',
         ], $rows[0]);
 
@@ -236,7 +229,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => 'mycustomvalue_456',
             'sales_channel_name' => 'English Sales Channel',
             'username' => null,
-            'user_data' => null,
             'created_at' => '2022-01-02 00:00:00.000',
         ], $rows[1]);
 
@@ -247,7 +239,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => 'mycustomvalue_789',
             'sales_channel_name' => 'German Sales Channel',
             'username' => null,
-            'user_data' => null,
             'created_at' => '2022-01-01 00:00:00.000',
         ], $rows[2]);
     }
@@ -305,7 +296,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => '456',
             'sales_channel_name' => 'Default',
             'username' => null,
-            'user_data' => null,
             'created_at' => '2022-01-03 00:00:00.000',
         ], $rows[0]);
 
@@ -316,7 +306,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => '456',
             'sales_channel_name' => 'Default',
             'username' => null,
-            'user_data' => null,
             'created_at' => '2022-01-01 00:00:00.000',
         ], $rows[1]);
     }
@@ -374,7 +363,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => '456',
             'sales_channel_name' => 'English Sales Channel',
             'username' => 'matheus.gontijo',
-            'user_data' => null,
             'created_at' => '2022-01-02 00:00:00.000',
         ], $rows[0]);
 
@@ -385,7 +373,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => '456',
             'sales_channel_name' => 'German Sales Channel',
             'username' => 'matheus.gontijo',
-            'user_data' => null,
             'created_at' => '2022-01-01 00:00:00.000',
         ], $rows[1]);
     }
@@ -478,7 +465,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => '456',
             'sales_channel_name' => 'Standard',
             'username' => 'matheus.gontijo',
-            'user_data' => null,
             'created_at' => '2022-01-01 00:00:00.000',
         ], $rows[0]);
 
@@ -489,7 +475,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => '456',
             'sales_channel_name' => 'Standard',
             'username' => 'matheus.gontijo',
-            'user_data' => null,
             'created_at' => '2022-01-02 00:00:00.000',
         ], $rows[1]);
 
@@ -500,7 +485,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_value_new' => '456',
             'sales_channel_name' => 'Standard',
             'username' => 'aaa.john',
-            'user_data' => null,
             'created_at' => '2022-01-03 00:00:00.000',
         ], $rows[2]);
     }

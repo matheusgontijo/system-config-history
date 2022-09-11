@@ -28,11 +28,6 @@ class MatheusGontijoSystemConfigHistoryEntity extends Entity
 
     protected ?string $username = null;
 
-    /**
-     * @var array<mixed>|null
-     */
-    protected ?array $userData = null;
-
     public function getConfigurationKey(): ?string
     {
         return $this->configurationKey;
@@ -93,21 +88,5 @@ class MatheusGontijoSystemConfigHistoryEntity extends Entity
     public function setUsername(string $username): void
     {
         $this->username = $username;
-    }
-
-    /**
-     * @return array<mixed>|null
-     */
-    public function getUserData(): ?array
-    {
-        return $this->userData;
-    }
-
-    /**
-     * @param array<mixed>|null $userData
-     */
-    public function setUserData(?array $userData): void
-    {
-        $this->userData = $userData;
     }
 }

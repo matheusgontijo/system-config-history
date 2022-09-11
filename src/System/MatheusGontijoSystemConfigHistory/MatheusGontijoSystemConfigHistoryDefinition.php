@@ -57,7 +57,6 @@ class MatheusGontijoSystemConfigHistoryDefinition extends EntityDefinition
                 new ApiAware()
             ),
             (new StringField('username', 'username'))->addFlags(new ApiAware()),
-            (new JsonField('user_data', 'userData'))->addFlags(new ApiAware()),
         ]);
     }
 }

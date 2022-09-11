@@ -114,7 +114,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
             'subquery.configuration_value_new',
             'subquery.sales_channel_name',
             'subquery.username',
-            'subquery.user_data',
             'subquery.created_at',
         ]);
 
@@ -195,7 +194,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
             'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_new, "$._value")) as configuration_value_new',
             'IF(sct.name IS NOT NULL, sct.name, :default_sales_channel_name) AS sales_channel_name',
             'mgsch.username',
-            'mgsch.user_data',
             'mgsch.created_at',
         ]);
 

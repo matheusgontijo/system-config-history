@@ -39,7 +39,6 @@ class MatheusGontijoSystemConfigHistoryHydratorIntegrationTest extends TestCase
                     TestDefaults::SALES_CHANNEL_ID_ENGLISH
                 ),
                 'matheus_gontijo_system_config_history.username' => 'mgontijo',
-                'matheus_gontijo_system_config_history.userData' => '{"foo": "bar"}',
                 'matheus_gontijo_system_config_history.createdAt' => '2022-09-05 01:52:06.743',
                 'matheus_gontijo_system_config_history.updatedAt' => '2022-09-05 01:57:08.119',
             ],
@@ -82,7 +81,6 @@ class MatheusGontijoSystemConfigHistoryHydratorIntegrationTest extends TestCase
             'd235f6b8ff854574bc4ef7ee5369b6e6'
         );
         static::assertEquals($matheusGontijoSystemConfigHistory->getUsername(), 'mgontijo');
-        static::assertEquals($matheusGontijoSystemConfigHistory->getUserData(), ['foo' => 'bar']);
         static::assertEquals(
             $matheusGontijoSystemConfigHistory->getCreatedAt(),
             new \DateTimeImmutable('2022-09-05 01:52:06.743')

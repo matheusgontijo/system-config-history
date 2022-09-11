@@ -52,7 +52,6 @@ class SystemConfigServiceIntegrationTest extends TestCase
         static::assertSame(['_value' => 'aaa'], $matheusGontijoSystemConfigHistory->getConfigurationValueNew());
         static::assertNull($matheusGontijoSystemConfigHistory->getSalesChannelId());
         static::assertNull($matheusGontijoSystemConfigHistory->getUsername());
-        static::assertNull($matheusGontijoSystemConfigHistory->getUserData());
 
         $matheusGontijoSystemConfigHistory = $searchResult->get($searchResult->getKeys()[1]);
         \assert($matheusGontijoSystemConfigHistory instanceof MatheusGontijoSystemConfigHistoryEntity);
@@ -62,7 +61,6 @@ class SystemConfigServiceIntegrationTest extends TestCase
         static::assertSame(['_value' => 'bbb'], $matheusGontijoSystemConfigHistory->getConfigurationValueNew());
         static::assertNull($matheusGontijoSystemConfigHistory->getSalesChannelId());
         static::assertNull($matheusGontijoSystemConfigHistory->getUsername());
-        static::assertNull($matheusGontijoSystemConfigHistory->getUserData());
 
         $matheusGontijoSystemConfigHistory = $searchResult->get($searchResult->getKeys()[2]);
         \assert($matheusGontijoSystemConfigHistory instanceof MatheusGontijoSystemConfigHistoryEntity);
@@ -72,7 +70,6 @@ class SystemConfigServiceIntegrationTest extends TestCase
         static::assertNull($matheusGontijoSystemConfigHistory->getConfigurationValueNew());
         static::assertNull($matheusGontijoSystemConfigHistory->getSalesChannelId());
         static::assertNull($matheusGontijoSystemConfigHistory->getUsername());
-        static::assertNull($matheusGontijoSystemConfigHistory->getUserData());
 
         $matheusGontijoSystemConfigHistory = $searchResult->get($searchResult->getKeys()[3]);
         \assert($matheusGontijoSystemConfigHistory instanceof MatheusGontijoSystemConfigHistoryEntity);
@@ -82,7 +79,6 @@ class SystemConfigServiceIntegrationTest extends TestCase
         static::assertSame(['_value' => 'ccc'], $matheusGontijoSystemConfigHistory->getConfigurationValueNew());
         static::assertNull($matheusGontijoSystemConfigHistory->getSalesChannelId());
         static::assertNull($matheusGontijoSystemConfigHistory->getUsername());
-        static::assertNull($matheusGontijoSystemConfigHistory->getUserData());
     }
 
     public function testGetValuesWithDifferentSalesChannels(): void

@@ -119,19 +119,6 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
                 'configurationValueNew' => ['_value' => $newValue],
                 'salesChannelId' => $salesChannelId,
                 'username' => 'johndoe',
-                'userData' => [
-                    'user' => [
-                        'username' => 'johndoe',
-                        'first_name' => 'John',
-                        'last_name' => 'Doe',
-                        'email' => 'johndoe@example.com',
-                        'active' => true,
-                    ],
-                    'request' => [
-                        'HTTP_USER_AGENT' => '192.168.0.99',
-                        'SERVER_ADDR' => $serverAddr,
-                    ],
-                ],
             ],
             [
                 'configurationKey' => 'my.custom.systemConfigTestInsertFull2',
@@ -139,19 +126,6 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
                 'configurationValueNew' => ['_value' => $newValue],
                 'salesChannelId' => $salesChannelId,
                 'username' => 'johndoe',
-                'userData' => [
-                    'user' => [
-                        'username' => 'johndoe',
-                        'first_name' => 'John',
-                        'last_name' => 'Doe',
-                        'email' => 'johndoe@example.com',
-                        'active' => true,
-                    ],
-                    'request' => [
-                        'HTTP_USER_AGENT' => '192.168.0.99',
-                        'SERVER_ADDR' => $serverAddr,
-                    ],
-                ],
             ],
         ]);
 
@@ -186,19 +160,6 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
         static::assertSame(['_value' => $newValue], $matheusGontijoSystemConfigHistory->getConfigurationValueNew());
         static::assertSame($salesChannelId, $matheusGontijoSystemConfigHistory->getSalesChannelId());
         static::assertSame('johndoe', $matheusGontijoSystemConfigHistory->getUsername());
-        static::assertEquals([
-            'user' => [
-                'username' => 'johndoe',
-                'first_name' => 'John',
-                'last_name' => 'Doe',
-                'email' => 'johndoe@example.com',
-                'active' => true,
-            ],
-            'request' => [
-                'HTTP_USER_AGENT' => '192.168.0.99',
-                'SERVER_ADDR' => $serverAddr,
-            ],
-        ], $matheusGontijoSystemConfigHistory->getUserData());
 
         $matheusGontijoSystemConfigHistory = $searchResult->get($searchResult->getKeys()[1]);
         \assert($matheusGontijoSystemConfigHistory instanceof MatheusGontijoSystemConfigHistoryEntity);
@@ -211,19 +172,6 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
         static::assertSame(['_value' => $newValue], $matheusGontijoSystemConfigHistory->getConfigurationValueNew());
         static::assertSame($salesChannelId, $matheusGontijoSystemConfigHistory->getSalesChannelId());
         static::assertSame('johndoe', $matheusGontijoSystemConfigHistory->getUsername());
-        static::assertEquals([
-            'user' => [
-                'username' => 'johndoe',
-                'first_name' => 'John',
-                'last_name' => 'Doe',
-                'email' => 'johndoe@example.com',
-                'active' => true,
-            ],
-            'request' => [
-                'HTTP_USER_AGENT' => '192.168.0.99',
-                'SERVER_ADDR' => $serverAddr,
-            ],
-        ], $matheusGontijoSystemConfigHistory->getUserData());
     }
 
     /**
