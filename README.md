@@ -14,7 +14,7 @@ https://shields.io/
 *Would you please give a GitHub star ⭐ to this project? Thank you so much for your support!*
 
 ![php 7.4+](https://img.shields.io/badge/php-min%207.4-green.svg)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/matheusgontijo/system-config-history/blob/master/LICENSE)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/matheusgontijo/system-config-history/blob/main/LICENSE)
 [![Author](https://img.shields.io/badge/author-@mhgontijo-blue.svg)](https://twitter.com/mhgontijo)
 [![CI Status](https://github.com/matheusgontijo/system-config-history/workflows/CI/badge.svg?branch=main&event=push)](https://phpunit.de/build-status.html) <!-- @TODO: update -->
 [![Type Coverage](https://shepherd.dev/github/matheusgontijo/system-config-history/coverage.svg)](https://shepherd.dev/github/matheusgontijo/system-config-history)
@@ -154,6 +154,6 @@ In case you find a bug, please reach out to matheus at matheusgontijo.com
 
 ## 📄 License
 
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/matheusgontijo/system-config-history/blob/master/LICENSE)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/matheusgontijo/system-config-history/blob/main/LICENSE)
 
-[MIT License](https://github.com/matheusgontijo/system-config-history/blob/master/LICENSE) by [Matheus Gontijo](https://www.matheusgontijo.com)
+[MIT License](https://github.com/matheusgontijo/system-config-history/blob/main/LICENSE) by [Matheus Gontijo](https://www.matheusgontijo.com)
