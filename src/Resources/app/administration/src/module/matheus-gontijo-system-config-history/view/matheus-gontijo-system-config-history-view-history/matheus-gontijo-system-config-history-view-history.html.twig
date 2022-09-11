@@ -31,6 +31,7 @@
                 <col span="1" style="width: 4%;">
                 <col span="1" style="width: 7%;">
             </colgroup>
+
             <thead>
                 <tr>
                     <th scope="col" @click="changeSortByAndSortDirection('configuration_key')">
@@ -118,7 +119,7 @@
                     <td :class="pagePrefix('td')">
                         <span :class="pagePrefix('configuration-value-old')">
                             <span v-if="row.configuration_value_old == null">
-                                <span :class="pagePrefix('td-null')">null</span>
+                                <span :class="pagePrefix('null-value') + ' ' + pagePrefix('td-null-value')">null</span>
                             </span>
                             <span v-else>
                                 {{ row.configuration_value_old }}
@@ -128,7 +129,7 @@
                     <td :class="pagePrefix('td')">
                         <span :class="pagePrefix('configuration-value-new')">
                             <span v-if="row.configuration_value_new == null">
-                                <span :class="pagePrefix('td-null')">null</span>
+                                <span :class="pagePrefix('null-value') + ' ' + pagePrefix('td-null-value')">null</span>
                             </span>
                             <span v-else>
                                 {{ row.configuration_value_new }}
@@ -162,7 +163,7 @@
     {% endblock %}
 
     <sw-modal variant="none" v-if="showInformationModal" @modal-close="closeInformationModal">
-        <table v-if="showInformationModalData" cellspacing="0" cellpadding="0" :class="pagePrefix('modal-table')">
+        <table v-if="showInformationModalData" cellspacing="0" cellpadding="0" :class="pagePrefix('information-modal-table')">
             <colgroup>
                 <col span="1" style="width: 15%;">
                 <col span="1" style="width: 75%;">
@@ -170,15 +171,21 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.configurationKey')) }}</td>
-                    <td :class="pagePrefix('modal-monospace')">{{ informationModalData.configuration_key }}</td>
+                    <td :class="pagePrefix('information-modal-table-td-key')">
+                        {{ $tc(transPrefix('informationModal.configurationKey')) }}
+                    </td>
+                    <td :class="pagePrefix('information-modal-monospace')">
+                        {{ informationModalData.configuration_key }}
+                    </td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.configurationValueOld')) }}</td>
-                    <td :class="pagePrefix('modal-monospace')">
+                    <td :class="pagePrefix('information-modal-table-td-key')">
+                        {{ $tc(transPrefix('informationModal.configurationValueOld')) }}
+                    </td>
+                    <td :class="pagePrefix('information-modal-monospace')">
                         <span v-if="informationModalData.configuration_value_old == null">
-                            <span :class="pagePrefix('td-null')">null</span>
+                            <span :class="pagePrefix('null-value') + ' ' + pagePrefix('td-null-value')">null</span>
                         </span>
                         <span v-else>
                             {{ informationModalData.configuration_value_old }}
@@ -187,10 +194,12 @@
                     <td><em>{{ informationModalData.configuration_value_old_type }}</em></td>
                 </tr>
                 <tr>
-                    <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.configurationValueNew')) }}</td>
-                    <td :class="pagePrefix('modal-monospace')">
+                    <td :class="pagePrefix('information-modal-table-td-key')">
+                        {{ $tc(transPrefix('informationModal.configurationValueNew')) }}
+                    </td>
+                    <td :class="pagePrefix('information-modal-monospace')">
                         <span v-if="informationModalData.configuration_value_new == null">
-                            <span :class="pagePrefix('td-null')">null</span>
+                            <span :class="pagePrefix('null-value') + ' ' + pagePrefix('td-null-value')">null</span>
                         </span>
                         <span v-else>
                             {{ informationModalData.configuration_value_new }}
@@ -199,45 +208,59 @@
                     <td><em>{{ informationModalData.configuration_value_new_type }}</em></td>
                 </tr>
                 <tr>
-                    <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.salesChannelName')) }}</td>
+                    <td :class="pagePrefix('information-modal-table-td-key')">
+                        {{ $tc(transPrefix('informationModal.salesChannelName')) }}
+                    </td>
                     <td>{{ informationModalData.sales_channel_name }}</td>
                     <td></td>
                 </tr>
                 <tr v-if="informationModalData.username">
-                    <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.username')) }}</td>
+                    <td :class="pagePrefix('information-modal-table-td-key')">
+                        {{ $tc(transPrefix('informationModal.username')) }}
+                    </td>
                     <td>{{ informationModalData.username }}</td>
                     <td></td>
                 </tr>
                 <tr>
-                    <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.modifiedAt')) }}</td>
+                    <td :class="pagePrefix('information-modal-table-td-key')">
+                        {{ $tc(transPrefix('informationModal.modifiedAt')) }}
+                    </td>
                     <td>{{ formatDate(informationModalData.modified_at) }}</td>
                     <td></td>
                 </tr>
             </tbody>
         </table>
 
-        <div :id="pagePrefix('modal-revert-button')">
-            <sw-button variant="primary" @click="openWarningModal()">
-                {{ $tc(transPrefix('modal.revertButton')) }}
+        <div :class="pagePrefix('modal-revert-button-wrapper')">
+            <sw-button
+                variant="primary"
+                @click="openWarningModal()"
+                :class="pagePrefix('modal-revert-button')"
+            >
+                {{ $tc(transPrefix('informationModal.revertButton')) }}
             </sw-button>
         </div>
     </sw-modal>
 
     <sw-modal variant="none" v-if="showWarningModal" @modal-close="closeWarningModal">
-        <strong>{{ $tc(transPrefix('modal.revertWarningMessage')) }}</strong>
+        <strong>{{ $tc(transPrefix('warningModal.message')) }}</strong>
 
         <div :id="pagePrefix('warning-modal-revert-value')">
             <span v-if="informationModalData.configuration_value_old == null">
-                <span :class="pagePrefix('td-null')">null</span>
+                null
             </span>
             <span v-else>
                 {{ informationModalData.configuration_value_old }}
             </span>
         </div>
 
-        <div :id="pagePrefix('modal-revert-button')">
-            <sw-button variant="primary" @click="openWarningModal()">
-                {{ $tc(transPrefix('modal.revertConfirmButton')) }}
+        <div :class="pagePrefix('modal-revert-button-wrapper')">
+            <sw-button variant="primary" @click="openWarningModal()" :class="pagePrefix('modal-revert-button')">
+                {{ $tc(transPrefix('warningModal.yesButton')) }}
+            </sw-button>
+
+            <sw-button variant="context" @click="closeWarningModal()">
+                {{ $tc(transPrefix('warningModal.noButton')) }}
             </sw-button>
         </div>
     </sw-modal>

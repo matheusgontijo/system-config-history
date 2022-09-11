@@ -138,6 +138,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 50,
                 100,
                 250,
+                500,
             ];
         },
 
@@ -149,8 +150,6 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             let [leftItems, rightItems] = this.calculatePaginationItemsMethod(this.page, 9, this.count, this.limit);
 
             let paginationItems = [];
-
-            let jjj = 0;
 
             for (let i = leftItems; i >= 1; i--) {
                 paginationItems.push({

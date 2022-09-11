@@ -26,7 +26,7 @@
             "buttonReset": "Reset",
             "totalRecords": "Total record(s): {total}"
         },
-        "modal": {
+        "informationModal": {
             "configurationKey": "Key:",
             "configurationValueOld": "Old Value:",
             "configurationValueNew": "New Value:",
@@ -34,9 +34,12 @@
             "modifiedAt": "Modified At:",
             "userSectionTitle": "User",
             "username": "Username:",
-            "revertButton": "Click here to revert to \"Old Value\"",
-            "revertWarningMessage": "Are you sure you want to revert the configuration to the following value?",
-            "revertConfirmButton": "Confirm"
+            "revertButton": "Click here to revert to \"Old Value\""
+        },
+        "warningModal": {
+            "message": "Are you sure you want to revert the configuration to the following value?",
+            "yesButton": "Yes",
+            "noButton": "No"
         }
     }
   }

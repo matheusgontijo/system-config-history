@@ -65,14 +65,6 @@
         margin-top: 20px;
     }
 
-    &-modal-revert-button {
-        margin-top: 30px;
-
-        .sw-button {
-            background: red;
-        }
-    }
-
     &-warning-modal-revert-value {
         background: #f2f2f2;
         margin: 30px 0;
@@ -83,6 +75,14 @@
 }
 
 .matheus-gontijo-system-config-history-view-history {
+    &-null-value {
+        display: block;
+        background: #f2f2f2;
+        border: 1px solid #e1e1e1;
+        border-radius: 3px;
+        padding: 2px 5px;
+    }
+
     &-filter-input {
         width: 100%;
         padding: 8px;
@@ -105,12 +105,7 @@
         font-size: 12px;
         vertical-align: top;
 
-        &-null {
-            display: block;
-            background: #f2f2f2;
-            border: 1px solid #e1e1e1;
-            border-radius: 3px;
-            padding: 2px 5px;
+        &-null-value {
             float: left;
         }
     }
@@ -127,16 +122,6 @@
     &-sales-channel-id {
         font-size: 10px;
         font-family: monospace;
-    }
-
-    &-revert-button {
-        display: block;
-        background: #d5d5d5;
-        padding: 4px 10px;
-        color: #52667a;
-        border-radius: 5px;
-        cursor: pointer;
-        text-align: center;
     }
 
     &-column-created-at {
@@ -160,30 +145,38 @@
         }
     }
 
-    &-modal {
-        &-monospace {
-            font-family: monospace;
+    &-modal-revert-button {
+        background: red !important;
+
+        &-wrapper {
+            margin-top: 30px;
         }
     }
 
-    &-modal-table {
-        width: 100%;
-
-        tbody {
-            tr {
-                &:nth-child(even) {
-                    background: #f0f2f5;
-                }
-
-                td {
-                    vertical-align: top;
-                    padding: 12px;
-                }
-            }
+    &-information-modal {
+        &-monospace {
+            font-family: monospace;
         }
 
-        &-td-key {
-            font-weight: bold;
+        &-table {
+            width: 100%;
+
+            tbody {
+                tr {
+                    &:nth-child(even) {
+                        background: #f0f2f5;
+                    }
+
+                    td {
+                        vertical-align: top;
+                        padding: 12px;
+                    }
+                }
+            }
+
+            &-td-key {
+                font-weight: bold;
+            }
         }
     }
 }
