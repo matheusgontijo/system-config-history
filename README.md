@@ -9,7 +9,7 @@ https://github.com/shopwareLabs/psh
 https://shields.io/
 -->
 
->👉&nbsp;&nbsp;*Keep the system config history! Monitor, compare & revert them to previous versions, via admin, with just few clicks.*
+>👉&nbsp;&nbsp;*Monitor, compare & revert system configs to previous versions, via admin, with just few clicks.*
 
 *Would you please give a GitHub star ⭐ to this project? Thank you so much for your support!*
 
@@ -42,11 +42,8 @@ In addition to that, it's a good idea to keep track about who (admin user) is ch
 ## 🚀 Features
 
 - Open-source & Free Software
-- Track record of all system configurations (_additions, modifications, removals_)
-- Search, view and compare system configuration history on admin
-- Revert system configuration to previous versions
-- Cronjob to clean up legacy system configuration from time to time
 - High-quality code (_PHPCS, PHP CS Fixer, PHPStan, Psalm, PHPUnit_)
+- Cronjob to clean up legacy system configuration from time to time
 
 <br/>
 
