@@ -22,7 +22,7 @@ System configurations can be accidentally changed or removed. There are even cas
 
 The idea of this simple plugin is to keep record of all system configuration: *additions, modifications and removals*. If something unexpected happens, we are safe, there is a backup 🙏
 
-This plugin provides a quick and easy way to revert system configurations to previous versions in the history. The entire process is done from admin, with a few clicks 👍
+This plugin provides a quick and easy way to revert system configurations to previous versions in the history. The entire process is done from admin, with a few clicks 👍👍👍
 
 In addition to that, it's a good idea to keep track about who (admin user) is changing system configs as well as what time it was changed. 💡
 
