@@ -1,14 +1,5 @@
 # System Config History for Shopware 6
 
-<!---
-@TODO: ADD BUILD STATUS HERE
-
-https://github.com/nextcloud/server
-https://github.com/shopwareLabs/psh
-
-https://shields.io/
--->
-
 >👉&nbsp;&nbsp;*Monitor, compare & revert system configs to previous versions, via admin, with just few clicks.*
 
 *Would you please give a GitHub star ⭐ to this project? Thank you so much for your support!*
@@ -17,7 +8,6 @@ https://shields.io/
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/matheusgontijo/system-config-history/blob/main/LICENSE)
 [![Author](https://img.shields.io/badge/author-@mhgontijo-blue.svg)](https://twitter.com/mhgontijo)
 [![CI Status](https://github.com/matheusgontijo/system-config-history/workflows/CI/badge.svg?branch=main&event=push)](https://phpunit.de/build-status.html) <!-- @TODO: update -->
-[![Type Coverage](https://shepherd.dev/github/matheusgontijo/system-config-history/coverage.svg)](https://shepherd.dev/github/matheusgontijo/system-config-history)
 [![Total Downloads](https://img.shields.io/packagist/dt/matheusgontijo/system-config-history.svg)](https://packagist.org/packages/matheusgontijo/system-config-history)
 [![Latest Stable Version](https://img.shields.io/packagist/v/matheusgontijo/system-config-history)](https://packagist.org/packages/matheusgontijo/system-config-history)
 [![Code Coverage](https://codecov.io/gh/matheusgontijo/system-config-history/branch/main/graph/badge.svg)](https://codecov.io/gh/matheusgontijo/system-config-history/branch/main) <!-- @TODO: update -->

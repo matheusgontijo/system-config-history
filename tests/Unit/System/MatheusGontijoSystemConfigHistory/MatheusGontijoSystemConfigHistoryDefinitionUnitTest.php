@@ -44,10 +44,7 @@ class MatheusGontijoSystemConfigHistoryDefinitionUnitTest extends TestCase
     {
         $matheusGontijoSystemConfigHistoryDefinition = new MatheusGontijoSystemConfigHistoryDefinition();
 
-        static::assertSame(
-            '6.0.0.0',
-            $matheusGontijoSystemConfigHistoryDefinition->since()
-        );
+        static::assertSame('6.4.0.0', $matheusGontijoSystemConfigHistoryDefinition->since());
     }
 
     public function testGetHydratorClass(): void
