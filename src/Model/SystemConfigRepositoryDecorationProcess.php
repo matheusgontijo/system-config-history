@@ -111,8 +111,7 @@ class SystemConfigRepositoryDecorationProcess
                 'configurationValueNew' => $newSystemConfigs[$key]['configurationValue'],
             ];
 
-            $historyData = $this->addUserDataUserData($historyData);
-            $historyData = $this->addUserDataRequestData($historyData);
+            $historyData = $this->addUser($historyData);
 
             $data[] = $historyData;
         }
@@ -151,7 +150,7 @@ class SystemConfigRepositoryDecorationProcess
      *
      * @return array<string, mixed>
      */
-    private function addUserDataUserData(array $data): array
+    private function addUser(array $data): array
     {
         $request = $this->requestStateRegistry->getRequest();
 
@@ -177,35 +176,6 @@ class SystemConfigRepositoryDecorationProcess
         $user = $this->loadUser($userId);
 
         $data['username'] = $user->getUsername();
-
-        $data['userData']['user'] = [
-            'username' => $user->getUsername(),
-            'first_name' => $user->getFirstName(),
-            'last_name' => $user->getLastName(),
-            'email' => $user->getEmail(),
-            'active' => $user->getActive(),
-        ];
-
-        return $data;
-    }
-
-    /**
-     * @param array<string, mixed> $data
-     *
-     * @return array<string, mixed>
-     */
-    private function addUserDataRequestData(array $data): array
-    {
-        $request = $this->requestStateRegistry->getRequest();
-
-        if (!$request instanceof Request) {
-            return $data;
-        }
-
-        $data['userData']['request'] = [
-            'HTTP_USER_AGENT' => $request->server->get('HTTP_USER_AGENT'),
-            'SERVER_ADDR' => $request->server->get('SERVER_ADDR'),
-        ];
 
         return $data;
     }

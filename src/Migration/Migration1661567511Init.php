@@ -26,7 +26,6 @@ class Migration1661567511Init extends MigrationStep
             `configuration_value_new` json DEFAULT NULL,
             `sales_channel_id` binary(16) DEFAULT NULL,
             `username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-            `user_data` json DEFAULT NULL,
             `created_at` datetime(3) NOT NULL,
             `updated_at` datetime(3) DEFAULT NULL,
             PRIMARY KEY (`id`)

@@ -149,7 +149,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
                 ['_value' => 'zzz']
             );
 
-        $requestStateRegistryMock->expects(static::exactly(4))
+        $requestStateRegistryMock->expects(static::exactly(2))
             ->method('getRequest')
             ->willReturn(null);
 
@@ -209,7 +209,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
                 ['_value' => 'aaa']
             );
 
-        $requestStateRegistryMock->expects(static::exactly(4))
+        $requestStateRegistryMock->expects(static::exactly(2))
             ->method('getRequest')
             ->willReturn(null);
 
@@ -288,20 +288,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
                 ['_value' => 'aaa']
             );
 
-        $serverAddr = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
-            . ' (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36';
-
-        $request = Request::create(
-            'http://localhost',
-            'POST',
-            [],
-            [],
-            [],
-            [
-                'HTTP_USER_AGENT' => '192.168.0.99',
-                'SERVER_ADDR' => $serverAddr,
-            ]
-        );
+        $request = Request::create('http://localhost', 'POST', [], [], [], []);
 
         $context = new Context(new AdminApiSource('72e7593c3a374ddc9c864abdf31dc766'));
 
@@ -336,19 +323,6 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
                         'configurationValueNew' => ['_value' => 'bbb'],
                         'salesChannelId' => null,
                         'username' => 'johndoe',
-                        'userData' => [
-                            'user' => [
-                                'username' => 'johndoe',
-                                'first_name' => 'John',
-                                'last_name' => 'Doe',
-                                'email' => 'johndoe@example.com',
-                                'active' => true,
-                            ],
-                            'request' => [
-                                'HTTP_USER_AGENT' => '192.168.0.99',
-                                'SERVER_ADDR' => $serverAddr,
-                            ],
-                        ],
                     ],
                     [
                         'id' => '1c957ed20cef4410ad1a6150079ab9f7',
@@ -357,19 +331,6 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
                         'configurationValueNew' => ['_value' => 'aaa'],
                         'salesChannelId' => null,
                         'username' => 'johndoe',
-                        'userData' => [
-                            'user' => [
-                                'username' => 'johndoe',
-                                'first_name' => 'John',
-                                'last_name' => 'Doe',
-                                'email' => 'johndoe@example.com',
-                                'active' => true,
-                            ],
-                            'request' => [
-                                'HTTP_USER_AGENT' => '192.168.0.99',
-                                'SERVER_ADDR' => $serverAddr,
-                            ],
-                        ],
                     ],
                 ],
             ]);
@@ -417,20 +378,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
                 ['_value' => 'bbb']
             );
 
-        $serverAddr = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
-            . ' (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36';
-
-        $request = Request::create(
-            'http://localhost',
-            'POST',
-            [],
-            [],
-            [],
-            [
-                'HTTP_USER_AGENT' => '192.168.0.99',
-                'SERVER_ADDR' => $serverAddr,
-            ]
-        );
+        $request = Request::create('http://localhost', 'POST', [], [], [], []);
 
         $requestStateRegistryMock->method('getRequest')
             ->willReturn($request);
@@ -472,20 +420,7 @@ class SystemConfigRepositoryDecorationProcessUnitTest extends TestCase
                 ['_value' => 'bbb']
             );
 
-        $serverAddr = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36'
-            . ' (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36';
-
-        $request = Request::create(
-            'http://localhost',
-            'POST',
-            [],
-            [],
-            [],
-            [
-                'HTTP_USER_AGENT' => '192.168.0.99',
-                'SERVER_ADDR' => $serverAddr,
-            ]
-        );
+        $request = Request::create('http://localhost', 'POST', [], [], [], []);
 
         $context = new Context(new SalesChannelApiSource('72e7593c3a374ddc9c864abdf31dc766'));
 
