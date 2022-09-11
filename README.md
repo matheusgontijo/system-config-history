@@ -1,3 +1,5 @@
+# THIS PLUGIN IS UNDER DEVELOPMENT
+
 # System Config History for Shopware 6
 
 >👉&nbsp;&nbsp;*Monitor, compare & revert system configs to previous versions, via admin, with just few clicks.*
