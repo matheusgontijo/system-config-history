@@ -23,17 +23,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
 {
     /**
-     * @TODO: UPDATE >>> break down into multiple lines the method annotations
-     * @TODO: UPDATE >>> defaults={"_acl"={"system_config:read"}}
-     */
-
-    /**
-     * @Since("6.0.0.0")
+     * @Since("6.4.0.0")
      * @Route(
      *     "/api/_action/matheus-gontijo/matheus-gontijo-system-config-history/rows",
      *     name="api.action.core.matheus-gontijo.matheus-gontijo-system-config-history.rows",
      *     methods={"POST"},
-     *     defaults={"_acl"={"system_config:read"}}
+     *     defaults={"auth_required"=true, "_acl"={"system_config:read"}}
      * )
      */
     public function matheusGontijoSystemConfigHistoryRows(
@@ -89,7 +84,7 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
     }
 
     /**
-     * @Since("6.0.0.0")
+     * @Since("6.4.0.0")
      * @Route(
      *     "/api/_action/matheus-gontijo/matheus-gontijo-system-config-history/modal-data",
      *     name="api.action.core.matheus-gontijo.matheus-gontijo-system-config-history.modata-data",

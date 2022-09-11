@@ -426,7 +426,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $qb->setMaxResults(1);
 
         $executeResult = $qb->execute();
-        assert($executeResult instanceof Result);
+        \assert($executeResult instanceof Result);
 
         $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
 
@@ -507,7 +507,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $qb->setMaxResults(1);
 
         $executeResult = $qb->execute();
-        assert($executeResult instanceof Result);
+        \assert($executeResult instanceof Result);
 
         $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
 
@@ -546,7 +546,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $qb->setMaxResults(1);
 
         $executeResult = $qb->execute();
-        assert($executeResult instanceof Result);
+        \assert($executeResult instanceof Result);
 
         $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
 
@@ -639,7 +639,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $qb->setMaxResults(1);
 
         $executeResult = $qb->execute();
-        assert($executeResult instanceof Result);
+        \assert($executeResult instanceof Result);
 
         $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
 

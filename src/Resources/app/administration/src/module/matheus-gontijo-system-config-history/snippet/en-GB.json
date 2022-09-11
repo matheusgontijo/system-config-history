@@ -13,6 +13,7 @@
     "historyTab": {
         "title": "History",
         "grid": {
+            "errorLoadingGrid": "Unknown error while loading grid.",
             "columnKey": "Key",
             "columnOldValue": "Old Value",
             "columnNewValue": "New Value",
@@ -27,6 +28,7 @@
             "totalRecords": "Total record(s): {total}"
         },
         "informationModal": {
+            "errorLoadingModal": "Unknown error while loading modal.",
             "configurationKey": "Key:",
             "configurationValueOld": "Old Value:",
             "configurationValueNew": "New Value:",

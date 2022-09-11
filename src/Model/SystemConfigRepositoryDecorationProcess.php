@@ -40,8 +40,6 @@ class SystemConfigRepositoryDecorationProcess
             return $call();
         }
 
-        // @TODO: add test passing empty array...
-
         $data = $this->cleanUpData($data);
 
         $oldSystemConfigs = $this->getFreshSystemConfigData($data);

@@ -5,7 +5,6 @@ namespace MatheusGontijo\SystemConfigHistory\Repository\System\MatheusGontijoSys
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ForwardCompatibility\Result;
 use Doctrine\DBAL\Query\QueryBuilder;
-use MatheusGontijo\SystemConfigHistory\MatheusGontijoSystemConfigHistory;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -183,10 +182,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
         $qb = $this->connection->createQueryBuilder();
 
-        /*
-         * @TODO: ADD COLUMN: "TYPE"
-         */
-
         $qb->select([
             'mgsch.id',
             'mgsch.configuration_key',
@@ -245,14 +240,18 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
             $row['id'] = Uuid::fromBytesToHex($row['id']);
 
-            if (is_string($row['configuration_value_old'])
-                && \strlen($row['configuration_value_old']) > self::MAX_CHARACTERS_PER_COLUMN) {
+            if (
+                \is_string($row['configuration_value_old'])
+                && \strlen($row['configuration_value_old']) > self::MAX_CHARACTERS_PER_COLUMN
+            ) {
                 $shorterValue = substr($row['configuration_value_old'], 0, self::MAX_CHARACTERS_PER_COLUMN);
                 $row['configuration_value_old'] = $shorterValue . ' (...)';
             }
 
-            if (is_string($row['configuration_value_new'])
-                && \strlen($row['configuration_value_new']) > self::MAX_CHARACTERS_PER_COLUMN) {
+            if (
+                \is_string($row['configuration_value_new'])
+                && \strlen($row['configuration_value_new']) > self::MAX_CHARACTERS_PER_COLUMN
+            ) {
                 $shorterValue = substr($row['configuration_value_new'], 0, self::MAX_CHARACTERS_PER_COLUMN);
 
                 $row['configuration_value_new'] = $shorterValue . ' (...)';

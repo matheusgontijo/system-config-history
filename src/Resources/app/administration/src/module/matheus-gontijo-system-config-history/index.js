@@ -32,7 +32,7 @@ Shopware.Module.register('matheus-gontijo-system-config-history', {
             path: 'index',
             meta: {
                 parentPath: 'sw.settings.index',
-                privilege: 'matheus_gontijo.system_config_history.viewer', // @TODO: CHANGE IT
+                privilege: 'system.core_update',
             },
 
             redirect: {
@@ -45,7 +45,7 @@ Shopware.Module.register('matheus-gontijo-system-config-history', {
                     path: 'history',
                     meta: {
                         parentPath: 'sw.settings.index',
-                        privilege: 'system.import_export', // @TODO: CHANGE IT
+                        privilege: 'system.core_update',
                     },
                 },
                 instances: {
@@ -53,25 +53,9 @@ Shopware.Module.register('matheus-gontijo-system-config-history', {
                     path: 'instances',
                     meta: {
                         parentPath: 'sw.settings.index',
-                        privilege: 'system.import_export', // @TODO: CHANGE IT
+                        privilege: 'system.core_update',
                     },
                 },
-                // export: {
-                //     component: 'sw-import-export-view-export',
-                //     path: 'export',
-                //     meta: {
-                //         parentPath: 'sw.settings.index',
-                //         privilege: 'system.import_export',
-                //     },
-                // },
-                // profiles: {
-                //     component: 'sw-import-export-view-profiles',
-                //     path: 'profiles',
-                //     meta: {
-                //         parentPath: 'sw.settings.index',
-                //         privilege: 'system.import_export',
-                //     },
-                // },
             },
         },
     },

@@ -17,7 +17,7 @@ class HistoryTab
         $data = [];
 
         $configurationKey = $matheusGontijoSystemConfigHistory->getConfigurationKey();
-        assert($configurationKey !== null);
+        \assert($configurationKey !== null);
 
         $data['configuration_key'] = $configurationKey;
 
@@ -26,7 +26,7 @@ class HistoryTab
         if ($matheusGontijoSystemConfigHistory->getConfigurationValueOld() !== null) {
             $configurationValueOldArray = $matheusGontijoSystemConfigHistory->getConfigurationValueOld();
 
-            assert(isset($configurationValueOldArray['_value']));
+            \assert(isset($configurationValueOldArray['_value']));
             $configurationValueOld = $configurationValueOldArray['_value'];
         }
 
@@ -39,7 +39,7 @@ class HistoryTab
         if ($matheusGontijoSystemConfigHistory->getConfigurationValueNew() !== null) {
             $configurationValueNewArray = $matheusGontijoSystemConfigHistory->getConfigurationValueNew();
 
-            assert(isset($configurationValueNewArray['_value']));
+            \assert(isset($configurationValueNewArray['_value']));
             $configurationValueNew = $configurationValueNewArray['_value'];
         }
 
@@ -52,7 +52,7 @@ class HistoryTab
         $data['username'] = $matheusGontijoSystemConfigHistory->getUsername();
 
         $createdAt = $matheusGontijoSystemConfigHistory->getCreatedAt();
-        assert($createdAt instanceof \DateTimeInterface);
+        \assert($createdAt instanceof \DateTimeInterface);
 
         $data['modified_at'] = $createdAt->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 

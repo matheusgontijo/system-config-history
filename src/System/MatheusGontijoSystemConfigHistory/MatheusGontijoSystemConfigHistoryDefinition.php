@@ -37,8 +37,7 @@ class MatheusGontijoSystemConfigHistoryDefinition extends EntityDefinition
 
     public function since(): ?string
     {
-        // @TODO: ADJUST IT
-        return '6.0.0.0';
+        return '6.4.0.0';
     }
 
     public function getHydratorClass(): string

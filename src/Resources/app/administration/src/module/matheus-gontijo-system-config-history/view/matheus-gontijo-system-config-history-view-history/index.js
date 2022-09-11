@@ -10,6 +10,8 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
 
     inject: ['MatheusGontijoSystemConfigHistoryViewHistoryService'],
 
+    mixins: ['notification'],
+
     data() {
         return {
             isLoading: false,
@@ -208,8 +210,12 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             ).then((response) => {
                 this.count = response.count;
                 this.rows = response.rows;
+            }).catch(() => {
+                this.createNotificationError({
+                    message: this.$tc(this.transPrefix('grid.errorLoadingGrid')),
+                });
+            }).finally(() => {
                 this.isLoadingSpin = false;
-                // @TODO: ADD FINALLY HERE? IN CASE OF ERROR
             });
         },
 
@@ -406,7 +412,11 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 this.informationModalId
             ).then((response) => {
                 this.informationModalData = response;
-                // @TODO: ADD FINALLY HERE? IN CASE OF ERROR
+            }).catch(() => {
+                this.informationModalId = null;
+                this.createNotificationError({
+                    message: this.$tc(this.transPrefix('grid.errorLoadingModal')),
+                });
             });
         },
     }

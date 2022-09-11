@@ -9,18 +9,11 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityLoadedEventFactory;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenContainerEvent;
-use Shopware\Core\Framework\DataAbstractionLayer\Read\EntityReaderInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\AggregationResult\AggregationResultCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\EntityAggregatorInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearcherInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\EntitySearchResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\IdSearchResult;
-use Shopware\Core\Framework\DataAbstractionLayer\VersionManager;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\CloneBehavior;
-use Shopware\Core\Framework\Feature;
-use Shopware\Core\System\SystemConfig\SystemConfigEntity;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @psalm-suppress InvalidExtendClass
@@ -75,9 +68,9 @@ class SystemConfigRepositoryDecoration extends EntityRepository
     }
 
     /**
-     * @psalm-suppress MethodSignatureMismatch
-     *
      * @param array<mixed> $data
+     *
+     * @psalm-suppress MethodSignatureMismatch
      */
     public function update(array $data, Context $context): EntityWrittenContainerEvent
     {

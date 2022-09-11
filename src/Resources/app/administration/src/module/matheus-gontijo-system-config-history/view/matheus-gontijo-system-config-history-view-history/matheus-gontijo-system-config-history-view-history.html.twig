@@ -105,8 +105,6 @@
                 </tr>
             </thead>
 
-            <!-- @TODO: ESCAPE ALL OUTPUT FROM DATABASE -->
-
             <tbody v-if="rows.length > 0">
                 <tr v-for="row in rows" @click="openInformationModal(row.id)">
                     <td :class="pagePrefix('td')">
