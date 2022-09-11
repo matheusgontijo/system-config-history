@@ -7,8 +7,6 @@ use Shopware\Core\Defaults;
 
 class HistoryTab
 {
-    private ?MatheusGontijoSystemConfigHistoryEntity $matheusGontijoSystemConfigHistory = null;
-
     /**
      * @return array<string, mixed>
      */
@@ -16,91 +14,49 @@ class HistoryTab
         string $defaultSalesChannelName,
         MatheusGontijoSystemConfigHistoryEntity $matheusGontijoSystemConfigHistory
     ): array {
-        $this->matheusGontijoSystemConfigHistory = $matheusGontijoSystemConfigHistory;
-
         $data = [];
 
-        $data = $this->formatGeneralSection($defaultSalesChannelName, $data);
-
-        return $this->formatUserSection($data);
-    }
-
-    /**
-     * @param array<string, mixed> $rootData
-     *
-     * @return array<string, mixed>
-     */
-    private function formatGeneralSection(string $defaultSalesChannelName, array $rootData): array
-    {
-        assert($this->matheusGontijoSystemConfigHistory !== null);
-
-        $data = [];
-
-        $configurationKey = $this->matheusGontijoSystemConfigHistory->getConfigurationKey();
+        $configurationKey = $matheusGontijoSystemConfigHistory->getConfigurationKey();
         assert($configurationKey !== null);
 
-        $data['configurationKey'] = $configurationKey;
+        $data['configuration_key'] = $configurationKey;
 
         $configurationValueOld = null;
 
-        if ($this->matheusGontijoSystemConfigHistory->getConfigurationValueOld() !== null) {
-            $configurationValueOldArray = $this->matheusGontijoSystemConfigHistory->getConfigurationValueOld();
+        if ($matheusGontijoSystemConfigHistory->getConfigurationValueOld() !== null) {
+            $configurationValueOldArray = $matheusGontijoSystemConfigHistory->getConfigurationValueOld();
 
             assert(isset($configurationValueOldArray['_value']));
             $configurationValueOld = $configurationValueOldArray['_value'];
         }
 
-        $data['configurationValueOld'] = $configurationValueOld;
+        $data['configuration_value_old'] = $configurationValueOld;
 
-        $data['configurationValueOldType'] = $this->typeOf($configurationValueOld);
+        $data['configuration_value_old_type'] = $this->typeOf($configurationValueOld);
 
         $configurationValueNew = null;
 
-        if ($this->matheusGontijoSystemConfigHistory->getConfigurationValueNew() !== null) {
-            $configurationValueNewArray = $this->matheusGontijoSystemConfigHistory->getConfigurationValueNew();
+        if ($matheusGontijoSystemConfigHistory->getConfigurationValueNew() !== null) {
+            $configurationValueNewArray = $matheusGontijoSystemConfigHistory->getConfigurationValueNew();
 
             assert(isset($configurationValueNewArray['_value']));
             $configurationValueNew = $configurationValueNewArray['_value'];
         }
 
-        $data['configurationValueNew'] = $configurationValueNew;
+        $data['configuration_value_new'] = $configurationValueNew;
 
-        $data['configurationValueNewType'] = $this->typeOf($configurationValueNew);
+        $data['configuration_value_new_type'] = $this->typeOf($configurationValueNew);
 
-        $data['salesChannelName'] = $defaultSalesChannelName;
+        $data['sales_channel_name'] = $defaultSalesChannelName;
 
-        $createdAt = $this->matheusGontijoSystemConfigHistory->getCreatedAt();
+        $data['username'] = $matheusGontijoSystemConfigHistory->getUsername();
+
+        $createdAt = $matheusGontijoSystemConfigHistory->getCreatedAt();
         assert($createdAt instanceof \DateTimeInterface);
 
-        $data['modifiedAt'] = $createdAt->format(Defaults::STORAGE_DATE_TIME_FORMAT);
+        $data['modified_at'] = $createdAt->format(Defaults::STORAGE_DATE_TIME_FORMAT);
 
-        $rootData['general'] = $data;
-
-        return $rootData;
-    }
-
-    /**
-     * @param array<string, mixed> $rootData
-     *
-     * @return array<string, mixed>
-     */
-    private function formatUserSection(array $rootData): array
-    {
-        assert($this->matheusGontijoSystemConfigHistory !== null);
-
-        if ($this->matheusGontijoSystemConfigHistory->getUserData() === null) {
-            return $rootData;
-        }
-
-        $userData = $this->matheusGontijoSystemConfigHistory->getUserData();
-
-        assert(isset($userData['user']));
-        $rootData['user'] = $userData['user'];
-
-        assert(isset($userData['request']));
-        $rootData['request'] = $userData['request'];
-
-        return $rootData;
+        return $data;
     }
 
     /**

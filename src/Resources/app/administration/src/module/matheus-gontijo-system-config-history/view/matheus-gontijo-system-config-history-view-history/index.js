@@ -67,6 +67,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 return this.filters.configuration_key;
             },
             set: function(v) {
+                this.page = 1;
                 return this.filters.configuration_key = v;
             }
         },
@@ -76,6 +77,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 return this.filters.configuration_value_old;
             },
             set: function(v) {
+                this.page = 1;
                 return this.filters.configuration_value_old = v;
             }
         },
@@ -85,6 +87,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 return this.filters.configuration_value_new;
             },
             set: function(v) {
+                this.page = 1;
                 return this.filters.configuration_value_new = v;
             }
         },
@@ -94,6 +97,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 return this.filters.sales_channel_name;
             },
             set: function(v) {
+                this.page = 1;
                 return this.filters.sales_channel_name = v;
             }
         },
@@ -103,6 +107,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 return this.filters.username;
             },
             set: function(v) {
+                this.page = 1;
                 return this.filters.username = v;
             }
         },
@@ -112,6 +117,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 return this.limit;
             },
             set: function(v) {
+                this.page = 1;
                 return this.limit = v;
             }
         },
@@ -390,6 +396,8 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 this.modalId
             ).then((response) => {
                 this.modalData = response;
+
+                console.log(response)
 
                 // this.isLoading = false;
                 // @TODO: ADD FINALLY HERE? IN CASE OF ERROR

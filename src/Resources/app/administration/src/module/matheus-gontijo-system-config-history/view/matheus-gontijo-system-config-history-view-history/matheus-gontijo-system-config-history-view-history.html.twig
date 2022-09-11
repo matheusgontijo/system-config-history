@@ -176,55 +176,46 @@
                 <tbody>
                     <tr>
                         <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.configurationKey')) }}</td>
-                        <td :class="pagePrefix('modal-monospace')">{{ modalData.general.configurationKey }}</td>
+                        <td :class="pagePrefix('modal-monospace')">{{ modalData.configuration_key }}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.configurationValueOld')) }}</td>
-                        <td :class="pagePrefix('modal-monospace')">{{ modalData.general.configurationValueOld }}</td>
-                        <td><em>{{ modalData.general.configurationValueOldType }}</em></td>
+                        <td :class="pagePrefix('modal-monospace')">
+                            <span v-if="modalData.configuration_value_old == null">
+                                <span :class="pagePrefix('td-null')">null</span>
+                            </span>
+                            <span v-else>
+                                {{ modalData.configuration_value_old }}
+                            </span>
+                        </td>
+                        <td><em>{{ modalData.configurationValueOldType }}</em></td>
                     </tr>
                     <tr>
                         <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.configurationValueNew')) }}</td>
-                        <td :class="pagePrefix('modal-monospace')">{{ modalData.general.configurationValueOld }}</td>
-                        <td><em>{{ modalData.general.configurationValueOldType }}</em></td>
+                        <td :class="pagePrefix('modal-monospace')">
+                            <span v-if="modalData.configuration_value_new == null">
+                                <span :class="pagePrefix('td-null')">null</span>
+                            </span>
+                            <span v-else>
+                                {{ modalData.configuration_value_new }}
+                            </span>
+                        </td>
+                        <td><em>{{ modalData.configurationValueNewType }}</em></td>
                     </tr>
                     <tr>
                         <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.salesChannelName')) }}</td>
-                        <td>{{ modalData.general.salesChannelName }}</td>
+                        <td>{{ modalData.sales_channel_name }}</td>
+                        <td></td>
+                    </tr>
+                    <tr v-if="modalData.username">
+                        <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.username')) }}</td>
+                        <td>{{ modalData.username }}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.modifiedAt')) }}</td>
-                        <td>{{ formatDate(modalData.general.modifiedAt) }}</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div :class="pagePrefix('modal-section')" v-if="modalData.user !== undefined">
-            <h2>{{ $tc(transPrefix('modal.userSectionTitle')) }}</h2>
-            <table v-if="showModalData" cellspacing="0" cellpadding="0" :class="pagePrefix('modal-table')">
-                <colgroup>
-                    <col span="1" style="width: 15%;">
-                    <col span="1" style="width: 75%;">
-                    <col span="1" style="width: 10%;">
-                </colgroup>
-                <tbody>
-                    <tr>
-                        <td :class="pagePrefix('modal-table-td-key')">{{ $tc(transPrefix('modal.username')) }}</td>
-                        <td>{{ modalData.user.username }}</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td :class="pagePrefix('modal-table-td-key')">SERVER_ADDR</td>
-                        <td :class="pagePrefix('modal-monospace')">{{ modalData.request.SERVER_ADDR }}</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td :class="pagePrefix('modal-table-td-key')">HTTP_USER_AGENT</td>
-                        <td :class="pagePrefix('modal-monospace')">{{ modalData.request.HTTP_USER_AGENT }}</td>
+                        <td>{{ formatDate(modalData.modified_at) }}</td>
                         <td></td>
                     </tr>
                 </tbody>

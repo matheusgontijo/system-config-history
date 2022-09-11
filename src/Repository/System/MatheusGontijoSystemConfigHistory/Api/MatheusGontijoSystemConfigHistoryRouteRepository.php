@@ -245,12 +245,14 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
             $row['id'] = Uuid::fromBytesToHex($row['id']);
 
-            if (\strlen($row['configuration_value_old']) > self::MAX_CHARACTERS_PER_COLUMN) {
+            if (is_string($row['configuration_value_old'])
+                && \strlen($row['configuration_value_old']) > self::MAX_CHARACTERS_PER_COLUMN) {
                 $shorterValue = substr($row['configuration_value_old'], 0, self::MAX_CHARACTERS_PER_COLUMN);
                 $row['configuration_value_old'] = $shorterValue . ' (...)';
             }
 
-            if (\strlen($row['configuration_value_new']) > self::MAX_CHARACTERS_PER_COLUMN) {
+            if (is_string($row['configuration_value_new'])
+                && \strlen($row['configuration_value_new']) > self::MAX_CHARACTERS_PER_COLUMN) {
                 $shorterValue = substr($row['configuration_value_new'], 0, self::MAX_CHARACTERS_PER_COLUMN);
 
                 $row['configuration_value_new'] = $shorterValue . ' (...)';
