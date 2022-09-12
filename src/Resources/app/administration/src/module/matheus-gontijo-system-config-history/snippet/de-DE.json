@@ -5,21 +5,21 @@
       "description": "Verwalten Sie den Systemkonfigurationsverlauf"
     },
     "page": {
-      "historyTab": "Geschichte",
+      "historyTab": "Verlauf",
       "instancesTab": "Instanzen"
     }
   },
   "matheus-gontijo-system-config-history-config": {
     "historyTab": {
-        "title": "Geschichte",
+        "title": "Verlauf",
         "grid": {
-            "columnKey": "Taste",
+            "columnKey": "Schlüssel",
             "columnOldValue": "Alter Wert",
             "columnNewValue": "Neuer Wert",
             "columnSalesChannelName": "Verkaufskanal",
             "columnUsername": "Nutzername",
-            "columnCreatedAt": "Hergestellt in",
-            "revertButton": "Zurückkehren",
+            "columnCreatedAt": "Geändert am",
+            "revertButton": "Rückgängig machen",
             "noResultsWereFound": "Für diese Suche wurden keine Ergebnisse gefunden.",
             "defaultSalesChannelName": "Standard"
         }
