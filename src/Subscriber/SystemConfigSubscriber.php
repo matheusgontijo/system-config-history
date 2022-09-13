@@ -6,6 +6,7 @@ use MatheusGontijo\SystemConfigHistory\Model\RequestStateRegistry;
 use MatheusGontijo\SystemConfigHistory\Model\SystemConfigSubscriberProcess;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityDeletedEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\DeleteCommand;
+use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\WriteCommand;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\Validation\PreWriteValidationEvent;
 use Shopware\Core\System\SystemConfig\SystemConfigDefinition;
 use Shopware\Core\System\SystemConfig\SystemConfigEntity;
@@ -31,16 +32,9 @@ class SystemConfigSubscriber implements EventSubscriberInterface
     public function triggerChangeSet(PreWriteValidationEvent $event): void
     {
         foreach ($event->getCommands() as $command) {
-            if (!$command instanceof ChangeSetAware) {
+            if (!($command instanceof UpdateCommand || $command instanceof DeleteCommand)) {
                 continue;
             }
-
-            \assert(
-                $command instanceof ChangeSetAware
-                || $command instanceof InsertCommand
-                || $command instanceof UpdateCommand
-                || $command instanceof DeleteCommand
-            );
 
             if ($command->getDefinition()->getEntityName() !== SystemConfigDefinition::ENTITY_NAME) {
                 continue;
