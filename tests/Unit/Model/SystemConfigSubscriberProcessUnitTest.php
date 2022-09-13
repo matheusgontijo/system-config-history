@@ -251,7 +251,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcess->processEntityWrittenEvent($entityWrittenEventMock);
     }
 
-    public function testWithoutRequestAttributeContextObject(): void
+    public function testProcessEntityWrittenEventWithoutRequestAttributeContextObject(): void
     {
         $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
             SystemConfigSubscriberProcessRepository::class
@@ -344,7 +344,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcess->processEntityWrittenEvent($entityWrittenEventMock);
     }
 
-    public function testWithoutRequestWithoutAdminApiSource(): void
+    public function testProcessEntityWrittenEventWithoutRequestAdminApiSource(): void
     {
         $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
             SystemConfigSubscriberProcessRepository::class
@@ -439,5 +439,189 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         );
 
         $systemConfigSubscriberProcess->processEntityWrittenEvent($entityWrittenEventMock);
+    }
+
+    public function testProcessEntityDeletedEventWithoutRequest(): void
+    {
+        $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
+            SystemConfigSubscriberProcessRepository::class
+        );
+        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        $entityWriteResultMock1 = $this->createMock(EntityWriteResult::class);
+
+        $changeSet1 = new ChangeSet([
+            'configuration_key' => 'my.custom.systemConfig1',
+            'sales_channel_id' => null,
+            'configuration_value' => '{"_value":"aaa"}',
+        ], [], false);
+
+        $entityWriteResultMock1->expects(static::exactly(1))
+            ->method('getChangeSet')
+            ->willReturn($changeSet1);
+
+        $entityWriteResultMock2 = $this->createMock(EntityWriteResult::class);
+
+        $changeSet2 = new ChangeSet([
+            'configuration_key' => 'my.custom.systemConfig2',
+            'sales_channel_id' => null,
+            'configuration_value' => '{"_value":"bbb"}',
+        ], [], false);
+
+        $entityWriteResultMock2->expects(static::exactly(1))
+            ->method('getChangeSet')
+            ->willReturn($changeSet2);
+
+        $entityDeletedEventMock = $this->createMock(EntityDeletedEvent::class);
+
+        $entityDeletedEventMock->expects(static::exactly(1))
+            ->method('getWriteResults')
+            ->willReturn([$entityWriteResultMock1, $entityWriteResultMock2]);
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(2))
+            ->method('generateId')
+            ->willReturnOnConsecutiveCalls(
+                'c6316df22e754fe1af0eae305fd3a495',
+                '1c957ed20cef4410ad1a6150079ab9f7'
+            );
+
+        $requestStateRegistryMock->expects(static::exactly(2))
+            ->method('getRequest')
+            ->willReturn(null);
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
+            ->method('insert')
+            ->withConsecutive(
+                [
+                    [
+                        [
+                            'id' => 'c6316df22e754fe1af0eae305fd3a495',
+                            'configurationKey' => 'my.custom.systemConfig1',
+                            'salesChannelId' => null,
+                            'configurationValueOld' => ['_value' => 'aaa'],
+                            'configurationValueNew' => null,
+                        ],
+                        [
+                            'id' => '1c957ed20cef4410ad1a6150079ab9f7',
+                            'configurationKey' => 'my.custom.systemConfig2',
+                            'salesChannelId' => null,
+                            'configurationValueOld' => ['_value' => 'bbb'],
+                            'configurationValueNew' => null,
+                        ]
+                    ]
+                ]
+            );
+
+        $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
+            $systemConfigSubscriberProcessRepositoryMock,
+            $requestStateRegistryMock
+        );
+
+        $systemConfigSubscriberProcess->processEntityDeletedEvent($entityDeletedEventMock);
+    }
+
+    public function testProcessEntityDeletedEventWithRequest(): void
+    {
+        $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
+            SystemConfigSubscriberProcessRepository::class
+        );
+        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        $entityWriteResultMock1 = $this->createMock(EntityWriteResult::class);
+
+        $changeSet1 = new ChangeSet([
+            'configuration_key' => 'my.custom.systemConfig1',
+            'sales_channel_id' => null,
+            'configuration_value' => '{"_value":"aaa"}',
+        ], [], false);
+
+        $entityWriteResultMock1->expects(static::exactly(1))
+            ->method('getChangeSet')
+            ->willReturn($changeSet1);
+
+        $entityWriteResultMock2 = $this->createMock(EntityWriteResult::class);
+
+        $changeSet2 = new ChangeSet([
+            'configuration_key' => 'my.custom.systemConfig2',
+            'sales_channel_id' => null,
+            'configuration_value' => '{"_value":"bbb"}',
+        ], [], false);
+
+        $entityWriteResultMock2->expects(static::exactly(1))
+            ->method('getChangeSet')
+            ->willReturn($changeSet2);
+
+        $entityDeletedEventMock = $this->createMock(EntityDeletedEvent::class);
+
+        $entityDeletedEventMock->expects(static::exactly(1))
+            ->method('getWriteResults')
+            ->willReturn([$entityWriteResultMock1, $entityWriteResultMock2]);
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(2))
+            ->method('generateId')
+            ->willReturnOnConsecutiveCalls(
+                'c6316df22e754fe1af0eae305fd3a495',
+                '1c957ed20cef4410ad1a6150079ab9f7'
+            );
+
+        $request = Request::create('http://localhost', 'POST', [], [], [], []);
+
+        $context = new Context(new AdminApiSource('72e7593c3a374ddc9c864abdf31dc766'));
+
+        $request->attributes->set(PlatformRequest::ATTRIBUTE_CONTEXT_OBJECT, $context);
+
+        $requestStateRegistryMock->method('getRequest')
+            ->willReturn($request);
+
+        $userEntity = new UserEntity();
+        $userEntity->setUsername('johndoe');
+        $userEntity->setFirstName('John');
+        $userEntity->setLastName('Doe');
+        $userEntity->setEmail('johndoe@example.com');
+        $userEntity->setActive(true);
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
+            ->method('loadUser')
+            ->willReturn($userEntity);
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
+            ->method('insert')
+            ->withConsecutive(
+                [
+                    [
+                        [
+                            'id' => 'c6316df22e754fe1af0eae305fd3a495',
+                            'configurationKey' => 'my.custom.systemConfig1',
+                            'salesChannelId' => null,
+                            'configurationValueOld' => ['_value' => 'aaa'],
+                            'configurationValueNew' => null,
+                            'username' => 'johndoe',
+                        ],
+                        [
+                            'id' => '1c957ed20cef4410ad1a6150079ab9f7',
+                            'configurationKey' => 'my.custom.systemConfig2',
+                            'salesChannelId' => null,
+                            'configurationValueOld' => ['_value' => 'bbb'],
+                            'configurationValueNew' => null,
+                            'username' => 'johndoe',
+                        ]
+                    ]
+                ]
+            );
+
+        $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
+            $systemConfigSubscriberProcessRepositoryMock,
+            $requestStateRegistryMock
+        );
+
+        $systemConfigSubscriberProcess->processEntityDeletedEvent($entityDeletedEventMock);
     }
 }
