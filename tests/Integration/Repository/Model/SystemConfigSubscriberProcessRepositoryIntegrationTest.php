@@ -4,7 +4,7 @@ namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\Model;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ForwardCompatibility\Result;
-use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigRepositoryDecorationProcessRepository;
+use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigSubscriberProcessRepository;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Defaults;
@@ -18,17 +18,17 @@ use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\User\UserEntity;
 
-class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends TestCase
+class SystemConfigSubscriberProcessRepositoryIntegrationTest extends TestCase
 {
     use IntegrationTestBehaviour;
 
     public function testIsDisabledWhenNonExistingValue(): void
     {
-        $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
-            SystemConfigRepositoryDecorationProcessRepository::class
+        $systemConfigSubscriberProcessRepository = $this->getContainer()->get(
+            SystemConfigSubscriberProcessRepository::class
         );
 
-        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository); // phpcs:ignore
+        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository);
 
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);
@@ -42,16 +42,16 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
 
         $qb->execute();
 
-        static::assertFalse($systemConfigRepositoryDecorationProcessRepository->isEnabled());
+        static::assertFalse($systemConfigSubscriberProcessRepository->isEnabled());
     }
 
     public function testIsDisabledWhenValueIsFalse(): void
     {
-        $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
-            SystemConfigRepositoryDecorationProcessRepository::class
+        $systemConfigSubscriberProcessRepository = $this->getContainer()->get(
+            SystemConfigSubscriberProcessRepository::class
         );
 
-        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository); // phpcs:ignore
+        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository); // phpcs:ignore
 
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);
@@ -67,32 +67,32 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
 
         $qb->execute();
 
-        static::assertFalse($systemConfigRepositoryDecorationProcessRepository->isEnabled());
+        static::assertFalse($systemConfigSubscriberProcessRepository->isEnabled());
     }
 
     public function testIsEnabled(): void
     {
-        $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
-            SystemConfigRepositoryDecorationProcessRepository::class
+        $systemConfigSubscriberProcessRepository = $this->getContainer()->get(
+            SystemConfigSubscriberProcessRepository::class
         );
 
-        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository); // phpcs:ignore
+        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository); // phpcs:ignore
 
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);
 
-        static::assertTrue($systemConfigRepositoryDecorationProcessRepository->isEnabled());
+        static::assertTrue($systemConfigSubscriberProcessRepository->isEnabled());
     }
 
     public function testGetValueWithNonExistingValue(): void
     {
-        $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
-            SystemConfigRepositoryDecorationProcessRepository::class
+        $systemConfigSubscriberProcessRepository = $this->getContainer()->get(
+            SystemConfigSubscriberProcessRepository::class
         );
 
-        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository); // phpcs:ignore
+        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository); // phpcs:ignore
 
-        static::assertNull($systemConfigRepositoryDecorationProcessRepository->getValue('my.custom.configKey'));
+        static::assertNull($systemConfigSubscriberProcessRepository->getValue('my.custom.configKey'));
     }
 
     /**
@@ -103,13 +103,13 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
      */
     public function testInsert($oldValue, $newValue, ?string $salesChannelId): void
     {
-        $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
-            SystemConfigRepositoryDecorationProcessRepository::class
+        $systemConfigSubscriberProcessRepository = $this->getContainer()->get(
+            SystemConfigSubscriberProcessRepository::class
         );
 
-        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository ); // phpcs:ignore
+        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository ); // phpcs:ignore
 
-        $systemConfigRepositoryDecorationProcessRepository->insert([
+        $systemConfigSubscriberProcessRepository->insert([
             [
                 'configurationKey' => 'my.custom.systemConfigTestInsertFull1',
                 'configurationValueOld' => ['_value' => $oldValue],
@@ -232,15 +232,15 @@ class SystemConfigRepositoryDecorationProcessRepositoryIntegrationTest extends T
         $user = $searchResult->first();
         \assert($user instanceof UserEntity);
 
-        $systemConfigRepositoryDecorationProcessRepository = $this->getContainer()->get(
-            SystemConfigRepositoryDecorationProcessRepository::class
+        $systemConfigSubscriberProcessRepository = $this->getContainer()->get(
+            SystemConfigSubscriberProcessRepository::class
         );
 
-        \assert($systemConfigRepositoryDecorationProcessRepository instanceof SystemConfigRepositoryDecorationProcessRepository); // phpcs:ignore
+        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository); // phpcs:ignore
 
         static::assertEquals(
             $user,
-            $systemConfigRepositoryDecorationProcessRepository->loadUser($user->getId())
+            $systemConfigSubscriberProcessRepository->loadUser($user->getId())
         );
     }
 }
