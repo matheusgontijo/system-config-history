@@ -84,17 +84,6 @@ class SystemConfigSubscriberProcessRepositoryIntegrationTest extends TestCase
         static::assertTrue($systemConfigSubscriberProcessRepository->isEnabled());
     }
 
-    public function testGetValueWithNonExistingValue(): void
-    {
-        $systemConfigSubscriberProcessRepository = $this->getContainer()->get(
-            SystemConfigSubscriberProcessRepository::class
-        );
-
-        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository); // phpcs:ignore
-
-        static::assertNull($systemConfigSubscriberProcessRepository->getValue('my.custom.configKey'));
-    }
-
     /**
      * @param array<mixed>|bool|int|float|string $oldValue
      * @param array<mixed>|bool|int|float|string $newValue
