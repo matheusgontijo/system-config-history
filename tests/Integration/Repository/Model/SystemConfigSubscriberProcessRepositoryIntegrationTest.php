@@ -51,7 +51,7 @@ class SystemConfigSubscriberProcessRepositoryIntegrationTest extends TestCase
             SystemConfigSubscriberProcessRepository::class
         );
 
-        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository); // phpcs:ignore
+        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository);
 
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);
@@ -76,7 +76,7 @@ class SystemConfigSubscriberProcessRepositoryIntegrationTest extends TestCase
             SystemConfigSubscriberProcessRepository::class
         );
 
-        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository); // phpcs:ignore
+        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository);
 
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);
@@ -96,7 +96,7 @@ class SystemConfigSubscriberProcessRepositoryIntegrationTest extends TestCase
             SystemConfigSubscriberProcessRepository::class
         );
 
-        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository ); // phpcs:ignore
+        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository);
 
         $systemConfigSubscriberProcessRepository->insert([
             [
@@ -183,7 +183,7 @@ class SystemConfigSubscriberProcessRepositoryIntegrationTest extends TestCase
 
         $qb = $connection->createQueryBuilder();
 
-        $qb->select('locale.id');
+        $qb->select('LOWER(HEX(locale.id)) AS id');
         $qb->from('language', 'language');
         $qb->innerJoin('language', 'locale', 'locale', 'language.locale_id = locale.id');
         $qb->where('language.id = :id');
@@ -192,7 +192,7 @@ class SystemConfigSubscriberProcessRepositoryIntegrationTest extends TestCase
         $executeResult = $qb->execute();
         \assert($executeResult instanceof Result);
 
-        $localeId = Uuid::fromBytesToHex($executeResult->fetchOne());
+        $localeId = $executeResult->fetchOne();
 
         $userRepository = $this->getContainer()->get('user.repository');
         \assert($userRepository instanceof EntityRepository);
@@ -225,7 +225,7 @@ class SystemConfigSubscriberProcessRepositoryIntegrationTest extends TestCase
             SystemConfigSubscriberProcessRepository::class
         );
 
-        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository); // phpcs:ignore
+        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository);
 
         static::assertEquals(
             $user,

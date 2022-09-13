@@ -183,10 +183,10 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         $qb = $this->connection->createQueryBuilder();
 
         $qb->select([
-            'mgsch.id',
+            'LOWER(HEX(mgsch.id)) AS id',
             'mgsch.configuration_key',
-            'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_old, "$._value")) as configuration_value_old',
-            'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_new, "$._value")) as configuration_value_new',
+            'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_old, "$._value")) AS configuration_value_old',
+            'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_new, "$._value")) AS configuration_value_new',
             'IF(sct.name IS NOT NULL, sct.name, :default_sales_channel_name) AS sales_channel_name',
             'mgsch.username',
             'mgsch.created_at',
@@ -237,8 +237,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
         foreach ($unnormalizedRows as $unnormalizedRow) {
             $row = $unnormalizedRow;
-
-            $row['id'] = Uuid::fromBytesToHex($row['id']);
 
             if (
                 \is_string($row['configuration_value_old'])

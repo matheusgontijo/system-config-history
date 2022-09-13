@@ -421,7 +421,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         }
 
         $qb = $connection->createQueryBuilder();
-        $qb->select(['id']);
+        $qb->select(['LOWER(HEX(id)) AS id']);
         $qb->from('locale');
         $qb->where('code = \'de-DE\'');
         $qb->setMaxResults(1);
@@ -429,9 +429,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $executeResult = $qb->execute();
         \assert($executeResult instanceof Result);
 
-        $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
-
-        $deDeLocaleId = Uuid::fromBytesToHex($defaultEnGbLocaleIdBin);
+        $deDeLocaleId = $executeResult->fetchOne();
 
         $filters = [
             'configuration_key' => 'foo.bar.enabled',
@@ -502,7 +500,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         \assert($connection instanceof Connection);
 
         $qb = $connection->createQueryBuilder();
-        $qb->select(['id']);
+        $qb->select(['LOWER(HEX(id)) AS id']);
         $qb->from('locale');
         $qb->where('code = \'en-GB\'');
         $qb->setMaxResults(1);
@@ -510,9 +508,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $executeResult = $qb->execute();
         \assert($executeResult instanceof Result);
 
-        $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
-
-        $defaultEnGbLocaleId = Uuid::fromBytesToHex($defaultEnGbLocaleIdBin);
+        $defaultEnGbLocaleId = $executeResult->fetchOne();
 
         $count = $matheusGontijoSystemConfigHistoryRouteRepository->getCount(
             $defaultEnGbLocaleId,
@@ -541,7 +537,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         \assert($connection instanceof Connection);
 
         $qb = $connection->createQueryBuilder();
-        $qb->select(['id']);
+        $qb->select(['LOWER(HEX(id)) AS id']);
         $qb->from('locale');
         $qb->where('code = \'en-GB\'');
         $qb->setMaxResults(1);
@@ -549,9 +545,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $executeResult = $qb->execute();
         \assert($executeResult instanceof Result);
 
-        $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
-
-        $defaultEnGbLocaleId = Uuid::fromBytesToHex($defaultEnGbLocaleIdBin);
+        $defaultEnGbLocaleId = $executeResult->fetchOne();
 
         $rows = [
             [
@@ -732,7 +726,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         \assert($connection instanceof Connection);
 
         $qb = $connection->createQueryBuilder();
-        $qb->select(['id']);
+        $qb->select(['LOWER(HEX(id)) AS id']);
         $qb->from('locale');
         $qb->where('code = \'en-GB\'');
         $qb->setMaxResults(1);
@@ -740,9 +734,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $executeResult = $qb->execute();
         \assert($executeResult instanceof Result);
 
-        $defaultEnGbLocaleIdBin = $executeResult->fetchOne();
-
-        $defaultEnGbLocaleId = Uuid::fromBytesToHex($defaultEnGbLocaleIdBin);
+        $defaultEnGbLocaleId = $executeResult->fetchOne();
 
         $defaultFilters = [
             'configuration_key' => null,
