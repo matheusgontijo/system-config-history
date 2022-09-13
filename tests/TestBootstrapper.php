@@ -8,6 +8,7 @@ use Doctrine\DBAL\Connection;
 use Shopware\Core\DevOps\StaticAnalyze\StaticAnalyzeKernel;
 use Shopware\Core\Framework\Plugin\KernelPluginLoader\DbalKernelPluginLoader;
 use Shopware\Core\Framework\Test\TestCaseBase\KernelLifecycleManager;
+use Shopware\Core\Framework\Uuid\Uuid;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
@@ -80,12 +81,12 @@ class TestBootstrapper
             if (!empty($this->activePlugins)) {
                 $this->installPlugins();
             }
+
+            $this->createSalesChannel();
+            $this->enablePlugin();
         } elseif ($this->forceInstallPlugins) {
             $this->installPlugins();
         }
-
-        $this->createSalesChannel();
-        $this->enablePlugin();
 
         return $this;
     }
@@ -101,14 +102,19 @@ class TestBootstrapper
 
     private function enablePlugin(): void
     {
-        $application = new Application($this->getKernel());
-        $refreshCommand = $application->find('system:config:set');
-        $refreshCommand->run(new ArrayInput([
-            'key' => 'matheusGontijo.systemConfigHistory.enabled',
-            'value' => true,
-        ], $refreshCommand->getDefinition()), $this->getOutput());
-
         KernelLifecycleManager::bootKernel();
+
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $connection->insert('system_config', [
+            'id' => Uuid::fromHexToBytes('e1adb08e9f2648dbafb0f2536eea4f23'),
+            'configuration_key' => 'matheusGontijo.systemConfigHistory.enabled',
+            'configuration_value' => '{"_value":true}',
+            'sales_channel_id' => null,
+            'created_at' => '2022-09-01 00:00:00.000',
+            'updated_at' => null,
+        ]);
     }
 
     public function getStaticAnalyzeKernel(): StaticAnalyzeKernel

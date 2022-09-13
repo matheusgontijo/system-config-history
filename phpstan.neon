@@ -11,8 +11,3 @@ parameters:
     excludePaths:
         - 'tests/TestBootstrap.php'
         - 'tests/TestBootstrapper.php'
-
-    ignoreErrors:
-        -
-            message: '#Class MatheusGontijo\\SystemConfigHistory\\Decoration\\SystemConfigRepositoryDecoration extends @final class Shopware\\Core\\Framework\\DataAbstractionLayer\\EntityRepository.#'
-            path: src/Decoration/SystemConfigRepositoryDecoration.php

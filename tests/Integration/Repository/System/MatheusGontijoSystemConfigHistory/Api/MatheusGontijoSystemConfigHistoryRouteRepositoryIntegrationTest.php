@@ -526,7 +526,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             ]
         );
 
-        static::assertSame(101, $count);
+        static::assertSame(100, $count);
     }
 
     public function testCountWithFilters(): void
@@ -696,9 +696,9 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         static::assertSame('foo.bar.enabled3', $user->getConfigurationKey());
         static::assertSame(['_value' => 123], $user->getConfigurationValueOld());
         static::assertSame(['_value' => 456], $user->getConfigurationValueNew());
-        static::assertSame(null, $user->getSalesChannelId());
+        static::assertNull($user->getSalesChannelId());
         static::assertEquals($createdAt, $user->getCreatedAt());
-        static::assertSame(null, $user->getUpdatedAt());
+        static::assertNull($user->getUpdatedAt());
     }
 
     private function populateTableWithData(): void
@@ -711,6 +711,8 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         foreach ($rows as $row) {
             $connection->insert('matheus_gontijo_system_config_history', $row);
         }
+
+        $a = null;
     }
 
     /**

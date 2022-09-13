@@ -2,7 +2,6 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Tests\Unit\View\Admin\MatheusGontijoSystemConfig;
 
-use DateTimeImmutable;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use MatheusGontijo\SystemConfigHistory\View\Admin\MatheusGontijoSystemConfig\HistoryTab;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +18,8 @@ class HistoryTabUnitTest extends TestCase
     {
         $entity = new MatheusGontijoSystemConfigHistoryEntity();
 
-        $createdAt = DateTimeImmutable::createFromFormat(Defaults::STORAGE_DATE_TIME_FORMAT, $data['modified_at']);
+        $createdAt = \DateTime::createFromFormat(Defaults::STORAGE_DATE_TIME_FORMAT, $data['modified_at']);
+        \assert($createdAt instanceof \DateTime);
 
         $entity->setId($data['id']);
         $entity->setConfigurationKey($data['configuration_key']);
@@ -54,7 +54,7 @@ class HistoryTabUnitTest extends TestCase
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<int, mixed>
      */
     public function setGetDataProvider(): array
     {

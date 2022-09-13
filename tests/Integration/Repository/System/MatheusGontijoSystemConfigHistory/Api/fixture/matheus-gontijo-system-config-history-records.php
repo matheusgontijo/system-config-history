@@ -903,13 +903,4 @@ return [
         'created_at' => '2013-08-10 02:38:11.249',
         'updated_at' => null,
     ],
-    [
-        'id' => Uuid::fromHexToBytes('fcfdec4bd66c3784b821d89a4e331fb9'),
-        'configuration_key' => 'aut.quisquamQuae.exRepellendus',
-        'configuration_value_old' => '{"_value":"natus"}',
-        'configuration_value_new' => '{"_value":"maiores"}',
-        'sales_channel_id' => null,
-        'created_at' => '2005-03-31 18:15:10.174',
-        'updated_at' => null,
-    ],
 ];

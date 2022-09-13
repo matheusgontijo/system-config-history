@@ -7,6 +7,7 @@ use Shopware\Core\Framework\Api\Context\AdminApiSource;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityDeletedEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
+use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\ChangeSet;
 use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\User\UserEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -62,14 +63,18 @@ class SystemConfigSubscriberProcess
 
             $configurationValueBefore = null;
 
-            if ($changeSet->getBefore('configuration_value') !== null) {
-                $configurationValueBefore = json_decode($changeSet->getBefore('configuration_value'), true);
+            $configurationValueBeforeRawValue = $changeSet->getBefore('configuration_value');
+
+            if (is_string($configurationValueBeforeRawValue)) {
+                $configurationValueBefore = json_decode($configurationValueBeforeRawValue, true);
             }
 
             $configurationValueAfter = null;
 
-            if ($changeSet->getAfter('configuration_value') !== null) {
-                $configurationValueAfter = json_decode($changeSet->getAfter('configuration_value'), true);
+            $configurationValueAfterRawValue = $changeSet->getAfter('configuration_value');
+
+            if (is_string($configurationValueAfterRawValue)) {
+                $configurationValueAfter = json_decode($configurationValueAfterRawValue, true);
             }
 
             $historyData = [
@@ -98,11 +103,14 @@ class SystemConfigSubscriberProcess
 
         foreach ($event->getWriteResults() as $result) {
             $changeSet = $result->getChangeSet();
+            \assert($changeSet instanceof ChangeSet);
 
             $configurationValueBefore = null;
 
-            if ($changeSet->getBefore('configuration_value') !== null) {
-                $configurationValueBefore = json_decode($changeSet->getBefore('configuration_value'), true);
+            $configurationValueBeforeRawValue = $changeSet->getBefore('configuration_value');
+
+            if (is_string($configurationValueBeforeRawValue)) {
+                $configurationValueBefore = json_decode($configurationValueBeforeRawValue, true);
             }
 
             $historyData = [
