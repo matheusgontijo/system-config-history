@@ -11,12 +11,7 @@
 
         <prototype namespace="MatheusGontijo\SystemConfigHistory\" resource="../../*"/>
 
-        <service id="MatheusGontijo\SystemConfigHistory\Decoration\SystemConfigRepositoryDecoration" decorates="system_config.repository" decoration-priority="-1000" public="true">
-            <argument type="service" id=".inner"/>
-            <argument type="service" id="MatheusGontijo\SystemConfigHistory\Model\SystemConfigRepositoryDecorationProcess"/>
-            <argument type="service" id="MatheusGontijo\SystemConfigHistory\Repository\Decoration\SystemConfigRepositoryDecorationRepository"/>
-        </service>
-
+        <!-- @TODO: MOVE INSIDE METHODS TO OTHER CLASS... NOT "KernelControllerArgumentsSubscriber" -->
         <service id="MatheusGontijo\SystemConfigHistory\Subscriber\KernelControllerArgumentsSubscriber">
             <tag name="kernel.event_subscriber"/>
         </service>

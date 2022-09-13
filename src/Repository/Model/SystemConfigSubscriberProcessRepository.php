@@ -12,7 +12,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\User\UserEntity;
 
-class SystemConfigRepositoryDecorationProcessRepository
+class SystemConfigSubscriberProcessRepository
 {
     private Connection $connection;
 
@@ -66,32 +66,6 @@ class SystemConfigRepositoryDecorationProcessRepository
     }
 
     /**
-     * @return array<mixed>|null
-     */
-    public function getValue(string $key, ?string $salesChannelId = null): ?array
-    {
-        $qb = $this->connection->createQueryBuilder();
-
-        $qb->select(['configuration_value']);
-        $qb->from('system_config');
-
-        $qb->where('configuration_key = :configuration_key');
-        $qb->setParameter(':configuration_key', $key);
-
-        if ($salesChannelId === null) {
-            $qb->andWhere('sales_channel_id IS NULL');
-        } else {
-            $qb->andWhere('sales_channel_id = :sales_channel_id');
-            $qb->setParameter(':sales_channel_id', Uuid::fromHexToBytes($salesChannelId));
-        }
-
-        $executeResult = $qb->execute();
-        \assert($executeResult instanceof Result);
-
-        return $this->decodeValue($executeResult->fetchOne());
-    }
-
-    /**
      * @param array<mixed> $data
      */
     public function insert(array $data): void
@@ -110,21 +84,5 @@ class SystemConfigRepositoryDecorationProcessRepository
         \assert($user instanceof UserEntity);
 
         return $user;
-    }
-
-    /**
-     * @param string|bool $value
-     *
-     * @return array<mixed>|null
-     */
-    private function decodeValue($value): ?array
-    {
-        if ($value === false) {
-            return null;
-        }
-
-        \assert(\is_string($value));
-
-        return json_decode($value, true) ?? [];
     }
 }
