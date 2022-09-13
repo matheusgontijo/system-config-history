@@ -85,10 +85,6 @@ class SystemConfigSubscriberProcess
             $inserts[] = $historyData;
         }
 
-        if (count($inserts) === 0) {
-            return;
-        }
-
         $this->systemConfigSubscriberProcessRepository->insert($inserts);
     }
 
@@ -120,10 +116,6 @@ class SystemConfigSubscriberProcess
             $historyData = $this->addUser($historyData);
 
             $inserts[] = $historyData;
-        }
-
-        if (count($inserts) === 0) {
-            return;
         }
 
         $this->systemConfigSubscriberProcessRepository->insert($inserts);
