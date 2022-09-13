@@ -78,9 +78,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
             'configuration_key' => 'my.custom.systemConfig2',
             'sales_channel_id' => null,
             'configuration_value' => '{"_value":"aaa"}',
-        ], [
-            'configuration_value' => '{"_value":"bbb"}',
-        ], false);
+        ], ['configuration_value' => '{"_value":"bbb"}'], false);
 
         $entityWriteResultMock2->expects(static::exactly(1))
             ->method('getChangeSet')
@@ -102,10 +100,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(2))
             ->method('generateId')
-            ->willReturnOnConsecutiveCalls(
-                'c6316df22e754fe1af0eae305fd3a495',
-                '1c957ed20cef4410ad1a6150079ab9f7'
-            );
+            ->willReturnOnConsecutiveCalls('c6316df22e754fe1af0eae305fd3a495', '1c957ed20cef4410ad1a6150079ab9f7');
 
         $requestStateRegistryMock->expects(static::exactly(2))
             ->method('getRequest')
@@ -129,8 +124,8 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
                             'salesChannelId' => null,
                             'configurationValueOld' => ['_value' => 'aaa'],
                             'configurationValueNew' => ['_value' => 'bbb'],
-                        ]
-                    ]
+                        ],
+                    ],
                 ]
             );
 
@@ -169,9 +164,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
             'configuration_key' => 'my.custom.systemConfig2',
             'sales_channel_id' => null,
             'configuration_value' => '{"_value":"aaa"}',
-        ], [
-            'configuration_value' => '{"_value":"bbb"}',
-        ], false);
+        ], ['configuration_value' => '{"_value":"bbb"}'], false);
 
         $entityWriteResultMock2->expects(static::exactly(1))
             ->method('getChangeSet')
@@ -193,10 +186,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(2))
             ->method('generateId')
-            ->willReturnOnConsecutiveCalls(
-                'c6316df22e754fe1af0eae305fd3a495',
-                '1c957ed20cef4410ad1a6150079ab9f7'
-            );
+            ->willReturnOnConsecutiveCalls('c6316df22e754fe1af0eae305fd3a495', '1c957ed20cef4410ad1a6150079ab9f7');
 
         $request = Request::create('http://localhost', 'POST', [], [], [], []);
 
@@ -238,8 +228,8 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
                             'configurationValueOld' => ['_value' => 'aaa'],
                             'configurationValueNew' => ['_value' => 'bbb'],
                             'username' => 'johndoe',
-                        ]
-                    ]
+                        ],
+                    ],
                 ]
             );
 
@@ -278,9 +268,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
             'configuration_key' => 'my.custom.systemConfig2',
             'sales_channel_id' => null,
             'configuration_value' => '{"_value":"aaa"}',
-        ], [
-            'configuration_value' => '{"_value":"bbb"}',
-        ], false);
+        ], ['configuration_value' => '{"_value":"bbb"}'], false);
 
         $entityWriteResultMock2->expects(static::exactly(1))
             ->method('getChangeSet')
@@ -302,10 +290,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(2))
             ->method('generateId')
-            ->willReturnOnConsecutiveCalls(
-                'c6316df22e754fe1af0eae305fd3a495',
-                '1c957ed20cef4410ad1a6150079ab9f7'
-            );
+            ->willReturnOnConsecutiveCalls('c6316df22e754fe1af0eae305fd3a495', '1c957ed20cef4410ad1a6150079ab9f7');
 
         $request = Request::create('http://localhost', 'POST', [], [], [], []);
 
@@ -331,8 +316,8 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
                             'salesChannelId' => null,
                             'configurationValueOld' => ['_value' => 'aaa'],
                             'configurationValueNew' => ['_value' => 'bbb'],
-                        ]
-                    ]
+                        ],
+                    ],
                 ]
             );
 
@@ -371,9 +356,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
             'configuration_key' => 'my.custom.systemConfig2',
             'sales_channel_id' => null,
             'configuration_value' => '{"_value":"aaa"}',
-        ], [
-            'configuration_value' => '{"_value":"bbb"}',
-        ], false);
+        ], ['configuration_value' => '{"_value":"bbb"}'], false);
 
         $entityWriteResultMock2->expects(static::exactly(1))
             ->method('getChangeSet')
@@ -395,10 +378,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(2))
             ->method('generateId')
-            ->willReturnOnConsecutiveCalls(
-                'c6316df22e754fe1af0eae305fd3a495',
-                '1c957ed20cef4410ad1a6150079ab9f7'
-            );
+            ->willReturnOnConsecutiveCalls('c6316df22e754fe1af0eae305fd3a495', '1c957ed20cef4410ad1a6150079ab9f7');
 
         $request = Request::create('http://localhost', 'POST', [], [], [], []);
 
@@ -428,8 +408,8 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
                             'salesChannelId' => null,
                             'configurationValueOld' => ['_value' => 'aaa'],
                             'configurationValueNew' => ['_value' => 'bbb'],
-                        ]
-                    ]
+                        ],
+                    ],
                 ]
             );
 
@@ -484,10 +464,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(2))
             ->method('generateId')
-            ->willReturnOnConsecutiveCalls(
-                'c6316df22e754fe1af0eae305fd3a495',
-                '1c957ed20cef4410ad1a6150079ab9f7'
-            );
+            ->willReturnOnConsecutiveCalls('c6316df22e754fe1af0eae305fd3a495', '1c957ed20cef4410ad1a6150079ab9f7');
 
         $requestStateRegistryMock->expects(static::exactly(2))
             ->method('getRequest')
@@ -511,8 +488,8 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
                             'salesChannelId' => null,
                             'configurationValueOld' => ['_value' => 'bbb'],
                             'configurationValueNew' => null,
-                        ]
-                    ]
+                        ],
+                    ],
                 ]
             );
 
@@ -567,10 +544,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(2))
             ->method('generateId')
-            ->willReturnOnConsecutiveCalls(
-                'c6316df22e754fe1af0eae305fd3a495',
-                '1c957ed20cef4410ad1a6150079ab9f7'
-            );
+            ->willReturnOnConsecutiveCalls('c6316df22e754fe1af0eae305fd3a495', '1c957ed20cef4410ad1a6150079ab9f7');
 
         $request = Request::create('http://localhost', 'POST', [], [], [], []);
 
@@ -612,8 +586,8 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
                             'configurationValueOld' => ['_value' => 'bbb'],
                             'configurationValueNew' => null,
                             'username' => 'johndoe',
-                        ]
-                    ]
+                        ],
+                    ],
                 ]
             );
 

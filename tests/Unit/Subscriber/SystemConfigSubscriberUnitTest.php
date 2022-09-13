@@ -2,20 +2,14 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Tests\Unit\Subscriber;
 
-use MatheusGontijo\SystemConfigHistory\Model\RequestStateRegistry;
 use MatheusGontijo\SystemConfigHistory\Model\SystemConfigSubscriberProcess;
 use MatheusGontijo\SystemConfigHistory\Subscriber\SystemConfigSubscriber;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityDeletedEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
-use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\InsertCommand;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\UpdateCommand;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\Validation\PreWriteValidationEvent;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpKernel\KernelEvents;
 
 class SystemConfigSubscriberUnitTest extends TestCase
 {

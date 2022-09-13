@@ -2,23 +2,14 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Subscriber;
 
-use MatheusGontijo\SystemConfigHistory\Model\RequestStateRegistry;
 use MatheusGontijo\SystemConfigHistory\Model\SystemConfigSubscriberProcess;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityDeletedEvent;
+use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\DeleteCommand;
-use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\WriteCommand;
+use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\UpdateCommand;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\Validation\PreWriteValidationEvent;
 use Shopware\Core\System\SystemConfig\SystemConfigDefinition;
-use Shopware\Core\System\SystemConfig\SystemConfigEntity;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
-use Shopware\Core\Checkout\Order\OrderDefinition;
-use Shopware\Core\Checkout\Order\OrderEvents;
-use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
-use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\ChangeSetAware;
-use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\InsertCommand;
-use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\UpdateCommand;
 
 class SystemConfigSubscriber implements EventSubscriberInterface
 {
@@ -44,7 +35,7 @@ class SystemConfigSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function systemConfigWritten(EntityWrittenEvent $event)
+    public function systemConfigWritten(EntityWrittenEvent $event): void
     {
         $this->systemConfigSubscriberProcess->processEntityWrittenEvent($event);
     }

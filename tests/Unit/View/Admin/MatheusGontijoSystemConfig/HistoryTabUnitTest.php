@@ -2,17 +2,17 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Tests\Unit\View\Admin\MatheusGontijoSystemConfig;
 
-use MatheusGontijo\SystemConfigHistory\Model\RequestStateRegistry;
+use DateTimeImmutable;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use MatheusGontijo\SystemConfigHistory\View\Admin\MatheusGontijoSystemConfig\HistoryTab;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Defaults;
-use Symfony\Component\HttpFoundation\Request;
-use DateTimeImmutable;
 
 class HistoryTabUnitTest extends TestCase
 {
     /**
+     * @param array<string, mixed> $data
+     *
      * @dataProvider setGetDataProvider
      */
     public function testFormatModalData(array $data): void
@@ -54,7 +54,7 @@ class HistoryTabUnitTest extends TestCase
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     public function setGetDataProvider(): array
     {
@@ -87,19 +87,19 @@ class HistoryTabUnitTest extends TestCase
             ],
         ];
 
-        foreach ($types as $type => $typeData) {
+        foreach ($types as $type) {
             $data[] = [
                 [
                     'id' => '5b22b58b37e04199b5219c752bc316fb',
                     'configuration_key' => 'aaa.bbb.ccc',
-                    'configuration_value_old' => $typeData['type'],
-                    'configuration_value_old_type' => $typeData['label'],
-                    'configuration_value_new' => $typeData['type'],
-                    'configuration_value_new_type' => $typeData['label'],
+                    'configuration_value_old' => $type['type'],
+                    'configuration_value_old_type' => $type['label'],
+                    'configuration_value_new' => $type['type'],
+                    'configuration_value_new_type' => $type['label'],
                     'sales_channel_name' => 'Default',
                     'username' => 'mgontijo',
                     'modified_at' => '2017-08-31 00:00:00.000',
-                ]
+                ],
             ];
         }
 

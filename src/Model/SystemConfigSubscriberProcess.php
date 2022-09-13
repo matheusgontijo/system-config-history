@@ -32,7 +32,7 @@ class SystemConfigSubscriberProcess
         $this->requestStateRegistry = $requestStateRegistry;
     }
 
-    public function processEntityWrittenEvent(EntityWrittenEvent $event)
+    public function processEntityWrittenEvent(EntityWrittenEvent $event): void
     {
         if (!$this->isEnabled()) {
             return;

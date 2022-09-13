@@ -8,8 +8,6 @@ use MatheusGontijo\SystemConfigHistory\Repository\System\MatheusGontijoSystemCon
 use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Defaults;
-use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\Framework\Uuid\Uuid;
 
@@ -607,6 +605,102 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         static::assertSame(3, $count);
     }
 
+    public function testLongConfigurationValues(): void
+    {
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $longsString = <<<'TEXT'
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys st
+        andard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+         type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, rem
+        aining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lor
+        em Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
+        Lorem Ipsum. 
+        TEXT;
+
+        $longsString = str_replace(\PHP_EOL, '', $longsString);
+
+        $longsString .= $longsString . $longsString . $longsString . $longsString;
+
+        $row = [
+            'id' => Uuid::fromHexToBytes('b424c12e1a5d405988436037b5a48713'),
+            'configuration_key' => 'foo.bar.enabled1',
+            'configuration_value_old' => sprintf('{"_value": "%s"}', $longsString),
+            'configuration_value_new' => sprintf('{"_value": "%s"}', $longsString),
+            'sales_channel_id' => null,
+            'username' => 'aaa.john',
+            'created_at' => '2022-01-03 00:00:00.000',
+            'updated_at' => null,
+        ];
+
+        $connection->insert('matheus_gontijo_system_config_history', $row);
+
+        $rows = $this->getRows(['configuration_key' => 'foo.bar.enabled1'], 'configuration_key');
+
+        static::assertCount(1, $rows);
+
+        $longsString = <<<'TEXT'
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys st
+        andard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+         type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, rem
+        aining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lor
+        em Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
+        Lorem Ipsum. Lorem Ipsum is simply dummy (...)
+        TEXT;
+
+        $longsString = str_replace(\PHP_EOL, '', $longsString);
+
+        static::assertSame([
+            'id' => 'b424c12e1a5d405988436037b5a48713',
+            'configuration_key' => 'foo.bar.enabled1',
+            'configuration_value_old' => $longsString,
+            'configuration_value_new' => $longsString,
+            'sales_channel_name' => 'Default',
+            'username' => 'aaa.john',
+            'created_at' => '2022-01-03 00:00:00.000',
+        ], $rows[0]);
+    }
+
+    public function testGetMatheusGontijoSystemConfigHistory(): void
+    {
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $connection->insert('matheus_gontijo_system_config_history', [
+            'id' => Uuid::fromHexToBytes('fc162568816f4c2c8940d24d66d9c305'),
+            'configuration_key' => 'foo.bar.enabled3',
+            'configuration_value_old' => '{"_value": 123}',
+            'configuration_value_new' => '{"_value": 456}',
+            'sales_channel_id' => null,
+            'created_at' => '2022-01-01 00:00:00.000',
+            'updated_at' => null,
+        ]);
+
+        $matheusGontijoSystemConfigHistoryRouteRepository = $this->getContainer()->get(
+            MatheusGontijoSystemConfigHistoryRouteRepository::class
+        );
+
+        \assert($matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository); // phpcs:ignore
+
+        $user = $matheusGontijoSystemConfigHistoryRouteRepository->getMatheusGontijoSystemConfigHistory(
+            'fc162568816f4c2c8940d24d66d9c305'
+        );
+
+        $createdAt = \DateTimeImmutable::createFromFormat(
+            Defaults::STORAGE_DATE_TIME_FORMAT,
+            '2022-01-01 00:00:00.000'
+        );
+
+        static::assertSame('fc162568816f4c2c8940d24d66d9c305', $user->getId());
+        static::assertSame('foo.bar.enabled3', $user->getConfigurationKey());
+        static::assertSame(['_value' => 123], $user->getConfigurationValueOld());
+        static::assertSame(['_value' => 456], $user->getConfigurationValueNew());
+        static::assertSame(null, $user->getSalesChannelId());
+        static::assertEquals($createdAt, $user->getCreatedAt());
+        static::assertSame(null, $user->getUpdatedAt());
+    }
+
     private function populateTableWithData(): void
     {
         $connection = $this->getContainer()->get(Connection::class);
@@ -675,101 +769,5 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             1,
             100
         );
-    }
-
-    public function testLongConfigurationValues(): void
-    {
-        $connection = $this->getContainer()->get(Connection::class);
-        \assert($connection instanceof Connection);
-
-        $longsString = <<<TEXT
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys st
-        andard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-         type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, rem
-        aining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lor
-        em Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
-        Lorem Ipsum. 
-        TEXT;
-
-        $longsString = str_replace(PHP_EOL, '', $longsString);
-
-        $longsString = $longsString . $longsString . $longsString . $longsString . $longsString;
-
-        $row = [
-            'id' => Uuid::fromHexToBytes('b424c12e1a5d405988436037b5a48713'),
-            'configuration_key' => 'foo.bar.enabled1',
-            'configuration_value_old' => sprintf('{"_value": "%s"}', $longsString),
-            'configuration_value_new' => sprintf('{"_value": "%s"}', $longsString),
-            'sales_channel_id' => null,
-            'username' => 'aaa.john',
-            'created_at' => '2022-01-03 00:00:00.000',
-            'updated_at' => null,
-        ];
-
-        $connection->insert('matheus_gontijo_system_config_history', $row);
-
-        $rows = $this->getRows(['configuration_key' => 'foo.bar.enabled1'], 'configuration_key');
-
-        static::assertCount(1, $rows);
-
-        $longsString = <<<TEXT
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys st
-        andard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-         type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, rem
-        aining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lor
-        em Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
-        Lorem Ipsum. Lorem Ipsum is simply dummy (...)
-        TEXT;
-
-        $longsString = str_replace(PHP_EOL, '', $longsString);
-
-        static::assertSame([
-            'id' => 'b424c12e1a5d405988436037b5a48713',
-            'configuration_key' => 'foo.bar.enabled1',
-            'configuration_value_old' => $longsString,
-            'configuration_value_new' => $longsString,
-            'sales_channel_name' => 'Default',
-            'username' => 'aaa.john',
-            'created_at' => '2022-01-03 00:00:00.000',
-        ], $rows[0]);
-    }
-
-    public function testGetMatheusGontijoSystemConfigHistory(): void
-    {
-        $connection = $this->getContainer()->get(Connection::class);
-        \assert($connection instanceof Connection);
-
-        $connection->insert('matheus_gontijo_system_config_history', [
-            'id' => Uuid::fromHexToBytes('fc162568816f4c2c8940d24d66d9c305'),
-            'configuration_key' => 'foo.bar.enabled3',
-            'configuration_value_old' => '{"_value": 123}',
-            'configuration_value_new' => '{"_value": 456}',
-            'sales_channel_id' => null,
-            'created_at' => '2022-01-01 00:00:00.000',
-            'updated_at' => null,
-        ]);
-
-        $matheusGontijoSystemConfigHistoryRouteRepository = $this->getContainer()->get(
-            MatheusGontijoSystemConfigHistoryRouteRepository::class
-        );
-
-        \assert($matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository); // phpcs:ignore
-
-        $user = $matheusGontijoSystemConfigHistoryRouteRepository->getMatheusGontijoSystemConfigHistory(
-            'fc162568816f4c2c8940d24d66d9c305'
-        );
-
-        $createdAt = \DateTimeImmutable::createFromFormat(
-            Defaults::STORAGE_DATE_TIME_FORMAT,
-            '2022-01-01 00:00:00.000'
-        );
-
-        static::assertSame('fc162568816f4c2c8940d24d66d9c305', $user->getId());
-        static::assertSame('foo.bar.enabled3', $user->getConfigurationKey());
-        static::assertSame(['_value' => 123], $user->getConfigurationValueOld());
-        static::assertSame(['_value' => 456], $user->getConfigurationValueNew());
-        static::assertSame(null, $user->getSalesChannelId());
-        static::assertEquals($createdAt, $user->getCreatedAt());
-        static::assertSame(null, $user->getUpdatedAt());
     }
 }
