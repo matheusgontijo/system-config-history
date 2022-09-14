@@ -83,7 +83,6 @@ class TestBootstrapper
             }
 
             $this->createSalesChannel();
-            $this->enablePlugin();
         } elseif ($this->forceInstallPlugins) {
             $this->installPlugins();
         }
@@ -98,23 +97,6 @@ class TestBootstrapper
         $refreshCommand->run(new ArrayInput([], $refreshCommand->getDefinition()), $this->getOutput());
 
         KernelLifecycleManager::bootKernel();
-    }
-
-    private function enablePlugin(): void
-    {
-        KernelLifecycleManager::bootKernel();
-
-        $connection = $this->getContainer()->get(Connection::class);
-        \assert($connection instanceof Connection);
-
-        $connection->insert('system_config', [
-            'id' => Uuid::fromHexToBytes('e1adb08e9f2648dbafb0f2536eea4f23'),
-            'configuration_key' => 'matheusGontijo.systemConfigHistory.enabled',
-            'configuration_value' => '{"_value":true}',
-            'sales_channel_id' => null,
-            'created_at' => '2022-09-01 00:00:00.000',
-            'updated_at' => null,
-        ]);
     }
 
     public function getStaticAnalyzeKernel(): StaticAnalyzeKernel

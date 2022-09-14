@@ -21,7 +21,7 @@ class Migration1661567511InitUnitTest extends TestCase
 
         $connection = $this->createMock(Connection::class);
 
-        $sql = <<<'SQL'
+        $sql1 = <<<'SQL'
         CREATE TABLE IF NOT EXISTS `matheus_gontijo_system_config_history` (
             `id` binary(16) NOT NULL,
             `configuration_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -32,12 +32,21 @@ class Migration1661567511InitUnitTest extends TestCase
             `created_at` datetime(3) NOT NULL,
             `updated_at` datetime(3) DEFAULT NULL,
             PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         SQL;
 
-        $connection->expects(static::exactly(1))
+        $sql2 = <<<'SQL'
+        INSERT IGNORE INTO system_config (id, configuration_key, configuration_value, created_at) VALUES (
+            x'e1adb08e9f2648dbafb0f2536eea4f23',
+            'matheusGontijo.systemConfigHistory.enabled',
+            '{"_value": true}',
+            NOW()
+        )
+        SQL;
+
+        $connection->expects(static::exactly(2))
             ->method('executeStatement')
-            ->withConsecutive([$sql]);
+            ->withConsecutive([$sql1], [$sql2]);
 
         $migration1661567511Init->update($connection);
     }

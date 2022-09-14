@@ -25,7 +25,18 @@ class Migration1661567511Init extends MigrationStep
             `created_at` datetime(3) NOT NULL,
             `updated_at` datetime(3) DEFAULT NULL,
             PRIMARY KEY (`id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+        SQL;
+
+        $connection->executeStatement($sql);
+
+        $sql = <<<'SQL'
+        INSERT IGNORE INTO system_config (id, configuration_key, configuration_value, created_at) VALUES (
+            x'e1adb08e9f2648dbafb0f2536eea4f23',
+            'matheusGontijo.systemConfigHistory.enabled',
+            '{"_value": true}',
+            NOW()
+        )
         SQL;
 
         $connection->executeStatement($sql);
