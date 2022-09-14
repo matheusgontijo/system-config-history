@@ -82,6 +82,11 @@ class SystemConfigSubscriberProcess
         $this->systemConfigSubscriberProcessRepository->insert($inserts);
     }
 
+    /**
+     * @param array<string, mixed> $payload
+     *
+     * @return array<string, mixed>
+     */
     private function processInsert(array $payload): array
     {
         $historyData = [
@@ -95,6 +100,9 @@ class SystemConfigSubscriberProcess
         return $this->addUser($historyData);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function processUpdate(ChangeSet $changeSet): ?array
     {
         $afterData = $changeSet->getAfter(null);
@@ -140,6 +148,9 @@ class SystemConfigSubscriberProcess
         return $this->addUser($historyData);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function processDelete(ChangeSet $changeSet): array
     {
         $configurationValueBefore = null;

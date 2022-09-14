@@ -778,8 +778,8 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
                             'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
                             'configurationValueOld' => ['_value' => 'aaa'],
                             'configurationValueNew' => ['_value' => 'bbb'],
-                        ]
-                    ]
+                        ],
+                    ],
                 ]
             );
 

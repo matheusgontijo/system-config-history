@@ -4,7 +4,6 @@ namespace MatheusGontijo\SystemConfigHistory\Model;
 
 use MatheusGontijo\SystemConfigHistory\Repository\Model\RevertSystemConfigRepository;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
-use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SystemConfig\SystemConfigEntity;
 
 class RevertSystemConfig
@@ -35,6 +34,7 @@ class RevertSystemConfig
 
         if ($value === null && $systemConfig instanceof SystemConfigEntity) {
             $this->revertSystemConfigRepository->deleteSystemConfig($systemConfig->getId());
+
             return;
         }
 
@@ -54,6 +54,9 @@ class RevertSystemConfig
         $this->revertSystemConfigRepository->upsertSystemConfig($data);
     }
 
+    /**
+     * @return array<string, mixed>|bool|float|int|string|null $value
+     */
     private function getValue(
         MatheusGontijoSystemConfigHistoryEntity $matheusGontijoSystemConfigHistory,
         string $configurationValueType

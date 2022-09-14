@@ -2,17 +2,13 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Repository\Model;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ForwardCompatibility\Result;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SystemConfig\SystemConfigEntity;
-use Shopware\Core\System\User\UserEntity;
 
 class RevertSystemConfigRepository
 {
@@ -61,6 +57,9 @@ class RevertSystemConfigRepository
         return $systemConfig;
     }
 
+    /**
+     * @param array<string, mixed> $data
+     */
     public function upsertSystemConfig(array $data): void
     {
         $this->systemConfigRepository->upsert([$data], Context::createDefaultContext());

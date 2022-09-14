@@ -2,26 +2,11 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Tests\Unit\Model;
 
-use MatheusGontijo\SystemConfigHistory\Model\RequestStateRegistry;
 use MatheusGontijo\SystemConfigHistory\Model\RevertSystemConfig;
-use MatheusGontijo\SystemConfigHistory\Model\SystemConfigSubscriberProcess;
 use MatheusGontijo\SystemConfigHistory\Repository\Model\RevertSystemConfigRepository;
-use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigSubscriberProcessRepository;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
-use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
-use Shopware\Core\Framework\Api\Context\AdminApiSource;
-use Shopware\Core\Framework\Api\Context\SalesChannelApiSource;
-use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityWriteResult;
-use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityDeletedEvent;
-use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
-use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\ChangeSet;
-use Shopware\Core\Framework\Uuid\Uuid;
-use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\SystemConfig\SystemConfigEntity;
-use Shopware\Core\System\User\UserEntity;
-use Symfony\Component\HttpFoundation\Request;
 
 class RevertSystemConfigUnitTest extends TestCase
 {
@@ -132,7 +117,7 @@ class RevertSystemConfigUnitTest extends TestCase
                         'configurationKey' => 'aaa.bbb.ccc',
                         'configurationValue' => 'foobar',
                         'salesChannelId' => '07bb9e4fddd048afa7845569b59ea07b',
-                    ]
+                    ],
                 ]
             );
 
@@ -181,7 +166,7 @@ class RevertSystemConfigUnitTest extends TestCase
                         'configurationKey' => 'aaa.bbb.ccc',
                         'configurationValue' => 'foobar',
                         'salesChannelId' => '07bb9e4fddd048afa7845569b59ea07b',
-                    ]
+                    ],
                 ]
             );
 
@@ -230,7 +215,7 @@ class RevertSystemConfigUnitTest extends TestCase
                         'configurationKey' => 'aaa.bbb.ccc',
                         'configurationValue' => 'foobar',
                         'salesChannelId' => '07bb9e4fddd048afa7845569b59ea07b',
-                    ]
+                    ],
                 ]
             );
 
