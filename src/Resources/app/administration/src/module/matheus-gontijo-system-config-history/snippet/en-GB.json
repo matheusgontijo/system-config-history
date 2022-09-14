@@ -36,12 +36,17 @@
                 "modifiedAt": "Modified At:",
                 "userSectionTitle": "User",
                 "username": "Username:",
-                "revertButton": "Click here to revert to \"Old Value\""
+                "revertOldValueButton": "Click here to revert to \"Old Value\"",
+                "revertNewValueButton": "Click here to revert to \"New Value\""
             },
             "warningModal": {
                 "message": "Are you sure you want to revert the configuration to the following value?",
                 "yesButton": "Yes",
                 "noButton": "No"
+            },
+            "revertConfigurationValue": {
+                "success": "Configuration value reverted successfully.",
+                "error": "Error while reverting configuration value."
             }
         }
     }

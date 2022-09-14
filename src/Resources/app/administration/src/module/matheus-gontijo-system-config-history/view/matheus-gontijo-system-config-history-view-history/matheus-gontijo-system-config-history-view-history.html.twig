@@ -225,10 +225,18 @@
         <div :class="pagePrefix('modal-revert-button-wrapper')">
             <sw-button
                 variant="primary"
-                @click="openWarningModal()"
+                @click="openWarningModal('configuration_value_old')"
                 :class="pagePrefix('modal-revert-button')"
             >
-                {{ $tc(transPrefix('informationModal.revertButton')) }}
+                {{ $tc(transPrefix('informationModal.revertOldValueButton')) }}
+            </sw-button>
+
+            <sw-button
+                variant="primary"
+                @click="openWarningModal('configuration_value_new')"
+                :class="pagePrefix('modal-revert-button')"
+            >
+                {{ $tc(transPrefix('informationModal.revertNewValueButton')) }}
             </sw-button>
         </div>
     </sw-modal>
@@ -237,16 +245,11 @@
         <strong>{{ $tc(transPrefix('warningModal.message')) }}</strong>
 
         <div :id="pagePrefix('warning-modal-revert-value')">
-            <span v-if="informationModalData.configuration_value_old == null">
-                null
-            </span>
-            <span v-else>
-                {{ informationModalData.configuration_value_old }}
-            </span>
+            {{ warningModalRevertValue }}
         </div>
 
         <div :class="pagePrefix('modal-revert-button-wrapper')">
-            <sw-button variant="primary" @click="openWarningModal()" :class="pagePrefix('modal-revert-button')">
+            <sw-button variant="primary" @click="revertConfigurationValue()" :class="pagePrefix('modal-revert-button')">
                 {{ $tc(transPrefix('warningModal.yesButton')) }}
             </sw-button>
 

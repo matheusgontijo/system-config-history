@@ -150,10 +150,16 @@ class SystemConfigSubscriberProcess
             $configurationValueBefore = json_decode($configurationValueBeforeRawValue, true);
         }
 
+        $salesChannelId = $changeSet->getBefore('sales_channel_id');
+
+        if ($salesChannelId !== null) {
+            $salesChannelId = Uuid::fromBytesToHex($salesChannelId);
+        }
+
         $historyData = [
             'id' => $this->systemConfigSubscriberProcessRepository->generateId(),
             'configurationKey' => $changeSet->getBefore('configuration_key'),
-            'salesChannelId' => $changeSet->getBefore('sales_channel_id'),
+            'salesChannelId' => $salesChannelId,
             'configurationValueOld' => $configurationValueBefore,
             'configurationValueNew' => null,
         ];

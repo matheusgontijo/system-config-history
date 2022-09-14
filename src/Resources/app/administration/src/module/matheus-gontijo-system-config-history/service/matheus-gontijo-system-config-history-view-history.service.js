@@ -55,4 +55,24 @@ export default class YotpoConfigService extends ApiService {
             return ApiService.handleResponse(response);
         });
     }
+
+    /**
+     * @returns {Promise<Object>}
+     */
+    async revertConfigurationValue(matheusGontijoSystemConfigHistoryId, configurationValueType) {
+        const apiRoute = `${this.getApiBasePath()}/matheus-gontijo-system-config-history/revert-configuration-value`;
+
+        return this.httpClient.post(
+            apiRoute,
+            {
+                matheusGontijoSystemConfigHistoryId: matheusGontijoSystemConfigHistoryId,
+                configurationValueType: configurationValueType
+            },
+            {
+                headers: this.getBasicHeaders(),
+            }
+        ).then((response) => {
+            return ApiService.handleResponse(response);
+        });
+    }
 }

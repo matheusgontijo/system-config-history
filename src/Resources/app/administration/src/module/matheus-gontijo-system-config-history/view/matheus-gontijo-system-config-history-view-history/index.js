@@ -33,6 +33,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             informationModalId: null,
             informationModalData: null,
             warningModal: false,
+            warningModalConfigurationValueType: null,
         };
     },
 
@@ -196,6 +197,24 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
 
         showWarningModal() {
             return this.warningModal;
+        },
+
+        warningModalRevertValue() {
+            let value = null;
+
+            if (this.warningModalConfigurationValueType === 'configuration_value_old') {
+                value = this.informationModalData.configuration_value_old;
+            }
+
+            if (this.warningModalConfigurationValueType === 'configuration_value_new') {
+                value = this.informationModalData.configuration_value_new;
+            }
+
+            if (value === null) {
+                return 'null';
+            }
+
+            return value;
         },
     },
 
@@ -374,7 +393,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             this.page = page;
 
             const element = document.getElementsByClassName('sw-tabs__content')[0];
-            element.scrollIntoView({behavior: "smooth"});
+            element.scrollIntoView({behavior: 'smooth'});
         },
 
         getPaginationItemClass(paginationItem) {
@@ -397,12 +416,14 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             this.informationModalId = null;
         },
 
-        openWarningModal() {
+        openWarningModal(configurationValueType) {
             this.warningModal = true;
+            this.warningModalConfigurationValueType = configurationValueType;
         },
 
         closeWarningModal() {
             this.warningModal = false;
+            this.warningModalConfigurationValueType = null;
         },
 
         loadInformationModalData() {
@@ -422,5 +443,31 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 });
             });
         },
+
+        revertConfigurationValue() {
+            this.MatheusGontijoSystemConfigHistoryViewHistoryService.revertConfigurationValue(
+                this.informationModalId,
+                this.warningModalConfigurationValueType
+            ).then(() => {
+                this.loading = true;
+
+                this.closeWarningModal();
+                this.closeInformationModal();
+
+                this.createNotificationSuccess({
+                    message: this.$tc(this.transPrefix('revertConfigurationValue.success')),
+                });
+            }).catch(() => {
+                this.closeWarningModal();
+                this.closeInformationModal();
+
+                this.createNotificationError({
+                    message: this.$tc(this.transPrefix('revertConfigurationValue.error')),
+                });
+            }).finally(() => {
+                this.loadGridData();
+                this.loading = false;
+            });
+        }
     }
 });

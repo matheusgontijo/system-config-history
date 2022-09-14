@@ -2,6 +2,7 @@
 
 namespace MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\Api;
 
+use MatheusGontijo\SystemConfigHistory\Model\RevertSystemConfig;
 use MatheusGontijo\SystemConfigHistory\Repository\System\MatheusGontijoSystemConfigHistory\Api\MatheusGontijoSystemConfigHistoryRouteRepository; // phpcs:ignore
 use MatheusGontijo\SystemConfigHistory\View\Admin\MatheusGontijoSystemConfig\HistoryTab;
 use Shopware\Core\Framework\Context;
@@ -11,6 +12,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Routing\Annotation\Since;
 use Shopware\Core\System\Locale\LocaleEntity;
+use Shopware\Core\System\SalesChannel\NoContentResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -111,6 +113,30 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
         $modalData = $historyTab->formatModalData($defaultSalesChannelName, $matheusGontijoSystemConfigHistory);
 
         return new JsonResponse($modalData);
+    }
+
+    /**
+     * @Since("6.4.0.0")
+     * @Route(
+     *     "/api/_action/matheus-gontijo/matheus-gontijo-system-config-history/revert-configuration-value",
+     *     name="api.action.core.matheus-gontijo.matheus-gontijo-system-config-history.revert-configuration-value",
+     *     methods={"POST"},
+     *     defaults={"auth_required"=true, "_acl"={"system_config:update"}}
+     * )
+     */
+    public function matheusGontijoSystemConfigHistoryRevertConfigurationValue(
+        Request $request,
+        RevertSystemConfig $revertSystemConfig
+    ): NoContentResponse {
+        $matheusGontijoSystemConfigHistoryId = $request->request->get('matheusGontijoSystemConfigHistoryId');
+        \assert(\is_string($matheusGontijoSystemConfigHistoryId));
+
+        $configurationValueType = $request->request->get('configurationValueType');
+        \assert(\is_string($configurationValueType));
+
+        $revertSystemConfig->revert($matheusGontijoSystemConfigHistoryId, $configurationValueType);
+
+        return new NoContentResponse();
     }
 
     private function getLocale(string $localeCode, EntityRepositoryInterface $localeRepository): LocaleEntity
