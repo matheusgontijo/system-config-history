@@ -106,8 +106,9 @@ class SystemConfigSubscriberProcess
     private function processUpdate(ChangeSet $changeSet): ?array
     {
         $afterData = $changeSet->getAfter(null);
+        assert(is_array($afterData));
 
-        if (!array_key_exists('configuration_value', $afterData)) {
+        if (!\array_key_exists('configuration_value', $afterData)) {
             return null;
         }
 
@@ -115,7 +116,7 @@ class SystemConfigSubscriberProcess
 
         $configurationValueBeforeRawValue = $changeSet->getBefore('configuration_value');
 
-        if (is_string($configurationValueBeforeRawValue)) {
+        if (\is_string($configurationValueBeforeRawValue)) {
             $configurationValueBefore = json_decode($configurationValueBeforeRawValue, true);
         }
 
@@ -123,7 +124,7 @@ class SystemConfigSubscriberProcess
 
         $configurationValueAfterRawValue = $changeSet->getAfter('configuration_value');
 
-        if (is_string($configurationValueAfterRawValue)) {
+        if (\is_string($configurationValueAfterRawValue)) {
             $configurationValueAfter = json_decode($configurationValueAfterRawValue, true);
         }
 
@@ -133,7 +134,7 @@ class SystemConfigSubscriberProcess
 
         $salesChannelId = $changeSet->getBefore('sales_channel_id');
 
-        if ($salesChannelId !== null) {
+        if (is_string($salesChannelId)) {
             $salesChannelId = Uuid::fromBytesToHex($salesChannelId);
         }
 
@@ -157,13 +158,13 @@ class SystemConfigSubscriberProcess
 
         $configurationValueBeforeRawValue = $changeSet->getBefore('configuration_value');
 
-        if (is_string($configurationValueBeforeRawValue)) {
+        if (\is_string($configurationValueBeforeRawValue)) {
             $configurationValueBefore = json_decode($configurationValueBeforeRawValue, true);
         }
 
         $salesChannelId = $changeSet->getBefore('sales_channel_id');
 
-        if ($salesChannelId !== null) {
+        if (is_string($salesChannelId)) {
             $salesChannelId = Uuid::fromBytesToHex($salesChannelId);
         }
 

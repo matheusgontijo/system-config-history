@@ -50,7 +50,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
         $count = $executeResult->fetchOne();
 
-        if (is_bool($count)) {
+        if (\is_bool($count)) {
             return 0;
         }
 

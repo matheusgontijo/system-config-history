@@ -23,10 +23,13 @@ class RevertSystemConfig
 
         $value = $this->getValue($matheusGontijoSystemConfigHistory, $configurationValueType);
 
-        $systemConfig = $this->revertSystemConfigRepository->loadSystemConfig(
-            $matheusGontijoSystemConfigHistory->getConfigurationKey(),
-            $matheusGontijoSystemConfigHistory->getSalesChannelId()
-        );
+        $configurationKey = $matheusGontijoSystemConfigHistory->getConfigurationKey();
+        \assert($configurationKey !== null);
+
+        $salesChannelId = $matheusGontijoSystemConfigHistory->getSalesChannelId();
+        \assert($salesChannelId !== null);
+
+        $systemConfig = $this->revertSystemConfigRepository->loadSystemConfig($configurationKey, $salesChannelId);
 
         if ($value === null && $systemConfig === null) {
             return;
@@ -71,7 +74,7 @@ class RevertSystemConfig
             $value = $matheusGontijoSystemConfigHistory->getConfigurationValueNew();
         }
 
-        if (is_array($value) && array_key_exists('_value', $value)) {
+        if (\is_array($value) && \array_key_exists('_value', $value)) {
             return $value['_value'];
         }
 
