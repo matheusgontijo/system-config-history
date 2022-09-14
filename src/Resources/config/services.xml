@@ -11,7 +11,6 @@
 
         <prototype namespace="MatheusGontijo\SystemConfigHistory\" resource="../../*"/>
 
-        <!-- @TODO: MOVE INSIDE METHODS TO OTHER CLASS... NOT "KernelControllerArgumentsSubscriber" -->
         <service id="MatheusGontijo\SystemConfigHistory\Subscriber\KernelControllerArgumentsSubscriber">
             <tag name="kernel.event_subscriber"/>
         </service>

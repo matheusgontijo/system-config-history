@@ -598,4 +598,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcess->processEntityDeletedEvent($entityDeletedEventMock);
     }
+
+    // @TODO: ADD TEST: populated NULL & sales_channel_id
+    // @TODO: ADD TEST: equal vs different values.. make sure it doesn't track repeatedly savings that are equal
 }

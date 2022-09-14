@@ -8,6 +8,7 @@ use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityDeletedEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\ChangeSet;
+use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\User\UserEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,10 +78,20 @@ class SystemConfigSubscriberProcess
                 $configurationValueAfter = json_decode($configurationValueAfterRawValue, true);
             }
 
+            if ($configurationValueBefore === $configurationValueAfter) {
+                continue;
+            }
+
+            $salesChannelId = $changeSet->getBefore('sales_channel_id');
+
+            if ($salesChannelId !== null) {
+                $salesChannelId = Uuid::fromBytesToHex($salesChannelId);
+            }
+
             $historyData = [
                 'id' => $this->systemConfigSubscriberProcessRepository->generateId(),
                 'configurationKey' => $changeSet->getBefore('configuration_key'),
-                'salesChannelId' => $changeSet->getBefore('sales_channel_id'),
+                'salesChannelId' => $salesChannelId,
                 'configurationValueOld' => $configurationValueBefore,
                 'configurationValueNew' => $configurationValueAfter,
             ];
