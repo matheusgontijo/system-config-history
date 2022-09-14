@@ -157,7 +157,8 @@
         <table v-if="showInformationModalData" cellspacing="0" cellpadding="0" :class="pagePrefix('information-modal-table')">
             <colgroup>
                 <col span="1" style="width: 15%;">
-                <col span="1" style="width: 75%;">
+                <col span="1" style="width: 65%;">
+                <col span="1" style="width: 10%;">
                 <col span="1" style="width: 10%;">
             </colgroup>
             <tbody>
@@ -168,6 +169,7 @@
                     <td :class="pagePrefix('information-modal-monospace')">
                         {{ informationModalData.configuration_key }}
                     </td>
+                    <td></td>
                     <td></td>
                 </tr>
                 <tr>
@@ -183,6 +185,15 @@
                         </span>
                     </td>
                     <td><em>{{ informationModalData.configuration_value_old_type }}</em></td>
+                    <td>
+                        <sw-button
+                            variant="primary"
+                            @click="openWarningModal('configuration_value_old')"
+                            :class="pagePrefix('modal-revert-button')"
+                        >
+                            {{ $tc(transPrefix('informationModal.revertOldValueButton')) }}
+                        </sw-button>
+                    </td>
                 </tr>
                 <tr>
                     <td :class="pagePrefix('information-modal-table-td-key')">
@@ -197,12 +208,22 @@
                         </span>
                     </td>
                     <td><em>{{ informationModalData.configuration_value_new_type }}</em></td>
+                    <td>
+                        <sw-button
+                            variant="primary"
+                            @click="openWarningModal('configuration_value_new')"
+                            :class="pagePrefix('modal-revert-button')"
+                        >
+                            {{ $tc(transPrefix('informationModal.revertNewValueButton')) }}
+                        </sw-button>
+                    </td>
                 </tr>
                 <tr>
                     <td :class="pagePrefix('information-modal-table-td-key')">
                         {{ $tc(transPrefix('informationModal.salesChannelName')) }}
                     </td>
                     <td>{{ informationModalData.sales_channel_name }}</td>
+                    <td></td>
                     <td></td>
                 </tr>
                 <tr v-if="informationModalData.username">
@@ -211,6 +232,7 @@
                     </td>
                     <td>{{ informationModalData.username }}</td>
                     <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td :class="pagePrefix('information-modal-table-td-key')">
@@ -218,27 +240,10 @@
                     </td>
                     <td>{{ informationModalData.modified_at }}</td>
                     <td></td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
-
-        <div :class="pagePrefix('modal-revert-button-wrapper')">
-            <sw-button
-                variant="primary"
-                @click="openWarningModal('configuration_value_old')"
-                :class="pagePrefix('modal-revert-button')"
-            >
-                {{ $tc(transPrefix('informationModal.revertOldValueButton')) }}
-            </sw-button>
-
-            <sw-button
-                variant="primary"
-                @click="openWarningModal('configuration_value_new')"
-                :class="pagePrefix('modal-revert-button')"
-            >
-                {{ $tc(transPrefix('informationModal.revertNewValueButton')) }}
-            </sw-button>
-        </div>
     </sw-modal>
 
     <sw-modal variant="none" v-if="showWarningModal" @modal-close="closeWarningModal">
