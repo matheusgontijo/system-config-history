@@ -744,10 +744,8 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'sales_channel_name' => null,
         ];
 
-        $filtersKeys = array_keys($filters);
-
         foreach ($defaultFilters as $defaultFilterKey => $defaultFilter) {
-            if (\in_array($defaultFilterKey, $filtersKeys, true)) {
+            if (\array_key_exists($defaultFilterKey, $filters)) {
                 continue;
             }
 

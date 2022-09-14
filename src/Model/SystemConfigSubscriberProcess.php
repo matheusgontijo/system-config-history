@@ -99,9 +99,7 @@ class SystemConfigSubscriberProcess
     {
         $afterData = $changeSet->getAfter(null);
 
-        $afterKeys = array_keys($afterData);
-
-        if (!in_array('configuration_value', $afterKeys, true)) {
+        if (!array_key_exists('configuration_value', $afterData)) {
             return null;
         }
 
@@ -142,7 +140,7 @@ class SystemConfigSubscriberProcess
         return $this->addUser($historyData);
     }
 
-    private function processDelete($changeSet): array
+    private function processDelete(ChangeSet $changeSet): array
     {
         $configurationValueBefore = null;
 
@@ -211,9 +209,7 @@ class SystemConfigSubscriberProcess
 
     private function loadUser(string $id): UserEntity
     {
-        $userIds = array_keys($this->users);
-
-        if (\in_array($id, $userIds, true)) {
+        if (\array_key_exists($id, $this->users)) {
             return $this->users[$id];
         }
 
