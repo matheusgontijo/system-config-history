@@ -22,6 +22,7 @@ class SystemConfigServiceIntegrationTest extends TestCase
         \assert($systemConfigService instanceof SystemConfigService);
 
         $systemConfigService->set('my.configuration.key', 'aaa');
+        $systemConfigService->set('my.configuration.key', 'aaa');
         $systemConfigService->set('my.configuration.key', 'bbb');
         $systemConfigService->set('my.configuration.key', null);
         $systemConfigService->set('my.configuration.key', 'ccc');

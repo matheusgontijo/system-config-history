@@ -47,56 +47,16 @@ class SystemConfigSubscriberProcess
             $payload = $result->getPayload();
 
             if ($changeSet === null) {
-                $historyData = [
-                    'id' => $this->systemConfigSubscriberProcessRepository->generateId(),
-                    'configurationKey' => $payload['configurationKey'],
-                    'salesChannelId' => $payload['salesChannelId'],
-                    'configurationValueOld' => null,
-                    'configurationValueNew' => ['_value' => $payload['configurationValue']],
-                ];
-
-                $historyData = $this->addUser($historyData);
-
-                $inserts[] = $historyData;
+                $inserts[] = $this->processInsert($payload);
 
                 continue;
             }
 
-            $configurationValueBefore = null;
+            $historyData = $this->processUpdate($changeSet);
 
-            $configurationValueBeforeRawValue = $changeSet->getBefore('configuration_value');
-
-            if (is_string($configurationValueBeforeRawValue)) {
-                $configurationValueBefore = json_decode($configurationValueBeforeRawValue, true);
-            }
-
-            $configurationValueAfter = null;
-
-            $configurationValueAfterRawValue = $changeSet->getAfter('configuration_value');
-
-            if (is_string($configurationValueAfterRawValue)) {
-                $configurationValueAfter = json_decode($configurationValueAfterRawValue, true);
-            }
-
-            if ($configurationValueBefore === $configurationValueAfter) {
+            if ($historyData === null) {
                 continue;
             }
-
-            $salesChannelId = $changeSet->getBefore('sales_channel_id');
-
-            if ($salesChannelId !== null) {
-                $salesChannelId = Uuid::fromBytesToHex($salesChannelId);
-            }
-
-            $historyData = [
-                'id' => $this->systemConfigSubscriberProcessRepository->generateId(),
-                'configurationKey' => $changeSet->getBefore('configuration_key'),
-                'salesChannelId' => $salesChannelId,
-                'configurationValueOld' => $configurationValueBefore,
-                'configurationValueNew' => $configurationValueAfter,
-            ];
-
-            $historyData = $this->addUser($historyData);
 
             $inserts[] = $historyData;
         }
@@ -116,28 +76,91 @@ class SystemConfigSubscriberProcess
             $changeSet = $result->getChangeSet();
             \assert($changeSet instanceof ChangeSet);
 
-            $configurationValueBefore = null;
-
-            $configurationValueBeforeRawValue = $changeSet->getBefore('configuration_value');
-
-            if (is_string($configurationValueBeforeRawValue)) {
-                $configurationValueBefore = json_decode($configurationValueBeforeRawValue, true);
-            }
-
-            $historyData = [
-                'id' => $this->systemConfigSubscriberProcessRepository->generateId(),
-                'configurationKey' => $changeSet->getBefore('configuration_key'),
-                'salesChannelId' => $changeSet->getBefore('sales_channel_id'),
-                'configurationValueOld' => $configurationValueBefore,
-                'configurationValueNew' => null,
-            ];
-
-            $historyData = $this->addUser($historyData);
-
-            $inserts[] = $historyData;
+            $inserts[] = $this->processDelete($changeSet);
         }
 
         $this->systemConfigSubscriberProcessRepository->insert($inserts);
+    }
+
+    private function processInsert(array $payload): array
+    {
+        $historyData = [
+            'id' => $this->systemConfigSubscriberProcessRepository->generateId(),
+            'configurationKey' => $payload['configurationKey'],
+            'salesChannelId' => $payload['salesChannelId'],
+            'configurationValueOld' => null,
+            'configurationValueNew' => ['_value' => $payload['configurationValue']],
+        ];
+
+        return $this->addUser($historyData);
+    }
+
+    private function processUpdate(ChangeSet $changeSet): ?array
+    {
+        $afterData = $changeSet->getAfter(null);
+
+        $afterKeys = array_keys($afterData);
+
+        if (!in_array('configuration_value', $afterKeys, true)) {
+            return null;
+        }
+
+        $configurationValueBefore = null;
+
+        $configurationValueBeforeRawValue = $changeSet->getBefore('configuration_value');
+
+        if (is_string($configurationValueBeforeRawValue)) {
+            $configurationValueBefore = json_decode($configurationValueBeforeRawValue, true);
+        }
+
+        $configurationValueAfter = null;
+
+        $configurationValueAfterRawValue = $changeSet->getAfter('configuration_value');
+
+        if (is_string($configurationValueAfterRawValue)) {
+            $configurationValueAfter = json_decode($configurationValueAfterRawValue, true);
+        }
+
+        if ($configurationValueBefore === $configurationValueAfter) {
+            return null;
+        }
+
+        $salesChannelId = $changeSet->getBefore('sales_channel_id');
+
+        if ($salesChannelId !== null) {
+            $salesChannelId = Uuid::fromBytesToHex($salesChannelId);
+        }
+
+        $historyData = [
+            'id' => $this->systemConfigSubscriberProcessRepository->generateId(),
+            'configurationKey' => $changeSet->getBefore('configuration_key'),
+            'salesChannelId' => $salesChannelId,
+            'configurationValueOld' => $configurationValueBefore,
+            'configurationValueNew' => $configurationValueAfter,
+        ];
+
+        return $this->addUser($historyData);
+    }
+
+    private function processDelete($changeSet): array
+    {
+        $configurationValueBefore = null;
+
+        $configurationValueBeforeRawValue = $changeSet->getBefore('configuration_value');
+
+        if (is_string($configurationValueBeforeRawValue)) {
+            $configurationValueBefore = json_decode($configurationValueBeforeRawValue, true);
+        }
+
+        $historyData = [
+            'id' => $this->systemConfigSubscriberProcessRepository->generateId(),
+            'configurationKey' => $changeSet->getBefore('configuration_key'),
+            'salesChannelId' => $changeSet->getBefore('sales_channel_id'),
+            'configurationValueOld' => $configurationValueBefore,
+            'configurationValueNew' => null,
+        ];
+
+        return $this->addUser($historyData);
     }
 
     private function isEnabled(): bool

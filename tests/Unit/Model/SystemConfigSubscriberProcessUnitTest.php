@@ -5,6 +5,7 @@ namespace MatheusGontijo\SystemConfigHistory\Tests\Unit\Model;
 use MatheusGontijo\SystemConfigHistory\Model\RequestStateRegistry;
 use MatheusGontijo\SystemConfigHistory\Model\SystemConfigSubscriberProcess;
 use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigSubscriberProcessRepository;
+use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Framework\Api\Context\AdminApiSource;
 use Shopware\Core\Framework\Api\Context\SalesChannelApiSource;
@@ -13,6 +14,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityWriteResult;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityDeletedEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\ChangeSet;
+use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\User\UserEntity;
 use Symfony\Component\HttpFoundation\Request;
@@ -599,6 +601,170 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcess->processEntityDeletedEvent($entityDeletedEventMock);
     }
 
-    // @TODO: ADD TEST: populated NULL & sales_channel_id
-    // @TODO: ADD TEST: equal vs different values.. make sure it doesn't track repeatedly savings that are equal
+    public function testProcessEntityWrittenEventWithEqualValues(): void
+    {
+        $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
+            SystemConfigSubscriberProcessRepository::class
+        );
+        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        $entityWriteResultMock1 = $this->createMock(EntityWriteResult::class);
+
+        $changeSet1 = new ChangeSet([
+            'configuration_key' => 'my.custom.systemConfig1',
+            'sales_channel_id' => null,
+            'configuration_value' => '{"_value":"aaa"}',
+        ], ['configuration_value' => '{"_value":"aaa"}'], false);
+
+        $entityWriteResultMock1->expects(static::exactly(1))
+            ->method('getChangeSet')
+            ->willReturn($changeSet1);
+
+        $entityWriteResultMock1->expects(static::exactly(1))
+            ->method('getPayload')
+            ->willReturn([]);
+
+        $entityWrittenEventMock = $this->createMock(EntityWrittenEvent::class);
+
+        $entityWrittenEventMock->expects(static::exactly(1))
+            ->method('getWriteResults')
+            ->willReturn([$entityWriteResultMock1]);
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::never())
+            ->method('generateId');
+
+        $requestStateRegistryMock->expects(static::never())
+            ->method('getRequest');
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
+            ->method('insert')
+            ->withConsecutive([]);
+
+        $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
+            $systemConfigSubscriberProcessRepositoryMock,
+            $requestStateRegistryMock
+        );
+
+        $systemConfigSubscriberProcess->processEntityWrittenEvent($entityWrittenEventMock);
+    }
+
+    public function testProcessEntityWrittenEventWithEqualValuesButSpacedJsonString(): void
+    {
+        $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
+            SystemConfigSubscriberProcessRepository::class
+        );
+        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        $entityWriteResultMock1 = $this->createMock(EntityWriteResult::class);
+
+        $changeSet1 = new ChangeSet([
+            'configuration_key' => 'my.custom.systemConfig1',
+            'sales_channel_id' => null,
+            'configuration_value' => '{"_value":"aaa"}',
+        ], ['configuration_value' => '{"_value":           "aaa"}'], false);
+
+        $entityWriteResultMock1->expects(static::exactly(1))
+            ->method('getChangeSet')
+            ->willReturn($changeSet1);
+
+        $entityWriteResultMock1->expects(static::exactly(1))
+            ->method('getPayload')
+            ->willReturn([]);
+
+        $entityWrittenEventMock = $this->createMock(EntityWrittenEvent::class);
+
+        $entityWrittenEventMock->expects(static::exactly(1))
+            ->method('getWriteResults')
+            ->willReturn([$entityWriteResultMock1]);
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::never())
+            ->method('generateId');
+
+        $requestStateRegistryMock->expects(static::never())
+            ->method('getRequest');
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
+            ->method('insert')
+            ->withConsecutive([]);
+
+        $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
+            $systemConfigSubscriberProcessRepositoryMock,
+            $requestStateRegistryMock
+        );
+
+        $systemConfigSubscriberProcess->processEntityWrittenEvent($entityWrittenEventMock);
+    }
+
+    public function testProcessEntityWrittenEventPassingSalesChannelId(): void
+    {
+        $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
+            SystemConfigSubscriberProcessRepository::class
+        );
+        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+
+        $entityWriteResultMock1 = $this->createMock(EntityWriteResult::class);
+
+        $changeSet1 = new ChangeSet([
+            'configuration_key' => 'my.custom.systemConfig1',
+            'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_ENGLISH),
+            'configuration_value' => '{"_value":"aaa"}',
+        ], ['configuration_value' => '{"_value":"bbb"}'], false);
+
+        $entityWriteResultMock1->expects(static::exactly(1))
+            ->method('getChangeSet')
+            ->willReturn($changeSet1);
+
+        $entityWriteResultMock1->expects(static::exactly(1))
+            ->method('getPayload')
+            ->willReturn([]);
+
+        $entityWrittenEventMock = $this->createMock(EntityWrittenEvent::class);
+
+        $entityWrittenEventMock->expects(static::exactly(1))
+            ->method('getWriteResults')
+            ->willReturn([$entityWriteResultMock1]);
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
+            ->method('isEnabled')
+            ->willReturn(true);
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
+            ->method('generateId')
+            ->willReturnOnConsecutiveCalls('c6316df22e754fe1af0eae305fd3a495');
+
+        $requestStateRegistryMock->expects(static::exactly(1))
+            ->method('getRequest')
+            ->willReturn(null);
+
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
+            ->method('insert')
+            ->withConsecutive(
+                [
+                    [
+                        [
+                            'id' => 'c6316df22e754fe1af0eae305fd3a495',
+                            'configurationKey' => 'my.custom.systemConfig1',
+                            'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
+                            'configurationValueOld' => ['_value' => 'aaa'],
+                            'configurationValueNew' => ['_value' => 'bbb'],
+                        ]
+                    ]
+                ]
+            );
+
+        $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
+            $systemConfigSubscriberProcessRepositoryMock,
+            $requestStateRegistryMock
+        );
+
+        $systemConfigSubscriberProcess->processEntityWrittenEvent($entityWrittenEventMock);
+    }
 }
