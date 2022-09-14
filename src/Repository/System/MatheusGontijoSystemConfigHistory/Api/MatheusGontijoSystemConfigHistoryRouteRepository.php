@@ -48,7 +48,13 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         $executeResult = $qb->execute();
         \assert($executeResult instanceof Result);
 
-        return (int) $executeResult->fetchOne();
+        $count = $executeResult->fetchOne();
+
+        if (is_bool($count)) {
+            return 0;
+        }
+
+        return (int) $count;
     }
 
     /**

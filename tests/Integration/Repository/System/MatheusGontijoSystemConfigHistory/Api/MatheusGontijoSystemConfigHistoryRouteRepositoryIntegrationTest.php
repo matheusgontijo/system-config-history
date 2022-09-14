@@ -435,8 +435,9 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_key' => 'foo.bar.enabled',
             'configuration_value_old' => null,
             'configuration_value_new' => null,
-            'username' => null,
             'sales_channel_name' => 'standard',
+            'username' => null,
+            'created_at' => null,
         ];
 
         $matheusGontijoSystemConfigHistoryRouteRepository = $this->getContainer()->get(
@@ -517,8 +518,9 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
                 'configuration_key' => null,
                 'configuration_value_old' => null,
                 'configuration_value_new' => null,
-                'username' => null,
                 'sales_channel_name' => null,
+                'username' => null,
+                'created_at' => null,
             ]
         );
 
@@ -591,8 +593,9 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
                 'configuration_key' => 'foo.bar.enabled',
                 'configuration_value_old' => null,
                 'configuration_value_new' => null,
-                'username' => null,
                 'sales_channel_name' => null,
+                'username' => null,
+                'created_at' => null,
             ]
         );
 
@@ -705,8 +708,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         foreach ($rows as $row) {
             $connection->insert('matheus_gontijo_system_config_history', $row);
         }
-
-        $a = null;
     }
 
     /**
@@ -740,8 +741,9 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             'configuration_key' => null,
             'configuration_value_old' => null,
             'configuration_value_new' => null,
-            'username' => null,
             'sales_channel_name' => null,
+            'username' => null,
+            'created_at' => null,
         ];
 
         foreach ($defaultFilters as $defaultFilterKey => $defaultFilter) {
