@@ -454,21 +454,37 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
             ->method('getChangeSet')
             ->willReturn($changeSet2);
 
+        $entityWriteResultMock3 = $this->createMock(EntityWriteResult::class);
+
+        $changeSet3 = new ChangeSet([
+            'configuration_key' => 'my.custom.systemConfig3',
+            'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_ENGLISH),
+            'configuration_value' => '{"_value":"ccc"}',
+        ], [], false);
+
+        $entityWriteResultMock3->expects(static::exactly(1))
+            ->method('getChangeSet')
+            ->willReturn($changeSet3);
+
         $entityDeletedEventMock = $this->createMock(EntityDeletedEvent::class);
 
         $entityDeletedEventMock->expects(static::exactly(1))
             ->method('getWriteResults')
-            ->willReturn([$entityWriteResultMock1, $entityWriteResultMock2]);
+            ->willReturn([$entityWriteResultMock1, $entityWriteResultMock2, $entityWriteResultMock3]);
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
             ->method('isEnabled')
             ->willReturn(true);
 
-        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(2))
+        $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(3))
             ->method('generateId')
-            ->willReturnOnConsecutiveCalls('c6316df22e754fe1af0eae305fd3a495', '1c957ed20cef4410ad1a6150079ab9f7');
+            ->willReturnOnConsecutiveCalls(
+                'c6316df22e754fe1af0eae305fd3a495',
+                '1c957ed20cef4410ad1a6150079ab9f7',
+                '6bc87c0ec58d4505b4eb4e54355ff63e'
+            );
 
-        $requestStateRegistryMock->expects(static::exactly(2))
+        $requestStateRegistryMock->expects(static::exactly(3))
             ->method('getRequest')
             ->willReturn(null);
 
@@ -489,6 +505,13 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
                             'configurationKey' => 'my.custom.systemConfig2',
                             'salesChannelId' => null,
                             'configurationValueOld' => ['_value' => 'bbb'],
+                            'configurationValueNew' => null,
+                        ],
+                        [
+                            'id' => '6bc87c0ec58d4505b4eb4e54355ff63e',
+                            'configurationKey' => 'my.custom.systemConfig3',
+                            'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
+                            'configurationValueOld' => ['_value' => 'ccc'],
                             'configurationValueNew' => null,
                         ],
                     ],
