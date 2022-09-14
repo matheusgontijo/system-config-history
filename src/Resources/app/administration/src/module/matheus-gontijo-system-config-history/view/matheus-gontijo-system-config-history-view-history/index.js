@@ -22,6 +22,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
                 configuration_value_new: null,
                 sales_channel_name: null,
                 username: null,
+                created_at: null,
             },
             sortBy: 'created_at',
             sortDirection: 'DESC',
@@ -112,6 +113,16 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             set: function(v) {
                 this.page = 1;
                 return this.filters.username = v;
+            }
+        },
+
+        filterCreatedAt: {
+            get: function() {
+                return this.filters.created_at;
+            },
+            set: function(v) {
+                this.page = 1;
+                return this.filters.created_at = v;
             }
         },
 
@@ -249,15 +260,6 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             return '⬇';
         },
 
-        formatDate(date) {
-            /**
-             * @TODO: TEST THIS ON AMERICAN FORMAT (en-US)... to see if it will really change the format accordindly
-             */
-
-            const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit' };
-            return format.date(date, options);
-        },
-
         calculatePaginationItemsMethod(currentPage, maxPaginationItems, count, limit) {
             let totalPages = Math.ceil(count / limit);
 
@@ -345,6 +347,7 @@ Shopware.Component.register('matheus-gontijo-system-config-history-view-history'
             this.filters.configuration_value_new = null;
             this.filters.sales_channel_name = null;
             this.filters.username = null;
+            this.filters.created_at = null;
             this.sortBy = 'created_at';
             this.sortDirection = 'DESC';
             this.page = 1;

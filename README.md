@@ -12,10 +12,6 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/matheusgontijo/system-config-history.svg)](https://packagist.org/packages/matheusgontijo/system-config-history)
 [![Latest Stable Version](https://img.shields.io/packagist/v/matheusgontijo/system-config-history)](https://packagist.org/packages/matheusgontijo/system-config-history)
 
-<!-- @TODO: ADD IMAGE LIKE THAT: https://github.com/DenverCoder1/readme-typing-svg
-<a href="https://clipboardjs.com/"><img width="728" src="https://cloud.githubusercontent.com/assets/398893/16165747/a0f6fc46-349a-11e6-8c9b-c5fd58d9099c.png" alt="Demo"></a>
--->
-
 ## 💡 Why
 
 System configurations can be accidentally changed or removed. There are even cases where dev/staging/production credentials are lost **forever** 😭
@@ -32,7 +28,6 @@ In addition to that, it's a good idea to keep track about who (admin user) is ch
 
 - Open-source & Free Software
 - High-quality code (_PHPCS, PHP CS Fixer, PHPStan, Psalm, PHPUnit_)
-- Cronjob to clean up legacy system configuration from time to time
 
 <br/>
 
@@ -74,42 +69,6 @@ php bin/console plugin:install --activate MatheusGontijoSystemConfigHistory
 
 <br/>
 
-<!-- @TODO: UPDATE IT
-## 🎉 Online Demo
-
-You navigate on admin and see the plugin working by yourself.
-
-Keep in mind that every 30 minutes the data is reset.
-
-Link: https://system-config-history.matheusgontijo.com/
-
-<br/>
-
-<table>
-    <tr>
-        <td colspan="2"><strong>Admin credentials</strong></td>
-    </tr>
-    <tr>
-        <td>Login</td>
-        <td><code>admin</code></td>
-    </tr>
-    <tr>
-        <td>Password</td>
-        <td><code>Admin@123456</code></td>
-    </tr>
-</table>
-
-<br/>
--->
-
-<!-- @TODO: UPDATE IT
-## 🎥 Video tutorial
-
-[![Video tutorial](https://i.ibb.co/LP8sMKG/screenshot-20220824-203700.jpg)](https://i.ibb.co/LP8sMKG/screenshot-20220824-203700.jpg)
-
-<br/>
--->
-
 ## 🙋 FAQ - Frequently Asked Questions
 
 Please visit the [FAQ (Frequently Asked Questions)](https://github.com/matheusgontijo/system-config-history/wiki/%5BFAQ%5D-Frequently-Asked-Questions) page.
@@ -118,7 +77,7 @@ Please visit the [FAQ (Frequently Asked Questions)](https://github.com/matheusgo
 
 ## 🔧 Support
 
-Feel free to contribute by submiting a [Pull Request](https://github.com/matheusgontijo/system-config-history/pulls). <!-- @TODO: LINK TO GUIDELINES: Please follow the guidelines. -->
+Feel free to contribute by submiting a [Pull Request](https://github.com/matheusgontijo/system-config-history/pulls).
 
 In case you find a bug, please reach out to matheus at matheusgontijo.com
 

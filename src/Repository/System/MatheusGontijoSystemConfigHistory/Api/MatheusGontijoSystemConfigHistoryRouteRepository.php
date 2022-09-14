@@ -166,6 +166,10 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
             $qb->setParameter(':username', '%' . $filters['username'] . '%');
         }
 
+        if ($filters['created_at'] !== null && $filters['created_at'] !== '') {
+            $qb->setParameter(':created_at', '%' . $filters['created_at'] . '%');
+        }
+
         return $qb;
     }
 
@@ -221,6 +225,10 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
         if ($filters['username'] !== null && $filters['username'] !== '') {
             $qb->andWhere('mgsch.username LIKE :username');
+        }
+
+        if ($filters['created_at'] !== null && $filters['created_at'] !== '') {
+            $qb->andWhere('mgsch.created_at LIKE :created_at');
         }
 
         return $qb;

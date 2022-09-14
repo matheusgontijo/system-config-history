@@ -24,12 +24,12 @@
     >
         <table :id="pagePrefix()" cellspacing="0" cellpadding="0">
             <colgroup>
-                <col span="1" style="width: 28%;">
+                <col span="1" style="width: 25%;">
                 <col span="1" style="width: 28%;">
                 <col span="1" style="width: 28%;">
                 <col span="1" style="width: 5%;">
                 <col span="1" style="width: 4%;">
-                <col span="1" style="width: 7%;">
+                <col span="1" style="width: 10%;">
             </colgroup>
 
             <thead>
@@ -89,18 +89,13 @@
                         <input type="text" :class="pagePrefix('filter-input')" v-model="filterConfigurationValueNew" />
                     </th>
                     <th scope="col">
-                        <input
-                            type="text"
-                            :class="pagePrefix('filter-input') + ' ' + 'sales-channel-name'"
-                            v-model="filterSalesChannelName"
-                        />
+                        <input type="text" :class="pagePrefix('filter-input')" v-model="filterSalesChannelName" />
                     </th>
                     <th scope="col">
-                        <input
-                            type="text"
-                            :class="pagePrefix('filter-input') + ' ' + 'username'"
-                            v-model="filterUsername"
-                        />
+                        <input type="text" :class="pagePrefix('filter-input')" v-model="filterUsername" />
+                    </th>
+                    <th scope="col">
+                        <input type="text" :class="pagePrefix('filter-input')" v-model="filterCreatedAt" />
                     </th>
                 </tr>
             </thead>
@@ -138,9 +133,7 @@
                         <span :class="pagePrefix('sales-channel-name')">{{ row.sales_channel_name }}</span>
                     </td>
                     <td :class="pagePrefix('td')">{{ row.username }}</td>
-                    <td :class="pagePrefix('td') + ' ' + pagePrefix('grid-column-created-at')">
-                        {{ formatDate(row.created_at) }}
-                    </td>
+                    <td :class="pagePrefix('td') + ' ' + pagePrefix('grid-column-created-at')">{{ row.created_at }}</td>
                 </tr>
             </tbody>
         </table>
@@ -223,7 +216,7 @@
                     <td :class="pagePrefix('information-modal-table-td-key')">
                         {{ $tc(transPrefix('informationModal.modifiedAt')) }}
                     </td>
-                    <td>{{ formatDate(informationModalData.modified_at) }}</td>
+                    <td>{{ informationModalData.modified_at }}</td>
                     <td></td>
                 </tr>
             </tbody>

@@ -81,11 +81,11 @@ class TestBootstrapper
             if (!empty($this->activePlugins)) {
                 $this->installPlugins();
             }
-
-            $this->createSalesChannel();
         } elseif ($this->forceInstallPlugins) {
             $this->installPlugins();
         }
+
+        $this->createSalesChannel();
 
         return $this;
     }
