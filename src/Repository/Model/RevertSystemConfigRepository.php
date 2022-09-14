@@ -28,6 +28,11 @@ class RevertSystemConfigRepository
         $this->systemConfigRepository = $systemConfigRepository;
     }
 
+    public function generateId(): string
+    {
+        return Uuid::randomHex();
+    }
+
     public function loadMatheusGontijoSystemConfigHistory(
         string $matheusGontijoSystemConfigHistoryId
     ): MatheusGontijoSystemConfigHistoryEntity {

@@ -38,7 +38,7 @@ class RevertSystemConfig
             return;
         }
 
-        $systemConfigId = Uuid::randomHex();
+        $systemConfigId = $this->revertSystemConfigRepository->generateId();
 
         if ($systemConfig !== null) {
             $systemConfigId = $systemConfig->getId();
@@ -48,7 +48,7 @@ class RevertSystemConfig
             'id' => $systemConfigId,
             'configurationKey' => $matheusGontijoSystemConfigHistory->getConfigurationKey(),
             'configurationValue' => $value,
-            'salesChannelId' => $matheusGontijoSystemConfigHistory->getSalesChannelId()
+            'salesChannelId' => $matheusGontijoSystemConfigHistory->getSalesChannelId(),
         ];
 
         $this->revertSystemConfigRepository->upsertSystemConfig($data);
