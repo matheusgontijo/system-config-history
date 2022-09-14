@@ -49,10 +49,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         \assert($executeResult instanceof Result);
 
         $count = $executeResult->fetchOne();
-
-        if (\is_bool($count)) {
-            return 0;
-        }
+        \assert(is_string($count));
 
         return (int) $count;
     }

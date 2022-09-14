@@ -378,6 +378,73 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         ], $rows[1]);
     }
 
+    public function testCreatedAtColumnFilterAndSort(): void
+    {
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $rows = [
+            [
+                'id' => Uuid::fromHexToBytes('fc162568816f4c2c8940d24d66d9c305'),
+                'configuration_key' => 'foo.bar.enabled3',
+                'configuration_value_old' => '{"_value": "123"}',
+                'configuration_value_new' => '{"_value": "456"}',
+                'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_GERMAN),
+                'username' => 'matheus.gontijo',
+                'created_at' => '1992-11-20 23:59:59.999',
+                'updated_at' => null,
+            ],
+            [
+                'id' => Uuid::fromHexToBytes('ce8942b6a5da4d04a43f8f9c1acf8629'),
+                'configuration_key' => 'foo.bar.enabled2',
+                'configuration_value_old' => '{"_value": "123"}',
+                'configuration_value_new' => '{"_value": "456"}',
+                'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_ENGLISH),
+                'username' => 'matheus.gontijo',
+                'created_at' => '1992-11-20 23:59:59.999',
+                'updated_at' => null,
+            ],
+            [
+                'id' => Uuid::fromHexToBytes('b424c12e1a5d405988436037b5a48713'),
+                'configuration_key' => 'foo.bar.enabled1',
+                'configuration_value_old' => '{"_value": "123"}',
+                'configuration_value_new' => '{"_value": "456"}',
+                'sales_channel_id' => null,
+                'username' => 'aaa.john',
+                'created_at' => '2022-09-01 00:00:00.000',
+                'updated_at' => null,
+            ],
+        ];
+
+        foreach ($rows as $row) {
+            $connection->insert('matheus_gontijo_system_config_history', $row);
+        }
+
+        $rows = $this->getRows(['created_at' => '1992-11-20 23:59:59.999'], 'created_at');
+
+        static::assertCount(2, $rows);
+
+        static::assertSame([
+            'id' => 'ce8942b6a5da4d04a43f8f9c1acf8629',
+            'configuration_key' => 'foo.bar.enabled2',
+            'configuration_value_old' => '123',
+            'configuration_value_new' => '456',
+            'sales_channel_name' => 'English Sales Channel',
+            'username' => 'matheus.gontijo',
+            'created_at' => '1992-11-20 23:59:59.999',
+        ], $rows[0]);
+
+        static::assertSame([
+            'id' => 'fc162568816f4c2c8940d24d66d9c305',
+            'configuration_key' => 'foo.bar.enabled3',
+            'configuration_value_old' => '123',
+            'configuration_value_new' => '456',
+            'sales_channel_name' => 'German Sales Channel',
+            'username' => 'matheus.gontijo',
+            'created_at' => '1992-11-20 23:59:59.999',
+        ], $rows[1]);
+    }
+
     public function testNonEnGbDefaultSalesName(): void
     {
         $connection = $this->getContainer()->get(Connection::class);
