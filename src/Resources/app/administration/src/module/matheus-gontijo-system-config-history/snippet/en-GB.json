@@ -1,48 +1,48 @@
 {
-  "matheus-gontijo-system-config-history": {
-    "general": {
-      "mainMenuItemGeneral": "System Config History",
-      "description": "Manage System Config History"
+    "matheus-gontijo-system-config-history":{
+        "general":{
+            "mainMenuItemGeneral":"System Config History",
+            "description":"Manage System Config History"
+        },
+        "page":{
+            "historyTab":"History",
+            "instancesTab":"Instances"
+        }
     },
-    "page": {
-      "historyTab": "History",
-      "instancesTab": "Instances"
-    }
-  },
-  "matheus-gontijo-system-config-history-config": {
-    "historyTab": {
-        "title": "History",
-        "grid": {
-            "errorLoadingGrid": "Unknown error while loading grid.",
-            "columnKey": "Key",
-            "columnOldValue": "Old Value",
-            "columnNewValue": "New Value",
-            "columnSalesChannelName": "Sales Channel",
-            "columnUsername": "Username",
-            "columnCreatedAt": "Created At",
-            "revertButton": "Revert",
-            "noResultsWereFound": "No results were found for this search.",
-            "defaultSalesChannelName": "Default",
-            "buttonRefresh": "Refresh",
-            "buttonReset": "Reset",
-            "totalRecords": "Total record(s): {total}"
-        },
-        "informationModal": {
-            "errorLoadingModal": "Unknown error while loading modal.",
-            "configurationKey": "Key:",
-            "configurationValueOld": "Old Value:",
-            "configurationValueNew": "New Value:",
-            "salesChannelName": "Sales Channel Name:",
-            "modifiedAt": "Modified At:",
-            "userSectionTitle": "User",
-            "username": "Username:",
-            "revertButton": "Click here to revert to \"Old Value\""
-        },
-        "warningModal": {
-            "message": "Are you sure you want to revert the configuration to the following value?",
-            "yesButton": "Yes",
-            "noButton": "No"
+    "matheus-gontijo-system-config-history-config":{
+        "historyTab":{
+            "title":"History",
+            "grid":{
+                "errorLoadingGrid":"Unknown error while loading grid.",
+                "columnKey":"Key",
+                "columnOldValue":"Old Value",
+                "columnNewValue":"New Value",
+                "columnSalesChannelName":"Sales Channel",
+                "columnUsername":"Username",
+                "columnCreatedAt":"Created At",
+                "revertButton":"Revert",
+                "noResultsWereFound":"No results were found for this search.",
+                "defaultSalesChannelName":"Default",
+                "buttonRefresh":"Refresh",
+                "buttonReset":"Reset",
+                "totalRecords":"Total record(s): {total}"
+            },
+            "informationModal":{
+                "errorLoadingModal":"Unknown error while loading modal.",
+                "configurationKey":"Key:",
+                "configurationValueOld":"Old Value:",
+                "configurationValueNew":"New Value:",
+                "salesChannelName":"Sales Channel Name:",
+                "modifiedAt":"Modified At:",
+                "userSectionTitle":"User",
+                "username":"Username:",
+                "revertButton":"Click here to revert to \"Old Value\""
+            },
+            "warningModal":{
+                "message":"Are you sure you want to revert the configuration to the following value?",
+                "yesButton":"Yes",
+                "noButton":"No"
+            }
         }
     }
-  }
 }
