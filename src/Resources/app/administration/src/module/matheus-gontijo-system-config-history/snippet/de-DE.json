@@ -1,47 +1,47 @@
 {
-    "matheus-gontijo-system-config-history":{
-        "general":{
-            "mainMenuItemGeneral":"Verlauf der Systemkonfiguration",
-            "description":"Verwalten Sie den Systemkonfigurationsverlauf"
+    "matheus-gontijo-system-config-history": {
+        "general": {
+            "mainMenuItemGeneral": "Verlauf der Systemkonfiguration",
+            "description": "Verwalten Sie den Systemkonfigurationsverlauf"
         },
-        "page":{
-            "historyTab":"Geschichte",
-            "instancesTab":"Instanzen"
+        "page": {
+            "historyTab": "Geschichte",
+            "instancesTab": "Instanzen"
         }
     },
-    "matheus-gontijo-system-config-history-config":{
-        "historyTab":{
-            "title":"Geschichte",
-            "grid":{
-                "errorLoadingGrid":"Unbekannter Fehler beim Laden des Grids.",
-                "columnKey":"Taste",
-                "columnOldValue":"Alter Wert",
-                "columnNewValue":"Neuer Wert",
-                "columnSalesChannelName":"Verkaufskanal",
-                "columnUsername":"Nutzername",
-                "columnCreatedAt":"Hergestellt in",
-                "revertButton":"Zurückkehren",
-                "noResultsWereFound":"Für diese Suche wurden keine Ergebnisse gefunden.",
-                "defaultSalesChannelName":"Standard",
-                "buttonRefresh":"Aktualisierung",
-                "buttonReset":"Zurücksetzen",
-                "totalRecords":"Datensätze insgesamt: {total}"
+    "matheus-gontijo-system-config-history-config": {
+        "historyTab": {
+            "title": "Geschichte",
+            "grid": {
+                "errorLoadingGrid": "Unbekannter Fehler beim Laden des Grids.",
+                "columnKey": "Taste",
+                "columnOldValue": "Alter Wert",
+                "columnNewValue": "Neuer Wert",
+                "columnSalesChannelName": "Verkaufskanal",
+                "columnUsername": "Nutzername",
+                "columnCreatedAt": "Hergestellt in",
+                "revertButton": "Zurückkehren",
+                "noResultsWereFound": "Für diese Suche wurden keine Ergebnisse gefunden.",
+                "defaultSalesChannelName": "Standard",
+                "buttonRefresh": "Aktualisierung",
+                "buttonReset": "Zurücksetzen",
+                "totalRecords": "Datensätze insgesamt: {total}"
             },
-            "informationModal":{
-                "errorLoadingModal":"Unbekannter Fehler beim Laden von Modal.",
-                "configurationKey":"Taste:",
-                "configurationValueOld":"Alter Wert:",
-                "configurationValueNew":"Neuer Wert:",
-                "salesChannelName":"Name des Vertriebskanals:",
-                "modifiedAt":"Geändert bei:",
-                "userSectionTitle":"Benutzer",
-                "username":"Nutzername:",
-                "revertButton":"Klicken Sie hier, um zum \"alten Wert\" zurückzukehren"
+            "informationModal": {
+                "errorLoadingModal": "Unbekannter Fehler beim Laden von Modal.",
+                "configurationKey": "Taste:",
+                "configurationValueOld": "Alter Wert:",
+                "configurationValueNew": "Neuer Wert:",
+                "salesChannelName": "Name des Vertriebskanals:",
+                "modifiedAt": "Geändert bei:",
+                "userSectionTitle": "Benutzer",
+                "username": "Nutzername:",
+                "revertButton": "Klicken Sie hier, um zum \"alten Wert\" zurückzukehren"
             },
-            "warningModal":{
-                "message":"Möchten Sie die Konfiguration wirklich auf den folgenden Wert zurücksetzen?",
-                "yesButton":"Ja",
-                "noButton":"Nein"
+            "warningModal": {
+                "message": "Möchten Sie die Konfiguration wirklich auf den folgenden Wert zurücksetzen?",
+                "yesButton": "Ja",
+                "noButton": "Nein"
             }
         }
     }
