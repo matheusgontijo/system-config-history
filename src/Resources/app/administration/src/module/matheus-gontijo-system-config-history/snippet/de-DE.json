@@ -5,22 +5,22 @@
             "description": "Verwalten Sie den Systemkonfigurationsverlauf"
         },
         "page": {
-            "historyTab": "Geschichte",
+            "historyTab": "Verlauf",
             "instancesTab": "Instanzen"
         }
     },
     "matheus-gontijo-system-config-history-config": {
         "historyTab": {
-            "title": "Geschichte",
+            "title": "Verlauf",
             "grid": {
                 "errorLoadingGrid": "Unbekannter Fehler beim Laden des Grids.",
-                "columnKey": "Taste",
+                "columnKey": "Schlüssel",
                 "columnOldValue": "Alter Wert",
                 "columnNewValue": "Neuer Wert",
                 "columnSalesChannelName": "Verkaufskanal",
                 "columnUsername": "Nutzername",
-                "columnCreatedAt": "Hergestellt in",
-                "revertButton": "Zurückkehren",
+                "columnCreatedAt": "Geändert am",
+                "revertButton": "Rückgängig",
                 "noResultsWereFound": "Für diese Suche wurden keine Ergebnisse gefunden.",
                 "defaultSalesChannelName": "Standard",
                 "buttonRefresh": "Aktualisierung",
@@ -28,12 +28,12 @@
                 "totalRecords": "Datensätze insgesamt: {total}"
             },
             "informationModal": {
-                "errorLoadingModal": "Unbekannter Fehler beim Laden von Modal.",
-                "configurationKey": "Taste:",
+                "errorLoadingModal": "Unbekannter Fehler beim Laden des DIalogs.",
+                "configurationKey": "Schlüssel:",
                 "configurationValueOld": "Alter Wert:",
                 "configurationValueNew": "Neuer Wert:",
-                "salesChannelName": "Name des Vertriebskanals:",
-                "modifiedAt": "Geändert bei:",
+                "salesChannelName": "Name des Verkaufskanals:",
+                "modifiedAt": "Geändert am",
                 "userSectionTitle": "Benutzer",
                 "username": "Nutzername:",
                 "revertButton": "Klicken Sie hier, um zum \"alten Wert\" zurückzukehren"
