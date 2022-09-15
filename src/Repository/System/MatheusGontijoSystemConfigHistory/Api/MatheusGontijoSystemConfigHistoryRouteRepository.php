@@ -148,28 +148,28 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         $qb->setParameter(':locale_id', Uuid::fromHexToBytes($localeId));
         $qb->setParameter(':default_sales_channel_name', $defaultSalesChannelName);
 
-        if ($filters['configuration_key'] !== null && $filters['configuration_key'] !== '') {
+        if ($filters['configuration_key'] !== '') {
             $qb->setParameter(':configuration_key', '%' . $filters['configuration_key'] . '%');
         }
 
-        if ($filters['configuration_value_old'] !== null && $filters['configuration_value_old'] !== '') {
+        if ($filters['configuration_value_old'] !== '') {
             $qb->setParameter(':configuration_value_old', '%' . $filters['configuration_value_old'] . '%');
         }
 
-        if ($filters['configuration_value_new'] !== null && $filters['configuration_value_new'] !== '') {
+        if ($filters['configuration_value_new'] !== '') {
             $qb->setParameter(':configuration_value_new', '%' . $filters['configuration_value_new'] . '%');
         }
 
-        if ($filters['sales_channel_name'] !== null && $filters['sales_channel_name'] !== '') {
+        if ($filters['sales_channel_name'] !== '') {
             $qb->andWhere('subquery.sales_channel_name LIKE :sales_channel_name');
             $qb->setParameter(':sales_channel_name', '%' . $filters['sales_channel_name'] . '%');
         }
 
-        if ($filters['username'] !== null && $filters['username'] !== '') {
+        if ($filters['username'] !== '') {
             $qb->setParameter(':username', '%' . $filters['username'] . '%');
         }
 
-        if ($filters['created_at'] !== null && $filters['created_at'] !== '') {
+        if ($filters['created_at'] !== '') {
             $qb->setParameter(':created_at', '%' . $filters['created_at'] . '%');
         }
 
@@ -208,29 +208,29 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
         $qb->leftJoin('mgsch', 'sales_channel_translation', 'sct', $leftJoinCondition);
 
-        if ($filters['configuration_key'] !== null && $filters['configuration_key'] !== '') {
+        if ($filters['configuration_key'] !== '') {
             $qb->andWhere('mgsch.configuration_key LIKE :configuration_key');
         }
 
-        if ($filters['configuration_value_old'] !== null && $filters['configuration_value_old'] !== '') {
+        if ($filters['configuration_value_old'] !== '') {
             $like = 'CAST(JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_old, "$._value")) AS CHAR) '
                 . 'LIKE :configuration_value_old';
 
             $qb->andWhere($like);
         }
 
-        if ($filters['configuration_value_new'] !== null && $filters['configuration_value_new'] !== '') {
+        if ($filters['configuration_value_new'] !== '') {
             $like = 'CAST(JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_new, "$._value")) AS CHAR)'
                 . 'LIKE :configuration_value_new';
 
             $qb->andWhere($like);
         }
 
-        if ($filters['username'] !== null && $filters['username'] !== '') {
+        if ($filters['username'] !== '') {
             $qb->andWhere('mgsch.username LIKE :username');
         }
 
-        if ($filters['created_at'] !== null && $filters['created_at'] !== '') {
+        if ($filters['created_at'] !== '') {
             $qb->andWhere('mgsch.created_at LIKE :created_at');
         }
 

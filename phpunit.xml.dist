@@ -22,6 +22,7 @@
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled" force="true"/>
 
         <server name="APP_ENV" value="test" force="true"/>
+        <server name="DATABASE_URL" value="mysql://root:root@mysql:3306/shopware_test" force="true"/>
         <server name="KERNEL_CLASS" value="Shopware\Core\Kernel" force="true"/>
         <server name="SYMFONY_DOTENV_VARS" value="" force="true"/>
         <server name="MAILER_URL" value="null://localhost" force="true"/>
