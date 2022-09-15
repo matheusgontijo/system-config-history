@@ -839,24 +839,29 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);
 
-        $longsString = <<<'TEXT'
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys st
-        andard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-         type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, rem
-        aining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lor
-        em Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
-        Lorem Ipsum. 
+        $longString = <<<'TEXT'
+        What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lore
+        m Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer to
+        ok a galley of type and scrambled it to make a type specimen book. It has survived not only five cen
+        turies, but also the leap into electronic typesetting, remaining essentially unchanged. It was popul
+        arised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more re
+        cently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why 
+        do we use it? It is a long established fact that a reader will be distracted by the readable content
+         of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less 
+        normal distribution of letters, as opposed to using 'Content here, content here', making it look lik
+        e readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as the
+        ir default model text, and a search for 'lorem ipsum' will uncover many web sites still in their inf
+        ancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (inj
+        ected humour and the like).
         TEXT;
 
-        $longsString = str_replace(\PHP_EOL, '', $longsString);
-
-        $longsString .= $longsString . $longsString . $longsString . $longsString;
+        $longString = str_replace(\PHP_EOL, '', $longString);
 
         $row = [
             'id' => Uuid::fromHexToBytes('b424c12e1a5d405988436037b5a48713'),
             'configuration_key' => 'foo.bar.enabled1',
-            'configuration_value_old' => sprintf('{"_value": "%s"}', $longsString),
-            'configuration_value_new' => sprintf('{"_value": "%s"}', $longsString),
+            'configuration_value_old' => sprintf('{"_value": "%s"}', $longString),
+            'configuration_value_new' => sprintf('{"_value": "%s"}', $longString),
             'sales_channel_id' => null,
             'username' => 'aaa.john',
             'created_at' => '2022-01-03 00:00:00.000',
@@ -869,22 +874,67 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
 
         static::assertCount(1, $rows);
 
-        $longsString = <<<'TEXT'
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys st
-        andard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-         type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, rem
-        aining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lor
-        em Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of
-        Lorem Ipsum. Lorem Ipsum is simply dummy (...)
+        $longString = <<<'TEXT'
+        What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lore
+        m Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer to
+        ok a galley of type and scrambled it to make a type specimen book. It has survived not only five cen
+        turies, but also the leap into electronic typesetting, remaining essentially unchanged. It was popul
+        arised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more re
+        cently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why 
+         (...)
         TEXT;
 
-        $longsString = str_replace(\PHP_EOL, '', $longsString);
+        $longString = str_replace(\PHP_EOL, '', $longString);
 
         static::assertSame([
             'id' => 'b424c12e1a5d405988436037b5a48713',
             'configuration_key' => 'foo.bar.enabled1',
-            'configuration_value_old' => $longsString,
-            'configuration_value_new' => $longsString,
+            'configuration_value_old' => $longString,
+            'configuration_value_new' => $longString,
+            'sales_channel_name' => 'Default',
+            'username' => 'aaa.john',
+            'created_at' => '2022-01-03 00:00:00.000',
+        ], $rows[0]);
+    }
+
+    public function testShortConfigurationValues(): void
+    {
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $longString = <<<'TEXT'
+        What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lore
+        m Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer to
+        ok a galley of type and scrambled it to make a type specimen book. It has survived not only five cen
+        turies, but also the leap into electronic typesetting, remaining essentially unchanged. It was popul
+        arised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more re
+        cently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Why 
+        TEXT;
+
+        $longString = str_replace(\PHP_EOL, '', $longString);
+
+        $row = [
+            'id' => Uuid::fromHexToBytes('b424c12e1a5d405988436037b5a48713'),
+            'configuration_key' => 'foo.bar.enabled1',
+            'configuration_value_old' => sprintf('{"_value": "%s"}', $longString),
+            'configuration_value_new' => sprintf('{"_value": "%s"}', $longString),
+            'sales_channel_id' => null,
+            'username' => 'aaa.john',
+            'created_at' => '2022-01-03 00:00:00.000',
+            'updated_at' => null,
+        ];
+
+        $connection->insert('matheus_gontijo_system_config_history', $row);
+
+        $rows = $this->getRows(['configuration_key' => 'foo.bar.enabled1'], 'configuration_key');
+
+        static::assertCount(1, $rows);
+
+        static::assertSame([
+            'id' => 'b424c12e1a5d405988436037b5a48713',
+            'configuration_key' => 'foo.bar.enabled1',
+            'configuration_value_old' => $longString,
+            'configuration_value_new' => $longString,
             'sales_channel_name' => 'Default',
             'username' => 'aaa.john',
             'created_at' => '2022-01-03 00:00:00.000',
