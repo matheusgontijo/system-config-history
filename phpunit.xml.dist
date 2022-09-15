@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/7.0/phpunit.xsd"
+     xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/9.5/phpunit.xsd"
      backupGlobals="false"
      colors="true"
      bootstrap="./tests/TestBootstrap.php"
@@ -11,16 +11,21 @@
      cacheResult="false"
 >
     <php>
-        <ini name="error_reporting" value="-1"/>
-        <server name="KERNEL_CLASS" value="Shopware\Core\Kernel"/>
-        <env name="APP_ENV" value="test"/>
-        <env name="APP_DEBUG" value="1"/>
-        <env name="APP_SECRET" value="s$cretf0rt3st"/>
-        <env name="SHOPWARE_HTTP_CACHE_ENABLED" value="0" />
-        <env name="SHELL_VERBOSITY" value="-1"/>
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled" />
-        <server name="MAILER_URL" value="null://localhost"/>
-        <server name="HTTPS" value="off"/>
+        <ini name="error_reporting" value="-1" force="true"/>
+
+        <env name="APP_ENV" value="test" force="true"/>
+        <env name="APP_DEBUG" value="1" force="true"/>
+        <env name="APP_SECRET" value="s$cretf0rt3st" force="true"/>
+        <env name="SHOPWARE_HTTP_CACHE_ENABLED" value="0" force="true"/>
+        <env name="SHELL_VERBOSITY" value="-1" force="true"/>
+        <env name="TEST_TOKEN" value="none" force="true"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled" force="true"/>
+
+        <server name="APP_ENV" value="test" force="true"/>
+        <server name="KERNEL_CLASS" value="Shopware\Core\Kernel" force="true"/>
+        <server name="SYMFONY_DOTENV_VARS" value="" force="true"/>
+        <server name="MAILER_URL" value="null://localhost" force="true"/>
+        <server name="HTTPS" value="off" force="true"/>
     </php>
 
     <testsuites>

@@ -1,0 +1,19 @@
+{
+    "$schema": "https://raw.githubusercontent.com/infection/infection/0.26.0/resources/schema.json",
+    "source": {
+        "directories": [
+            ".\/custom\/plugins\/MatheusGontijoSystemConfigHistory"
+        ]
+    },
+    "logs": {
+        "text": "infection.log"
+    },
+    "tmpDir": "..\/..\/..\/infection\/tmp",
+    "phpUnit": {
+        "customPath": ".\/vendor\/bin\/phpunit"
+    },
+    "mutators": {
+        "@default": true
+    },
+    "bootstrap": ".\/custom\/plugins\/MatheusGontijoSystemConfigHistory\/tests\/TestBootstrap.php"
+}
