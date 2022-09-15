@@ -43,15 +43,25 @@ class RevertSystemConfigRepositoryIntegrationTest extends TestCase
         \assert($matheusGontijoSystemConfigHistoryRepository instanceof EntityRepositoryInterface);
 
         $data = [
-            'id' => 'e6c7d2e5619842298ce4f7a58e99f626',
-            'configurationKey' => 'aaa.bbb.ccc',
-            'configurationValueOld' => ['_value' => true],
-            'configurationValueNew' => ['_value' => false],
-            'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
-            'username' => 'mgontijo',
+            [
+                'id' => 'e6c7d2e5619842298ce4f7a58e99f626',
+                'configurationKey' => 'aaa.bbb.ccc1',
+                'configurationValueOld' => ['_value' => true],
+                'configurationValueNew' => ['_value' => false],
+                'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
+                'username' => 'mgontijo',
+            ],
+            [
+                'id' => '16b2b59393ee40f1b4657102c59ed3f4',
+                'configurationKey' => 'aaa.bbb.ccc2',
+                'configurationValueOld' => ['_value' => true],
+                'configurationValueNew' => ['_value' => false],
+                'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
+                'username' => 'mgontijo',
+            ],
         ];
 
-        $matheusGontijoSystemConfigHistoryRepository->create([$data], Context::createDefaultContext());
+        $matheusGontijoSystemConfigHistoryRepository->create($data, Context::createDefaultContext());
 
         $revertSystemConfigRepository = $this->getContainer()->get(RevertSystemConfigRepository::class);
         \assert($revertSystemConfigRepository instanceof RevertSystemConfigRepository);
@@ -61,7 +71,7 @@ class RevertSystemConfigRepositoryIntegrationTest extends TestCase
         );
 
         static::assertSame('e6c7d2e5619842298ce4f7a58e99f626', $matheusGontijoSystemConfigHistory->getId());
-        static::assertSame('aaa.bbb.ccc', $matheusGontijoSystemConfigHistory->getConfigurationKey());
+        static::assertSame('aaa.bbb.ccc1', $matheusGontijoSystemConfigHistory->getConfigurationKey());
         static::assertSame(['_value' => true], $matheusGontijoSystemConfigHistory->getConfigurationValueOld());
         static::assertSame(['_value' => false], $matheusGontijoSystemConfigHistory->getConfigurationValueNew());
         static::assertSame(
@@ -77,24 +87,44 @@ class RevertSystemConfigRepositoryIntegrationTest extends TestCase
         \assert($systemConfigRepository instanceof EntityRepositoryInterface);
 
         $data = [
-            'id' => 'e6c7d2e5619842298ce4f7a58e99f626',
-            'configurationKey' => 'aaa.bbb.ccc',
-            'configurationValue' => ['_value' => true],
-            'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
+            [
+                'id' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                'configurationKey' => 'aaa.bbb.ccc',
+                'configurationValue' => ['_value' => true],
+                'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
+            ],
+            [
+                'id' => 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+                'configurationKey' => 'ddd.eee.fff',
+                'configurationValue' => ['_value' => true],
+                'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
+            ],
+            [
+                'id' => 'cccccccccccccccccccccccccccccccc',
+                'configurationKey' => 'ddd.eee.fff',
+                'configurationValue' => ['_value' => true],
+                'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_GERMAN,
+            ],
+            [
+                'id' => 'dddddddddddddddddddddddddddddddd',
+                'configurationKey' => 'ggg.hhh.iii',
+                'configurationValue' => ['_value' => true],
+                'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
+            ],
         ];
 
-        $systemConfigRepository->create([$data], Context::createDefaultContext());
+        $systemConfigRepository->create($data, Context::createDefaultContext());
 
         $revertSystemConfigRepository = $this->getContainer()->get(RevertSystemConfigRepository::class);
         \assert($revertSystemConfigRepository instanceof RevertSystemConfigRepository);
 
         $systemConfig = $revertSystemConfigRepository->loadSystemConfig(
-            'aaa.bbb.ccc',
+            'ddd.eee.fff',
             TestDefaults::SALES_CHANNEL_ID_ENGLISH
         );
 
-        static::assertSame('e6c7d2e5619842298ce4f7a58e99f626', $systemConfig->getId());
-        static::assertSame('aaa.bbb.ccc', $systemConfig->getConfigurationKey());
+        static::assertSame('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', $systemConfig->getId());
+        static::assertSame('ddd.eee.fff', $systemConfig->getConfigurationKey());
         static::assertSame(['_value' => true], $systemConfig->getConfigurationValue());
         static::assertSame(TestDefaults::SALES_CHANNEL_ID_ENGLISH, $systemConfig->getSalesChannelId());
     }

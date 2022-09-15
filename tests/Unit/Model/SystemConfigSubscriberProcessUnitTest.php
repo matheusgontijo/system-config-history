@@ -647,11 +647,27 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
             ->method('getPayload')
             ->willReturn([]);
 
+        $entityWriteResultMock2 = $this->createMock(EntityWriteResult::class);
+
+        $changeSet2 = new ChangeSet([
+            'configuration_key' => 'my.custom.systemConfig2',
+            'sales_channel_id' => null,
+            'configuration_value' => '{"_value":"aaa"}',
+        ], ['configuration_value' => '{"_value":"aaa"}'], false);
+
+        $entityWriteResultMock2->expects(static::exactly(1))
+            ->method('getChangeSet')
+            ->willReturn($changeSet2);
+
+        $entityWriteResultMock2->expects(static::exactly(1))
+            ->method('getPayload')
+            ->willReturn([]);
+
         $entityWrittenEventMock = $this->createMock(EntityWrittenEvent::class);
 
         $entityWrittenEventMock->expects(static::exactly(1))
             ->method('getWriteResults')
-            ->willReturn([$entityWriteResultMock1]);
+            ->willReturn([$entityWriteResultMock1, $entityWriteResultMock2]);
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
             ->method('isEnabled')
