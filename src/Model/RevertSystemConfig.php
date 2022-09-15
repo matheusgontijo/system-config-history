@@ -35,7 +35,7 @@ class RevertSystemConfig
             return;
         }
 
-        if ($value === null && $systemConfig instanceof SystemConfigEntity) {
+        if ($value === null) {
             $this->revertSystemConfigRepository->deleteSystemConfig($systemConfig->getId());
 
             return;

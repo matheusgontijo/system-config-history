@@ -22,6 +22,80 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $this->populateTableWithData();
     }
 
+    public function testSecondOrderBy(): void
+    {
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $rows = [
+            [
+                'id' => Uuid::fromHexToBytes('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1'),
+                'configuration_key' => 'foo.bar.enabled1',
+                'configuration_value_old' => '{"_value": false}',
+                'configuration_value_new' => '{"_value": true}',
+                'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_GERMAN),
+                'created_at' => '2022-01-01 00:00:00.000',
+                'updated_at' => null,
+            ],
+            [
+                'id' => Uuid::fromHexToBytes('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa3'),
+                'configuration_key' => 'foo.bar.enabled1',
+                'configuration_value_old' => '{"_value": false}',
+                'configuration_value_new' => '{"_value": true}',
+                'sales_channel_id' => null,
+                'created_at' => '2022-01-03 00:00:00.000',
+                'updated_at' => null,
+            ],
+            [
+                'id' => Uuid::fromHexToBytes('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa2'),
+                'configuration_key' => 'foo.bar.enabled1',
+                'configuration_value_old' => '{"_value": false}',
+                'configuration_value_new' => '{"_value": true}',
+                'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_ENGLISH),
+                'created_at' => '2022-01-02 00:00:00.000',
+                'updated_at' => null,
+            ],
+        ];
+
+        foreach ($rows as $row) {
+            $connection->insert('matheus_gontijo_system_config_history', $row);
+        }
+
+        $rows = $this->getRows(['configuration_key' => 'foo.bar.enabled'], 'configuration_key');
+
+        static::assertCount(3, $rows);
+
+        static::assertSame([
+            'id' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa3',
+            'configuration_key' => 'foo.bar.enabled1',
+            'configuration_value_old' => 'false',
+            'configuration_value_new' => 'true',
+            'sales_channel_name' => 'Default',
+            'username' => null,
+            'created_at' => '2022-01-03 00:00:00.000',
+        ], $rows[0]);
+
+        static::assertSame([
+            'id' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa2',
+            'configuration_key' => 'foo.bar.enabled1',
+            'configuration_value_old' => 'false',
+            'configuration_value_new' => 'true',
+            'sales_channel_name' => 'English Sales Channel',
+            'username' => null,
+            'created_at' => '2022-01-02 00:00:00.000',
+        ], $rows[1]);
+
+        static::assertSame([
+            'id' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1',
+            'configuration_key' => 'foo.bar.enabled1',
+            'configuration_value_old' => 'false',
+            'configuration_value_new' => 'true',
+            'sales_channel_name' => 'German Sales Channel',
+            'username' => null,
+            'created_at' => '2022-01-01 00:00:00.000',
+        ], $rows[2]);
+    }
+
     public function testConfigurationKeyColumnFilterAndSort(): void
     {
         $connection = $this->getContainer()->get(Connection::class);
