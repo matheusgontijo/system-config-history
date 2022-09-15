@@ -6,6 +6,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ForwardCompatibility\Result;
 use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigSubscriberProcessRepository;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
+use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
@@ -62,10 +63,40 @@ class SystemConfigSubscriberProcessRepositoryIntegrationTest extends TestCase
         $qb->where('configuration_key = :configuration_key');
         $qb->andWhere('sales_channel_id IS NULL');
 
-        $qb->setParameter(':configuration_value', '{"value":false}');
+        $qb->setParameter(':configuration_value', '{"_value":false}');
         $qb->setParameter(':configuration_key', 'matheusGontijo.systemConfigHistory.enabled');
 
         $qb->execute();
+
+        static::assertFalse($systemConfigSubscriberProcessRepository->isEnabled());
+    }
+
+    public function testIsDisabledWithMissingDefaultSalesChannel(): void
+    {
+        $systemConfigSubscriberProcessRepository = $this->getContainer()->get(
+            SystemConfigSubscriberProcessRepository::class
+        );
+
+        \assert($systemConfigSubscriberProcessRepository instanceof SystemConfigSubscriberProcessRepository);
+
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $qb = $connection->createQueryBuilder();
+        $qb->delete('system_config');
+        $qb->where('configuration_key = :configuration_key');
+
+        $qb->setParameter(':configuration_key', 'matheusGontijo.systemConfigHistory.enabled');
+
+        $qb->execute();
+
+        $connection->insert('system_config', [
+            'id' => Uuid::fromHexToBytes('e4ef491cefd24299aff25bf63d1f41d9'),
+            'configuration_key' => 'matheusGontijo.systemConfigHistory.enabled',
+            'configuration_value' => '{"_value":true}',
+            'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_ENGLISH),
+            'created_at' => '2022-01-01 00:00:00.000',
+        ]);
 
         static::assertFalse($systemConfigSubscriberProcessRepository->isEnabled());
     }

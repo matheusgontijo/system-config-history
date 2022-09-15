@@ -16,18 +16,15 @@ class SystemConfigSubscriberProcessRepository
 {
     private Connection $connection;
 
-    private EntityRepository $matheusGontijoSystemConfigHistoryRepository;
+    private EntityRepositoryInterface $matheusGontijoSystemConfigHistoryRepository;
 
-    private EntityRepository $userRepository;
+    private EntityRepositoryInterface $userRepository;
 
     public function __construct(
         Connection $connection,
         EntityRepositoryInterface $matheusGontijoSystemConfigHistoryRepository,
         EntityRepositoryInterface $userRepository
     ) {
-        \assert($matheusGontijoSystemConfigHistoryRepository instanceof EntityRepository);
-        \assert($userRepository instanceof EntityRepository);
-
         $this->connection = $connection;
         $this->matheusGontijoSystemConfigHistoryRepository = $matheusGontijoSystemConfigHistoryRepository;
         $this->userRepository = $userRepository;
@@ -43,8 +40,6 @@ class SystemConfigSubscriberProcessRepository
         $qb->andWhere('sales_channel_id IS NULL');
 
         $qb->setParameter(':configuration_key', 'matheusGontijo.systemConfigHistory.enabled');
-
-        $qb->setMaxResults(1);
 
         $executeResult = $qb->execute();
         \assert($executeResult instanceof Result);

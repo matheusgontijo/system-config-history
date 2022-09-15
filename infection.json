@@ -2,7 +2,7 @@
     "$schema": "https://raw.githubusercontent.com/infection/infection/0.26.0/resources/schema.json",
     "source": {
         "directories": [
-            ".\/custom\/plugins\/MatheusGontijoSystemConfigHistory"
+            ".\/custom\/plugins\/MatheusGontijoSystemConfigHistory\/src"
         ]
     },
     "logs": {
@@ -13,7 +13,10 @@
         "customPath": ".\/vendor\/bin\/phpunit"
     },
     "mutators": {
-        "@default": true
+        "@default": true,
+        "global-ignoreSourceCodeByRegex": [
+            "\\\\assert\\(.*"
+        ]
     },
     "bootstrap": ".\/custom\/plugins\/MatheusGontijoSystemConfigHistory\/tests\/TestBootstrap.php"
 }
