@@ -13,34 +13,19 @@ use Shopware\Core\Framework\DataAbstractionLayer\Write\Validation\PreWriteValida
 
 class SystemConfigSubscriberUnitTest extends TestCase
 {
-    public function testTriggerChangeSetWithoutCommand(): void
-    {
-        $systemConfigSubscriberProcessMock = $this->createMock(SystemConfigSubscriberProcess::class);
-
-        $preWriteValidationEventMock = $this->createMock(PreWriteValidationEvent::class);
-
-        $preWriteValidationEventMock->expects(static::exactly(1))
-            ->method('getCommands')
-            ->willReturn(['invalid']);
-
-        $systemConfigSubscriber = new SystemConfigSubscriber($systemConfigSubscriberProcessMock);
-
-        $systemConfigSubscriber->triggerChangeSet($preWriteValidationEventMock);
-    }
-
-    public function testTriggerChangeSetIncorrectEntityName(): void
+    public function testTriggerChangeSetInvalidCommands(): void
     {
         $systemConfigSubscriberProcessMock = $this->createMock(SystemConfigSubscriberProcess::class);
 
         $entityDefinitionMock = $this->createMock(EntityDefinition::class);
 
-        $entityDefinitionMock->expects(static::exactly(1))
+        $entityDefinitionMock->expects(static::exactly(2))
             ->method('getEntityName')
             ->willReturn('product');
 
         $updateCommandMock = $this->createMock(UpdateCommand::class);
 
-        $updateCommandMock->expects(static::exactly(1))
+        $updateCommandMock->expects(static::exactly(2))
             ->method('getDefinition')
             ->willReturn($entityDefinitionMock);
 
@@ -51,7 +36,7 @@ class SystemConfigSubscriberUnitTest extends TestCase
 
         $preWriteValidationEventMock->expects(static::exactly(1))
             ->method('getCommands')
-            ->willReturn([$updateCommandMock]);
+            ->willReturn(['invalid', 'invalid', $updateCommandMock, $updateCommandMock]);
 
         $systemConfigSubscriber = new SystemConfigSubscriber($systemConfigSubscriberProcessMock);
 

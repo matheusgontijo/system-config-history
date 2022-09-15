@@ -23,7 +23,7 @@ class SystemConfigSubscriber implements EventSubscriberInterface
     public function triggerChangeSet(PreWriteValidationEvent $event): void
     {
         foreach ($event->getCommands() as $command) {
-            if (!($command instanceof UpdateCommand || $command instanceof DeleteCommand)) {
+            if (!$command instanceof UpdateCommand && !$command instanceof DeleteCommand) {
                 continue;
             }
 
