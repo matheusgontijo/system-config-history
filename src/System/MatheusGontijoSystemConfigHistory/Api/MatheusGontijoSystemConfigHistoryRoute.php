@@ -56,11 +56,8 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
         $sortDirection = $request->request->get('sortDirection');
         \assert(\is_string($sortDirection));
 
-        $page = $request->request->get('page');
-        \assert(\is_int($page));
-
-        $limit = $request->request->get('limit');
-        \assert(\is_int($limit));
+        $page = (int) $request->request->get('page');
+        $limit = (int) $request->request->get('limit');
 
         $defaultSalesChannelName = $request->request->get('defaultSalesChannelName');
         \assert(\is_string($defaultSalesChannelName));
