@@ -138,4 +138,45 @@ class MatheusGontijoSystemConfigHistoryRouteIntegrationTest extends TestCase
 
         static::assertEquals($responseContentExpected, $responseContentActual);
     }
+
+    public function testMatheusGontijoSystemConfigHistoryModalData(): void
+    {
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $connection->insert('matheus_gontijo_system_config_history', [
+            'id' => Uuid::fromHexToBytes('4d2871498e7e4a4e91e13b8280b7d935'),
+            'configuration_key' => 'aaa.bbb.ccc',
+            'configuration_value_old' => '{"_value":"aaa"}',
+            'configuration_value_new' => '{"_value":123}',
+            'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_ENGLISH),
+            'username' => 'mgontijo',
+            'created_at' => '2022-09-15 19:03:54.162',
+            'updated_at' => null,
+        ]);
+
+        $this->getBrowser()->request(
+            'POST',
+            '/api/_action/matheus-gontijo/matheus-gontijo-system-config-history/modal-data',
+            [
+                'modalId' => '4d2871498e7e4a4e91e13b8280b7d935',
+                'defaultSalesChannelName' => 'Default',
+            ]
+        );
+
+        $responseContentExpected = [
+            'configuration_key' => 'aaa.bbb.ccc',
+            'configuration_value_old' => 'aaa',
+            'configuration_value_old_type' => 'string',
+            'configuration_value_new' => 123,
+            'configuration_value_new_type' => 'integer',
+            'sales_channel_name' => 'English Sales Channel',
+            'username' => 'mgontijo',
+            'modified_at' => '2022-09-15 19:03:54.162',
+        ];
+
+        $responseContentActual = json_decode($this->getBrowser()->getResponse()->getContent(), true);
+
+        static::assertEquals($responseContentExpected, $responseContentActual);
+    }
 }
