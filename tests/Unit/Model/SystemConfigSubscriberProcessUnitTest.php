@@ -2,7 +2,6 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Tests\Unit\Model;
 
-use MatheusGontijo\SystemConfigHistory\Model\RequestStateRegistry;
 use MatheusGontijo\SystemConfigHistory\Model\SystemConfigSubscriberProcess;
 use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigSubscriberProcessRepository;
 use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
@@ -18,6 +17,7 @@ use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\User\UserEntity;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class SystemConfigSubscriberProcessUnitTest extends TestCase
 {

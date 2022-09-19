@@ -3,7 +3,7 @@ import ApiService from 'src/core/service/api.service';
 /**
  * @private
  */
-export default class YotpoConfigService extends ApiService {
+export default class MatheusGontijoSystemConfigHistoryViewHistoryService extends ApiService {
     constructor(httpClient, loginService, apiEndpoint = '_action/matheus-gontijo') {
         super(httpClient, loginService, apiEndpoint);
     }

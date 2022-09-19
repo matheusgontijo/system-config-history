@@ -12,6 +12,7 @@ use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\PlatformRequest;
 use Shopware\Core\System\User\UserEntity;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class SystemConfigSubscriberProcess
 {
@@ -24,14 +25,14 @@ class SystemConfigSubscriberProcess
 
     private SystemConfigSubscriberProcessRepository $systemConfigSubscriberProcessRepository;
 
-    private RequestStateRegistry $requestStateRegistry;
+    private RequestStack $requestStack;
 
     public function __construct(
         SystemConfigSubscriberProcessRepository $systemConfigSubscriberProcessRepository,
-        RequestStateRegistry $requestStateRegistry
+        RequestStack $requestStack
     ) {
         $this->systemConfigSubscriberProcessRepository = $systemConfigSubscriberProcessRepository;
-        $this->requestStateRegistry = $requestStateRegistry;
+        $this->requestStack = $requestStack;
     }
 
     public function processEntityWrittenEvent(EntityWrittenEvent $event): void
@@ -197,7 +198,7 @@ class SystemConfigSubscriberProcess
      */
     private function addUser(array $data): array
     {
-        $request = $this->requestStateRegistry->getRequest();
+        $request = $this->requestStack->getCurrentRequest();
 
         if (!$request instanceof Request) {
             return $data;

@@ -16,7 +16,7 @@ class HistoryTabRepositoryIntegrationTest extends TestCase
 {
     use IntegrationTestBehaviour;
 
-    public function testGetSalesChannelNameCurrentLocale(): void
+    public function testGetSalesChannelNameCurrentLocaleWithValue(): void
     {
         $connection = $this->getContainer()->get(Connection::class);
         \assert($connection instanceof Connection);
@@ -65,6 +65,32 @@ class HistoryTabRepositoryIntegrationTest extends TestCase
         );
 
         static::assertSame('Canal de Vendas em Inglês', $salesChannelNameActual);
+    }
+
+    public function testGetSalesChannelNameCurrentLocaleWithNullValue(): void
+    {
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $qb = $connection->createQueryBuilder();
+        $qb->select(['LOWER(HEX(id))']);
+        $qb->from('locale');
+        $qb->where('code = \'pt-BR\'');
+
+        $executeResult = $qb->execute();
+        assert($executeResult instanceof Result);
+
+        $localeId = $executeResult->fetchOne();
+
+        $historyTabRepository = $this->getContainer()->get(HistoryTabRepository::class);
+        \assert($historyTabRepository instanceof HistoryTabRepository);
+
+        $salesChannelNameActual = $historyTabRepository->getSalesChannelNameCurrentLocale(
+            $localeId,
+            TestDefaults::SALES_CHANNEL_ID_ENGLISH
+        );
+
+        static::assertNull($salesChannelNameActual);
     }
 
     public function testGetSalesChannelNameDefaultLocale(): void
