@@ -38,7 +38,7 @@ class MatheusGontijoSystemConfigHistoryRoute extends AbstractController
         EntityRepositoryInterface $localeRepository,
         MatheusGontijoSystemConfigHistoryRouteRepository $matheusGontijoSystemConfigHistoryRouteRepository
     ): JsonResponse {
-        $filtersRaw = $request->request->all()['filters'] ?? [];
+        $filtersRaw = $request->request->all()['filters'];
         \assert(\is_array($filtersRaw));
 
         $filters = [

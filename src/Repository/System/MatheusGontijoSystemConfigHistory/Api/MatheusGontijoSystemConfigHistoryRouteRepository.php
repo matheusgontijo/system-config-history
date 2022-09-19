@@ -257,17 +257,8 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
     private function addLeftJoinSalesChannelNameDefaultLocale(QueryBuilder $rootQb): QueryBuilder
     {
-        $qb = $this->connection->createQueryBuilder();
-
-        $qb->select(['la.id']);
-        $qb->from('language', 'la');
-        $qb->where('la.id = :default_language_id');
-
-        $leftJoinCondition = sprintf(
-            'sct_default_language_system.sales_channel_id = mgsch.sales_channel_id ' .
-            'AND sct_default_language_system.language_id = (%s)',
-            $qb->getSQL()
-        );
+        $leftJoinCondition = 'sct_default_language_system.sales_channel_id = mgsch.sales_channel_id ' .
+            'AND sct_default_language_system.language_id = :default_language_id';
 
         $rootQb->leftJoin('mgsch', 'sales_channel_translation', 'sct_default_language_system', $leftJoinCondition);
 
