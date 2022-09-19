@@ -28,7 +28,7 @@ In addition to that, it's a good idea to keep track about who (admin user) is ch
 ## 🚀 Features
 
 - Open-source & Free Software
-- High-quality code (_PHPCS, PHP CS Fixer, PHPStan, Psalm, PHPUnit_)
+- High-quality code (_PHPCS, PHP CS Fixer, PHPStan, Psalm, PHPUnit, PHP Infection_)
 
 <br/>
 
@@ -46,6 +46,7 @@ composer require matheusgontijo/system-config-history
 
 ### 2) Second method, manually
 
+<!-- @TODO: UPDATE LINK -->
 You can download the [plugin ZIP file here](https://www.github.com/matheusgontijo/system-config-history) and extract the files on `custom/plugins/` directory.
 
 <br/>
