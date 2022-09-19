@@ -87,13 +87,7 @@ class HistoryTab
             return $salesChannelName;
         }
 
-        $salesChannelName = $this->historyTabRepository->getSalesChannelNameDefaultLocale($salesChannelId);
-
-        if ($salesChannelName !== null) {
-            return $salesChannelName;
-        }
-
-        return $defaultSalesChannelName;
+        return $this->historyTabRepository->getSalesChannelNameDefaultLocale($salesChannelId);
     }
 
     /**

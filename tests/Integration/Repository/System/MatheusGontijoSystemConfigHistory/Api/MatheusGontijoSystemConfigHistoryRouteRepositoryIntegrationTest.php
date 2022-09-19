@@ -1046,4 +1046,6 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             100
         );
     }
+
+    // @TODO: ADD TEST CURRENTLOCALE VS DEFAULTLOCALE... ADD PORTUGUESE LOCALE INSTEAD OF ENGLISH AND GERMAN
 }

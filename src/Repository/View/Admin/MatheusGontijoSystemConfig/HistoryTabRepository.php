@@ -36,7 +36,7 @@ class HistoryTabRepository
         return $name;
     }
 
-    public function getSalesChannelNameDefaultLocale(string $salesChannelId): ?string
+    public function getSalesChannelNameDefaultLocale(string $salesChannelId): string
     {
         $qb = $this->connection->createQueryBuilder();
 
