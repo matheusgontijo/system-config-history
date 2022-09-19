@@ -4,7 +4,6 @@ namespace MatheusGontijo\SystemConfigHistory\Model;
 
 use MatheusGontijo\SystemConfigHistory\Repository\Model\RevertSystemConfigRepository;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
-use Shopware\Core\System\SystemConfig\SystemConfigEntity;
 
 class RevertSystemConfig
 {

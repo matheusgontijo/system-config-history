@@ -59,7 +59,7 @@ class HistoryTab
         $data['sales_channel_name'] = $this->getSalesChannelName(
             $localeId,
             $defaultSalesChannelName,
-            $matheusGontijoSystemConfigHistory->getSalesChannelId(),
+            $matheusGontijoSystemConfigHistory->getSalesChannelId()
         );
 
         $data['username'] = $matheusGontijoSystemConfigHistory->getUsername();

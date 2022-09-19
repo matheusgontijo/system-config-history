@@ -2,25 +2,13 @@
 
 namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\Model;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ForwardCompatibility\Result;
 use MatheusGontijo\SystemConfigHistory\Repository\Model\RevertSystemConfigRepository;
-use MatheusGontijo\SystemConfigHistory\Repository\Model\SystemConfigSubscriberProcessRepository;
-use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
-use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsAnyFilter;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\Framework\Uuid\Uuid;
-use Shopware\Core\System\SystemConfig\SystemConfigEntity;
-use Shopware\Core\System\User\UserEntity;
 
 class RevertSystemConfigRepositoryIntegrationTest extends TestCase
 {
@@ -144,8 +132,8 @@ class RevertSystemConfigRepositoryIntegrationTest extends TestCase
                             'configurationKey' => 'aaa.bbb.ccc',
                             'configurationValue' => ['_value' => true],
                             'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
-                        ]
-                    ]
+                        ],
+                    ],
                 ]
             );
 
@@ -172,10 +160,8 @@ class RevertSystemConfigRepositoryIntegrationTest extends TestCase
             ->withConsecutive(
                 [
                     [
-                        [
-                            'id' => 'e6c7d2e5619842298ce4f7a58e99f626',
-                        ]
-                    ]
+                        ['id' => 'e6c7d2e5619842298ce4f7a58e99f626'],
+                    ],
                 ]
             );
 

@@ -106,7 +106,7 @@ class SystemConfigSubscriberProcess
     private function processUpdate(ChangeSet $changeSet): ?array
     {
         $afterData = $changeSet->getAfter(null);
-        assert(is_array($afterData));
+        \assert(\is_array($afterData));
 
         if (!\array_key_exists('configuration_value', $afterData)) {
             return null;
@@ -134,7 +134,7 @@ class SystemConfigSubscriberProcess
 
         $salesChannelId = $changeSet->getBefore('sales_channel_id');
 
-        if (is_string($salesChannelId)) {
+        if (\is_string($salesChannelId)) {
             $salesChannelId = Uuid::fromBytesToHex($salesChannelId);
         }
 
@@ -164,7 +164,7 @@ class SystemConfigSubscriberProcess
 
         $salesChannelId = $changeSet->getBefore('sales_channel_id');
 
-        if (is_string($salesChannelId)) {
+        if (\is_string($salesChannelId)) {
             $salesChannelId = Uuid::fromBytesToHex($salesChannelId);
         }
 

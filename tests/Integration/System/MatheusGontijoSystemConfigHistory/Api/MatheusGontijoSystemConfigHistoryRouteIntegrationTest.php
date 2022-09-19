@@ -211,6 +211,9 @@ class MatheusGontijoSystemConfigHistoryRouteIntegrationTest extends TestCase
         static::assertEquals($responseContentExpected, $responseContentActual);
     }
 
+    /**
+     * @return array<int, mixed>
+     */
     public function matheusGontijoSystemConfigHistoryRowsWithResultsWithFiltersDataProvider(): array
     {
         return [

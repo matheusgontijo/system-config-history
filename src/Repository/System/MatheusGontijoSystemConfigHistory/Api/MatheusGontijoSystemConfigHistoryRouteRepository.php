@@ -50,7 +50,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         \assert($executeResult instanceof Result);
 
         $count = $executeResult->fetchOne();
-        \assert(is_string($count));
+        \assert(\is_string($count));
 
         return (int) $count;
     }
@@ -190,7 +190,7 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
             'mgsch.sales_channel_id',
             'sct_current_locale.name',
             'sct_default_language_system.name',
-            ':default_sales_channel_name',
+            ':default_sales_channel_name'
         );
 
         $qb->select([
@@ -257,8 +257,8 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
 
     private function addLeftJoinSalesChannelNameDefaultLocale(QueryBuilder $rootQb): QueryBuilder
     {
-        $leftJoinCondition = 'sct_default_language_system.sales_channel_id = mgsch.sales_channel_id ' .
-            'AND sct_default_language_system.language_id = :default_language_id';
+        $leftJoinCondition = 'sct_default_language_system.sales_channel_id = mgsch.sales_channel_id '
+            . 'AND sct_default_language_system.language_id = :default_language_id';
 
         $rootQb->leftJoin('mgsch', 'sales_channel_translation', 'sct_default_language_system', $leftJoinCondition);
 

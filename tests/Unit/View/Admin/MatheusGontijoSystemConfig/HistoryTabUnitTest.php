@@ -46,11 +46,7 @@ class HistoryTabUnitTest extends TestCase
             'modified_at' => '2017-08-31 00:00:00.000',
         ];
 
-        $formatModalDataActual = $historyTab->formatModalData(
-            'd5ba7fefd64643078eee81535a01c3bb',
-            'Default',
-            $entity
-        );
+        $formatModalDataActual = $historyTab->formatModalData('d5ba7fefd64643078eee81535a01c3bb', 'Default', $entity);
 
         static::assertSame($formatModalDataExpected, $formatModalDataActual);
     }
@@ -93,11 +89,7 @@ class HistoryTabUnitTest extends TestCase
             'modified_at' => '2017-08-31 00:00:00.000',
         ];
 
-        $formatModalDataActual = $historyTab->formatModalData(
-            'd5ba7fefd64643078eee81535a01c3bb',
-            'Default',
-            $entity
-        );
+        $formatModalDataActual = $historyTab->formatModalData('d5ba7fefd64643078eee81535a01c3bb', 'Default', $entity);
 
         static::assertSame($formatModalDataExpected, $formatModalDataActual);
     }
@@ -141,11 +133,7 @@ class HistoryTabUnitTest extends TestCase
             'modified_at' => '2017-08-31 00:00:00.000',
         ];
 
-        $formatModalDataActual = $historyTab->formatModalData(
-            'd5ba7fefd64643078eee81535a01c3bb',
-            'Default',
-            $entity
-        );
+        $formatModalDataActual = $historyTab->formatModalData('d5ba7fefd64643078eee81535a01c3bb', 'Default', $entity);
 
         static::assertSame($formatModalDataExpected, $formatModalDataActual);
     }
@@ -197,11 +185,7 @@ class HistoryTabUnitTest extends TestCase
             'modified_at' => $data['modified_at'],
         ];
 
-        $formatModalDataActual = $historyTab->formatModalData(
-            'd5ba7fefd64643078eee81535a01c3bb',
-            'Default',
-            $entity
-        );
+        $formatModalDataActual = $historyTab->formatModalData('d5ba7fefd64643078eee81535a01c3bb', 'Default', $entity);
 
         static::assertSame($formatModalDataExpected, $formatModalDataActual);
     }

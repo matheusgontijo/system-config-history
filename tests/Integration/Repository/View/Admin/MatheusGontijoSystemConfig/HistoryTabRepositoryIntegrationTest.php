@@ -7,8 +7,8 @@ use MatheusGontijo\SystemConfigHistory\Repository\View\Admin\MatheusGontijoSyste
 use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Framework\Context;
-use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\Framework\Uuid\Uuid;
 
 class HistoryTabRepositoryIntegrationTest extends TestCase
@@ -31,23 +31,27 @@ class HistoryTabRepositoryIntegrationTest extends TestCase
         $languageRepository = $this->getContainer()->get('language.repository');
         \assert($languageRepository instanceof EntityRepositoryInterface);
 
-        $languageRepository->create([[
-            'id' => 'ffffffffffffffffffffffffffffffff',
-            'name' => 'Português',
-            'localeId' => $localeId,
-            'translationCodeId' => $localeId,
-        ]], Context::createDefaultContext());
+        $languageRepository->create([
+            [
+                'id' => 'ffffffffffffffffffffffffffffffff',
+                'name' => 'Português',
+                'localeId' => $localeId,
+                'translationCodeId' => $localeId,
+            ],
+        ], Context::createDefaultContext());
 
         $salesChannelTranslationRepository = $this->getContainer()->get('sales_channel_translation.repository');
         \assert($salesChannelTranslationRepository instanceof EntityRepositoryInterface);
 
-        $salesChannelTranslationRepository->create([[
-            'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
-            'languageId' => 'ffffffffffffffffffffffffffffffff',
-            'name' => 'Canal de Vendas em Inglês',
-            'localeId' => $localeId,
-            'homeEnabled' => true,
-        ]], Context::createDefaultContext());
+        $salesChannelTranslationRepository->create([
+            [
+                'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
+                'languageId' => 'ffffffffffffffffffffffffffffffff',
+                'name' => 'Canal de Vendas em Inglês',
+                'localeId' => $localeId,
+                'homeEnabled' => true,
+            ],
+        ], Context::createDefaultContext());
 
         $historyTabRepository = $this->getContainer()->get(HistoryTabRepository::class);
         \assert($historyTabRepository instanceof HistoryTabRepository);
@@ -57,7 +61,7 @@ class HistoryTabRepositoryIntegrationTest extends TestCase
             TestDefaults::SALES_CHANNEL_ID_ENGLISH
         );
 
-        $this->assertSame('Canal de Vendas em Inglês', $salesChannelNameActual);
+        static::assertSame('Canal de Vendas em Inglês', $salesChannelNameActual);
     }
 
     public function testGetSalesChannelNameDefaultLocale(): void
@@ -105,12 +109,12 @@ class HistoryTabRepositoryIntegrationTest extends TestCase
             TestDefaults::SALES_CHANNEL_ID_ENGLISH
         );
 
-        $this->assertSame('English Sales Channel', $salesChannelNameActual);
+        static::assertSame('English Sales Channel', $salesChannelNameActual);
 
         $salesChannelNameActual = $historyTabRepository->getSalesChannelNameDefaultLocale(
             TestDefaults::SALES_CHANNEL_ID_GERMAN
         );
 
-        $this->assertSame('German Sales Channel', $salesChannelNameActual);
+        static::assertSame('German Sales Channel', $salesChannelNameActual);
     }
 }

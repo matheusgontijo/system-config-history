@@ -779,23 +779,27 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         $languageRepository = $this->getContainer()->get('language.repository');
         \assert($languageRepository instanceof EntityRepositoryInterface);
 
-        $languageRepository->create([[
-            'id' => 'ffffffffffffffffffffffffffffffff',
-            'name' => 'Português',
-            'localeId' => $ptBrLocaleId,
-            'translationCodeId' => $ptBrLocaleId,
-        ]], Context::createDefaultContext());
+        $languageRepository->create([
+            [
+                'id' => 'ffffffffffffffffffffffffffffffff',
+                'name' => 'Português',
+                'localeId' => $ptBrLocaleId,
+                'translationCodeId' => $ptBrLocaleId,
+            ],
+        ], Context::createDefaultContext());
 
         $salesChannelTranslationRepository = $this->getContainer()->get('sales_channel_translation.repository');
         \assert($salesChannelTranslationRepository instanceof EntityRepositoryInterface);
 
-        $salesChannelTranslationRepository->create([[
-            'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
-            'languageId' => 'ffffffffffffffffffffffffffffffff',
-            'name' => 'Canal de Vendas em Inglês',
-            'localeId' => $ptBrLocaleId,
-            'homeEnabled' => true,
-        ]], Context::createDefaultContext());
+        $salesChannelTranslationRepository->create([
+            [
+                'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
+                'languageId' => 'ffffffffffffffffffffffffffffffff',
+                'name' => 'Canal de Vendas em Inglês',
+                'localeId' => $ptBrLocaleId,
+                'homeEnabled' => true,
+            ],
+        ], Context::createDefaultContext());
 
         $filters = [
             'configuration_key' => 'foo.bar.enabled',
