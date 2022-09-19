@@ -45,7 +45,10 @@ class MatheusGontijoSystemConfigHistoryRouteIntegrationTest extends TestCase
             'rows' => [],
         ];
 
-        $responseContentActual = json_decode($this->getBrowser()->getResponse()->getContent(), true);
+        $responseContent = $this->getBrowser()->getResponse()->getContent();
+        \assert(is_string($responseContent));
+
+        $responseContentActual = json_decode($responseContent, true);
 
         static::assertEquals($responseContentExpected, $responseContentActual);
     }
@@ -127,14 +130,15 @@ class MatheusGontijoSystemConfigHistoryRouteIntegrationTest extends TestCase
             ],
         ];
 
-        $responseContentActual = json_decode($this->getBrowser()->getResponse()->getContent(), true);
+        $responseContent = $this->getBrowser()->getResponse()->getContent();
+        \assert(is_string($responseContent));
+
+        $responseContentActual = json_decode($responseContent, true);
 
         static::assertEquals($responseContentExpected, $responseContentActual);
     }
 
     /**
-     * @param array<string, mixed> $data
-     *
      * @dataProvider matheusGontijoSystemConfigHistoryRowsWithResultsWithFiltersDataProvider
      */
     public function testMatheusGontijoSystemConfigHistoryRowsWithResultsWithFilters(
@@ -206,7 +210,10 @@ class MatheusGontijoSystemConfigHistoryRouteIntegrationTest extends TestCase
             ],
         ];
 
-        $responseContentActual = json_decode($this->getBrowser()->getResponse()->getContent(), true);
+        $responseContent = $this->getBrowser()->getResponse()->getContent();
+        \assert(is_string($responseContent));
+
+        $responseContentActual = json_decode($responseContent, true);
 
         static::assertEquals($responseContentExpected, $responseContentActual);
     }
@@ -281,7 +288,10 @@ class MatheusGontijoSystemConfigHistoryRouteIntegrationTest extends TestCase
             'modified_at' => '2022-09-15 19:03:54.162',
         ];
 
-        $responseContentActual = json_decode($this->getBrowser()->getResponse()->getContent(), true);
+        $responseContent = $this->getBrowser()->getResponse()->getContent();
+        \assert(is_string($responseContent));
+
+        $responseContentActual = json_decode($responseContent, true);
 
         static::assertEquals($responseContentExpected, $responseContentActual);
     }

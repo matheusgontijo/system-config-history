@@ -3,6 +3,7 @@
 namespace MatheusGontijo\SystemConfigHistory\Tests\Integration\Repository\View\Admin\MatheusGontijoSystemConfig;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ForwardCompatibility\Result;
 use MatheusGontijo\SystemConfigHistory\Repository\View\Admin\MatheusGontijoSystemConfig\HistoryTabRepository;
 use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
@@ -24,7 +25,9 @@ class HistoryTabRepositoryIntegrationTest extends TestCase
         $qb->select(['LOWER(HEX(id))']);
         $qb->from('locale');
         $qb->where('code = \'pt-BR\'');
+
         $executeResult = $qb->execute();
+        assert($executeResult instanceof Result);
 
         $localeId = $executeResult->fetchOne();
 
@@ -75,6 +78,7 @@ class HistoryTabRepositoryIntegrationTest extends TestCase
         $qb->setMaxResults(1);
 
         $executeResult = $qb->execute();
+        assert($executeResult instanceof Result);
 
         $localeId = $executeResult->fetchOne();
 
