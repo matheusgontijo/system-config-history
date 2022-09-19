@@ -8,6 +8,8 @@ use MatheusGontijo\SystemConfigHistory\Repository\System\MatheusGontijoSystemCon
 use MatheusGontijo\SystemConfigHistory\Tests\TestDefaults;
 use PHPUnit\Framework\TestCase;
 use Shopware\Core\Defaults;
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\Framework\Uuid\Uuid;
 
@@ -721,6 +723,138 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
         ], $rows[2]);
     }
 
+    public function testSalesChannelNamePassingArbitraryLocale(): void
+    {
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $rows = [
+            [
+                'id' => Uuid::fromHexToBytes('b424c12e1a5d405988436037b5a48713'),
+                'configuration_key' => 'foo.bar.enabled1',
+                'configuration_value_old' => '{"_value": "123"}',
+                'configuration_value_new' => '{"_value": "456"}',
+                'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_ENGLISH),
+                'username' => 'aaa.john',
+                'created_at' => '2022-01-03 00:00:00.000',
+                'updated_at' => null,
+            ],
+            [
+                'id' => Uuid::fromHexToBytes('ce8942b6a5da4d04a43f8f9c1acf8629'),
+                'configuration_key' => 'foo.bar.enabled2',
+                'configuration_value_old' => '{"_value": "123"}',
+                'configuration_value_new' => '{"_value": "456"}',
+                'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_ENGLISH),
+                'username' => 'matheus.gontijo',
+                'created_at' => '2022-01-02 00:00:00.000',
+                'updated_at' => null,
+            ],
+            [
+                'id' => Uuid::fromHexToBytes('fc162568816f4c2c8940d24d66d9c305'),
+                'configuration_key' => 'foo.bar.enabled3',
+                'configuration_value_old' => '{"_value": "123"}',
+                'configuration_value_new' => '{"_value": "456"}',
+                'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_ENGLISH),
+                'username' => 'matheus.gontijo',
+                'created_at' => '2022-01-01 00:00:00.000',
+                'updated_at' => null,
+            ],
+        ];
+
+        foreach ($rows as $row) {
+            $connection->insert('matheus_gontijo_system_config_history', $row);
+        }
+
+        $qb = $connection->createQueryBuilder();
+        $qb->select(['LOWER(HEX(id)) AS id']);
+        $qb->from('locale');
+        $qb->where('code = \'pt-BR\'');
+        $qb->setMaxResults(1);
+
+        $executeResult = $qb->execute();
+        \assert($executeResult instanceof Result);
+
+        $ptBrLocaleId = $executeResult->fetchOne();
+
+        $languageRepository = $this->getContainer()->get('language.repository');
+        \assert($languageRepository instanceof EntityRepositoryInterface);
+
+        $languageRepository->create([[
+            'id' => 'ffffffffffffffffffffffffffffffff',
+            'name' => 'Português',
+            'localeId' => $ptBrLocaleId,
+            'translationCodeId' => $ptBrLocaleId,
+        ]], Context::createDefaultContext());
+
+        $salesChannelTranslationRepository = $this->getContainer()->get('sales_channel_translation.repository');
+        \assert($salesChannelTranslationRepository instanceof EntityRepositoryInterface);
+
+        $salesChannelTranslationRepository->create([[
+            'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
+            'languageId' => 'ffffffffffffffffffffffffffffffff',
+            'name' => 'Canal de Vendas em Inglês',
+            'localeId' => $ptBrLocaleId,
+            'homeEnabled' => true,
+        ]], Context::createDefaultContext());
+
+        $filters = [
+            'configuration_key' => 'foo.bar.enabled',
+            'configuration_value_old' => null,
+            'configuration_value_new' => null,
+            'sales_channel_name' => 'ingl',
+            'username' => null,
+            'created_at' => null,
+        ];
+
+        $matheusGontijoSystemConfigHistoryRouteRepository = $this->getContainer()->get(
+            MatheusGontijoSystemConfigHistoryRouteRepository::class
+        );
+
+        \assert($matheusGontijoSystemConfigHistoryRouteRepository instanceof MatheusGontijoSystemConfigHistoryRouteRepository);  // phpcs:ignore
+
+        $rows = $matheusGontijoSystemConfigHistoryRouteRepository->getRows(
+            $ptBrLocaleId,
+            'Default',
+            $filters,
+            'created_at',
+            'ASC',
+            1,
+            100
+        );
+
+        static::assertCount(3, $rows);
+
+        static::assertSame([
+            'id' => 'fc162568816f4c2c8940d24d66d9c305',
+            'configuration_key' => 'foo.bar.enabled3',
+            'configuration_value_old' => '123',
+            'configuration_value_new' => '456',
+            'sales_channel_name' => 'Canal de Vendas em Inglês',
+            'username' => 'matheus.gontijo',
+            'created_at' => '2022-01-01 00:00:00.000',
+        ], $rows[0]);
+
+        static::assertSame([
+            'id' => 'ce8942b6a5da4d04a43f8f9c1acf8629',
+            'configuration_key' => 'foo.bar.enabled2',
+            'configuration_value_old' => '123',
+            'configuration_value_new' => '456',
+            'sales_channel_name' => 'Canal de Vendas em Inglês',
+            'username' => 'matheus.gontijo',
+            'created_at' => '2022-01-02 00:00:00.000',
+        ], $rows[1]);
+
+        static::assertSame([
+            'id' => 'b424c12e1a5d405988436037b5a48713',
+            'configuration_key' => 'foo.bar.enabled1',
+            'configuration_value_old' => '123',
+            'configuration_value_new' => '456',
+            'sales_channel_name' => 'Canal de Vendas em Inglês',
+            'username' => 'aaa.john',
+            'created_at' => '2022-01-03 00:00:00.000',
+        ], $rows[2]);
+    }
+
     public function testCountWithoutFilters(): void
     {
         $matheusGontijoSystemConfigHistoryRouteRepository = $this->getContainer()->get(
@@ -1046,6 +1180,4 @@ class MatheusGontijoSystemConfigHistoryRouteRepositoryIntegrationTest extends Te
             100
         );
     }
-
-    // @TODO: ADD TEST CURRENTLOCALE VS DEFAULTLOCALE... ADD PORTUGUESE LOCALE INSTEAD OF ENGLISH AND GERMAN
 }
