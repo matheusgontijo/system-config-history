@@ -59,7 +59,7 @@ class HistoryTabRepository
         \assert($executeResult instanceof Result);
 
         $value = $executeResult->fetchOne();
-        \assert(is_string($value));
+        \assert(\is_string($value));
 
         return $value;
     }

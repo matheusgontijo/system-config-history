@@ -27,7 +27,7 @@ class HistoryTabRepositoryIntegrationTest extends TestCase
         $qb->where('code = \'pt-BR\'');
 
         $executeResult = $qb->execute();
-        assert($executeResult instanceof Result);
+        \assert($executeResult instanceof Result);
 
         $localeId = $executeResult->fetchOne();
 
@@ -78,7 +78,7 @@ class HistoryTabRepositoryIntegrationTest extends TestCase
         $qb->where('code = \'pt-BR\'');
 
         $executeResult = $qb->execute();
-        assert($executeResult instanceof Result);
+        \assert($executeResult instanceof Result);
 
         $localeId = $executeResult->fetchOne();
 
@@ -104,7 +104,7 @@ class HistoryTabRepositoryIntegrationTest extends TestCase
         $qb->setMaxResults(1);
 
         $executeResult = $qb->execute();
-        assert($executeResult instanceof Result);
+        \assert($executeResult instanceof Result);
 
         $localeId = $executeResult->fetchOne();
 

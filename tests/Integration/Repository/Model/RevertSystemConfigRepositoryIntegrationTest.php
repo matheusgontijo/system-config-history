@@ -111,7 +111,7 @@ class RevertSystemConfigRepositoryIntegrationTest extends TestCase
             'ddd.eee.fff',
             TestDefaults::SALES_CHANNEL_ID_ENGLISH
         );
-        assert($systemConfig instanceof SystemConfigEntity);
+        \assert($systemConfig instanceof SystemConfigEntity);
 
         static::assertSame('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', $systemConfig->getId());
         static::assertSame('ddd.eee.fff', $systemConfig->getConfigurationKey());

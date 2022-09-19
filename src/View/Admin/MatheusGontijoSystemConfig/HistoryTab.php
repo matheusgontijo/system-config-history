@@ -95,10 +95,6 @@ class HistoryTab
      */
     private function typeOf($value): string
     {
-        /**
-         * @TODO: REMOVE IT
-         */
-
         if ($value === null) {
             return 'null';
         }

@@ -46,7 +46,7 @@ class MatheusGontijoSystemConfigHistoryRouteIntegrationTest extends TestCase
         ];
 
         $responseContent = $this->getBrowser()->getResponse()->getContent();
-        \assert(is_string($responseContent));
+        \assert(\is_string($responseContent));
 
         $responseContentActual = json_decode($responseContent, true);
 
@@ -131,7 +131,7 @@ class MatheusGontijoSystemConfigHistoryRouteIntegrationTest extends TestCase
         ];
 
         $responseContent = $this->getBrowser()->getResponse()->getContent();
-        \assert(is_string($responseContent));
+        \assert(\is_string($responseContent));
 
         $responseContentActual = json_decode($responseContent, true);
 
@@ -211,7 +211,7 @@ class MatheusGontijoSystemConfigHistoryRouteIntegrationTest extends TestCase
         ];
 
         $responseContent = $this->getBrowser()->getResponse()->getContent();
-        \assert(is_string($responseContent));
+        \assert(\is_string($responseContent));
 
         $responseContentActual = json_decode($responseContent, true);
 
@@ -289,7 +289,7 @@ class MatheusGontijoSystemConfigHistoryRouteIntegrationTest extends TestCase
         ];
 
         $responseContent = $this->getBrowser()->getResponse()->getContent();
-        \assert(is_string($responseContent));
+        \assert(\is_string($responseContent));
 
         $responseContentActual = json_decode($responseContent, true);
 
