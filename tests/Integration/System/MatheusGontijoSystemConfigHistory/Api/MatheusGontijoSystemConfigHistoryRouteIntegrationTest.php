@@ -161,6 +161,7 @@ class MatheusGontijoSystemConfigHistoryRouteIntegrationTest extends TestCase
             [
                 'modalId' => '4d2871498e7e4a4e91e13b8280b7d935',
                 'defaultSalesChannelName' => 'Default',
+                'localeCode' => 'en-GB',
             ]
         );
 

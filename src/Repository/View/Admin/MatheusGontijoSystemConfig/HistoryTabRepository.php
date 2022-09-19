@@ -3,6 +3,7 @@
 namespace MatheusGontijo\SystemConfigHistory\Repository\View\Admin\MatheusGontijoSystemConfig;
 
 use Doctrine\DBAL\Connection;
+use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Uuid\Uuid;
 
 class HistoryTabRepository
@@ -31,9 +32,7 @@ class HistoryTabRepository
 
         $executeResult = $qb->execute();
 
-        $name = $executeResult->fetchOne();
-
-        return $name;
+        return $executeResult->fetchOne();
     }
 
     public function getSalesChannelNameDefaultLocale(string $salesChannelId): string
@@ -42,14 +41,14 @@ class HistoryTabRepository
 
         $qb->select(['sct.name']);
         $qb->from('sales_channel_translation', 'sct');
-        $qb->where('language_id = :language_id');
+        $qb->where('sct.sales_channel_id = :sales_channel_id');
+        $qb->andWhere('sct.language_id = :language_id');
 
-        $qb->setParameter(':language_id', Uuid::fromHexToBytes($salesChannelId));
+        $qb->setParameter(':sales_channel_id', Uuid::fromHexToBytes($salesChannelId));
+        $qb->setParameter(':language_id', Uuid::fromHexToBytes(Defaults::LANGUAGE_SYSTEM));
 
         $executeResult = $qb->execute();
 
-        $name = $executeResult->fetchOne();
-
-        return $name;
+        return $executeResult->fetchOne();
     }
 }
