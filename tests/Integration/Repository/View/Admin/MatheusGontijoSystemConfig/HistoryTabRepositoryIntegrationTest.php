@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\Test\TestCaseBase\IntegrationTestBehaviour;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\Uuid\Uuid;
 
 class HistoryTabRepositoryIntegrationTest extends TestCase
 {
@@ -31,7 +32,7 @@ class HistoryTabRepositoryIntegrationTest extends TestCase
         \assert($languageRepository instanceof EntityRepositoryInterface);
 
         $languageRepository->create([[
-            'id' => '2f7fc1fc898346f497103d5cc083c1ed',
+            'id' => 'ffffffffffffffffffffffffffffffff',
             'name' => 'Português',
             'localeId' => $localeId,
             'translationCodeId' => $localeId,
@@ -42,7 +43,7 @@ class HistoryTabRepositoryIntegrationTest extends TestCase
 
         $salesChannelTranslationRepository->create([[
             'salesChannelId' => TestDefaults::SALES_CHANNEL_ID_ENGLISH,
-            'languageId' => '2f7fc1fc898346f497103d5cc083c1ed',
+            'languageId' => 'ffffffffffffffffffffffffffffffff',
             'name' => 'Canal de Vendas em Inglês',
             'localeId' => $localeId,
             'homeEnabled' => true,
@@ -61,6 +62,42 @@ class HistoryTabRepositoryIntegrationTest extends TestCase
 
     public function testGetSalesChannelNameDefaultLocale(): void
     {
+        $connection = $this->getContainer()->get(Connection::class);
+        \assert($connection instanceof Connection);
+
+        $qb = $connection->createQueryBuilder();
+        $qb->select(['id']);
+        $qb->from('locale');
+        $qb->setMaxResults(1);
+
+        $executeResult = $qb->execute();
+
+        $localeId = $executeResult->fetchOne();
+
+        $connection->insert('language', [
+            'id' => Uuid::fromHexToBytes('00000000000000000000000000000000'),
+            'name' => 'Foobar',
+            'locale_id' => $localeId,
+            'translation_code_id' => $localeId,
+            'created_at' => '2000-01-01 00:00:00.000',
+        ]);
+
+        $connection->insert('sales_channel_translation', [
+            'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_ENGLISH),
+            'language_id' => Uuid::fromHexToBytes('00000000000000000000000000000000'),
+            'name' => 'Foobar',
+            'home_enabled' => 1,
+            'created_at' => '2000-01-01 00:00:00.000',
+        ]);
+
+        $connection->insert('sales_channel_translation', [
+            'sales_channel_id' => Uuid::fromHexToBytes(TestDefaults::SALES_CHANNEL_ID_GERMAN),
+            'language_id' => Uuid::fromHexToBytes('00000000000000000000000000000000'),
+            'name' => 'Foobar',
+            'home_enabled' => 1,
+            'created_at' => '2000-01-01 00:00:00.000',
+        ]);
+
         $historyTabRepository = $this->getContainer()->get(HistoryTabRepository::class);
         \assert($historyTabRepository instanceof HistoryTabRepository);
 
