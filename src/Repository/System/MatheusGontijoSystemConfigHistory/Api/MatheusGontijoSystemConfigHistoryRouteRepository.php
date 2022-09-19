@@ -6,6 +6,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ForwardCompatibility\Result;
 use Doctrine\DBAL\Query\QueryBuilder;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
+use Shopware\Core\Defaults;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -145,7 +146,8 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         string $defaultSalesChannelName,
         array $filters
     ): QueryBuilder {
-        $qb->setParameter(':locale_id', Uuid::fromHexToBytes($localeId));
+        $qb->setParameter(':current_locale_id', Uuid::fromHexToBytes($localeId));
+        $qb->setParameter(':default_language_id', Uuid::fromHexToBytes(Defaults::LANGUAGE_SYSTEM));
         $qb->setParameter(':default_sales_channel_name', $defaultSalesChannelName);
 
         if ($filters['configuration_key'] !== '') {
@@ -181,32 +183,30 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
      */
     private function buildSubQuery(array $filters): QueryBuilder
     {
-        $subQb = $this->connection->createQueryBuilder();
-
-        $subQb->select(['la.id']);
-        $subQb->from('language', 'la');
-        $subQb->innerJoin('la', 'locale', 'lo', 'lo.id = la.locale_id and lo.id = :locale_id');
-
         $qb = $this->connection->createQueryBuilder();
+
+        $salesChannelNameAlias = sprintf(
+            'IF(%s IS NOT NULL, COALESCE(%s, %s), %s) AS sales_channel_name',
+            'mgsch.sales_channel_id',
+            'sct_current_locale.name',
+            'sct_default_language_system.name',
+            ':default_sales_channel_name',
+        );
 
         $qb->select([
             'LOWER(HEX(mgsch.id)) AS id',
             'mgsch.configuration_key',
             'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_old, "$._value")) AS configuration_value_old',
             'JSON_UNQUOTE(JSON_EXTRACT(mgsch.configuration_value_new, "$._value")) AS configuration_value_new',
-            'IF(sct.name IS NOT NULL, sct.name, :default_sales_channel_name) AS sales_channel_name',
+            $salesChannelNameAlias,
             'mgsch.username',
             'mgsch.created_at',
         ]);
 
         $qb->from('matheus_gontijo_system_config_history', 'mgsch');
 
-        $leftJoinCondition = sprintf(
-            'sct.sales_channel_id = mgsch.sales_channel_id AND sct.language_id = (%s)',
-            $subQb->getSQL()
-        );
-
-        $qb->leftJoin('mgsch', 'sales_channel_translation', 'sct', $leftJoinCondition);
+        $qb = $this->addLeftJoinSalesChannelNameCurrentLocale($qb);
+        $qb = $this->addLeftJoinSalesChannelNameDefaultLocale($qb);
 
         if ($filters['configuration_key'] !== '') {
             $qb->andWhere('mgsch.configuration_key LIKE :configuration_key');
@@ -235,6 +235,43 @@ class MatheusGontijoSystemConfigHistoryRouteRepository
         }
 
         return $qb;
+    }
+
+    private function addLeftJoinSalesChannelNameCurrentLocale(QueryBuilder $rootQb): QueryBuilder
+    {
+        $qb = $this->connection->createQueryBuilder();
+
+        $qb->select(['la.id']);
+        $qb->from('language', 'la');
+        $qb->innerJoin('la', 'locale', 'lo', 'lo.id = la.locale_id AND lo.id = :current_locale_id');
+
+        $leftJoinCondition = sprintf(
+            'sct_current_locale.sales_channel_id = mgsch.sales_channel_id AND sct_current_locale.language_id = (%s)',
+            $qb->getSQL()
+        );
+
+        $rootQb->leftJoin('mgsch', 'sales_channel_translation', 'sct_current_locale', $leftJoinCondition);
+
+        return $rootQb;
+    }
+
+    private function addLeftJoinSalesChannelNameDefaultLocale(QueryBuilder $rootQb): QueryBuilder
+    {
+        $qb = $this->connection->createQueryBuilder();
+
+        $qb->select(['la.id']);
+        $qb->from('language', 'la');
+        $qb->where('la.id = :default_language_id');
+
+        $leftJoinCondition = sprintf(
+            'sct_default_language_system.sales_channel_id = mgsch.sales_channel_id ' .
+            'AND sct_default_language_system.language_id = (%s)',
+            $qb->getSQL()
+        );
+
+        $rootQb->leftJoin('mgsch', 'sales_channel_translation', 'sct_default_language_system', $leftJoinCondition);
+
+        return $rootQb;
     }
 
     /**

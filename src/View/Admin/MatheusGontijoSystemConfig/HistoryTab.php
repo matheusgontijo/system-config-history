@@ -2,15 +2,24 @@
 
 namespace MatheusGontijo\SystemConfigHistory\View\Admin\MatheusGontijoSystemConfig;
 
+use MatheusGontijo\SystemConfigHistory\Repository\View\Admin\MatheusGontijoSystemConfig\HistoryTabRepository;
 use MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\MatheusGontijoSystemConfigHistoryEntity;
 use Shopware\Core\Defaults;
 
 class HistoryTab
 {
+    private HistoryTabRepository $historyTabRepository;
+
+    public function __construct(HistoryTabRepository $historyTabRepository)
+    {
+        $this->historyTabRepository = $historyTabRepository;
+    }
+
     /**
      * @return array<string, mixed>
      */
     public function formatModalData(
+        string $localeId,
         string $defaultSalesChannelName,
         MatheusGontijoSystemConfigHistoryEntity $matheusGontijoSystemConfigHistory
     ): array {
@@ -47,7 +56,11 @@ class HistoryTab
 
         $data['configuration_value_new_type'] = $this->typeOf($configurationValueNew);
 
-        $data['sales_channel_name'] = $defaultSalesChannelName;
+        $data['sales_channel_name'] = $this->getSalesChannelName(
+            $localeId,
+            $defaultSalesChannelName,
+            $matheusGontijoSystemConfigHistory->getSalesChannelId(),
+        );
 
         $data['username'] = $matheusGontijoSystemConfigHistory->getUsername();
 
@@ -59,11 +72,39 @@ class HistoryTab
         return $data;
     }
 
+    private function getSalesChannelName(
+        string $localeId,
+        string $defaultSalesChannelName,
+        ?string $salesChannelId = null
+    ): string {
+        if ($salesChannelId === null) {
+            return $defaultSalesChannelName;
+        }
+
+        $salesChannelName = $this->historyTabRepository->getSalesChannelNameCurrentLocale($localeId, $salesChannelId);
+
+        if ($salesChannelName !== null) {
+            return $salesChannelName;
+        }
+
+        $salesChannelName = $this->historyTabRepository->getSalesChannelNameDefaultLocale($salesChannelId);
+
+        if ($salesChannelName !== null) {
+            return $salesChannelName;
+        }
+
+        return $defaultSalesChannelName;
+    }
+
     /**
      * @param array<string, mixed>|bool|float|int|string|null $value
      */
     private function typeOf($value): string
     {
+        /**
+         * @TODO: REMOVE IT
+         */
+
         if ($value === null) {
             return 'null';
         }
