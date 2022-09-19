@@ -11,10 +11,6 @@
 
         <prototype namespace="MatheusGontijo\SystemConfigHistory\" resource="../../*"/>
 
-        <service id="MatheusGontijo\SystemConfigHistory\Subscriber\KernelControllerArgumentsSubscriber">
-            <tag name="kernel.event_subscriber"/>
-        </service>
-
         <service id="MatheusGontijo\SystemConfigHistory\System\MatheusGontijoSystemConfigHistory\Api\MatheusGontijoSystemConfigHistoryRoute" public="true">
             <call method="setContainer">
                 <argument type="service" id="service_container"/>

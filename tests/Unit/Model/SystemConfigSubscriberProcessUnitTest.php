@@ -26,7 +26,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
             SystemConfigSubscriberProcessRepository::class
         );
-        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+        $requestStackMock = $this->createMock(RequestStack::class);
 
         $entityWrittenEvent = $this->createMock(EntityWrittenEvent::class);
         $entityDeletedEvent = $this->createMock(EntityDeletedEvent::class);
@@ -38,7 +38,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcessRepositoryMock->expects(static::never())
             ->method('generateId');
 
-        $requestStateRegistryMock->expects(static::never())
+        $requestStackMock->expects(static::never())
             ->method(static::anything());
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::never())
@@ -46,7 +46,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
             $systemConfigSubscriberProcessRepositoryMock,
-            $requestStateRegistryMock
+            $requestStackMock
         );
 
         $systemConfigSubscriberProcess->processEntityWrittenEvent($entityWrittenEvent);
@@ -58,7 +58,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
             SystemConfigSubscriberProcessRepository::class
         );
-        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+        $requestStackMock = $this->createMock(RequestStack::class);
 
         $entityWriteResultMock1 = $this->createMock(EntityWriteResult::class);
 
@@ -104,8 +104,8 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
             ->method('generateId')
             ->willReturnOnConsecutiveCalls('c6316df22e754fe1af0eae305fd3a495', '1c957ed20cef4410ad1a6150079ab9f7');
 
-        $requestStateRegistryMock->expects(static::exactly(2))
-            ->method('getRequest')
+        $requestStackMock->expects(static::exactly(2))
+            ->method('getCurrentRequest')
             ->willReturn(null);
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
@@ -133,7 +133,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
             $systemConfigSubscriberProcessRepositoryMock,
-            $requestStateRegistryMock
+            $requestStackMock
         );
 
         $systemConfigSubscriberProcess->processEntityWrittenEvent($entityWrittenEventMock);
@@ -144,7 +144,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
             SystemConfigSubscriberProcessRepository::class
         );
-        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+        $requestStackMock = $this->createMock(RequestStack::class);
 
         $entityWriteResultMock1 = $this->createMock(EntityWriteResult::class);
 
@@ -196,7 +196,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $request->attributes->set(PlatformRequest::ATTRIBUTE_CONTEXT_OBJECT, $context);
 
-        $requestStateRegistryMock->method('getRequest')
+        $requestStackMock->method('getCurrentRequest')
             ->willReturn($request);
 
         $userEntity = new UserEntity();
@@ -237,7 +237,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
             $systemConfigSubscriberProcessRepositoryMock,
-            $requestStateRegistryMock
+            $requestStackMock
         );
 
         $systemConfigSubscriberProcess->processEntityWrittenEvent($entityWrittenEventMock);
@@ -248,7 +248,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
             SystemConfigSubscriberProcessRepository::class
         );
-        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+        $requestStackMock = $this->createMock(RequestStack::class);
 
         $entityWriteResultMock1 = $this->createMock(EntityWriteResult::class);
 
@@ -296,8 +296,8 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $request = Request::create('http://localhost', 'POST', [], [], [], []);
 
-        $requestStateRegistryMock->expects(static::exactly(2))
-            ->method('getRequest')
+        $requestStackMock->expects(static::exactly(2))
+            ->method('getCurrentRequest')
             ->willReturn($request);
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
@@ -325,7 +325,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
             $systemConfigSubscriberProcessRepositoryMock,
-            $requestStateRegistryMock
+            $requestStackMock
         );
 
         $systemConfigSubscriberProcess->processEntityWrittenEvent($entityWrittenEventMock);
@@ -336,7 +336,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
             SystemConfigSubscriberProcessRepository::class
         );
-        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+        $requestStackMock = $this->createMock(RequestStack::class);
 
         $entityWriteResultMock1 = $this->createMock(EntityWriteResult::class);
 
@@ -388,8 +388,8 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $request->attributes->set(PlatformRequest::ATTRIBUTE_CONTEXT_OBJECT, $context);
 
-        $requestStateRegistryMock->expects(static::exactly(2))
-            ->method('getRequest')
+        $requestStackMock->expects(static::exactly(2))
+            ->method('getCurrentRequest')
             ->willReturn($request);
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
@@ -417,7 +417,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
             $systemConfigSubscriberProcessRepositoryMock,
-            $requestStateRegistryMock
+            $requestStackMock
         );
 
         $systemConfigSubscriberProcess->processEntityWrittenEvent($entityWrittenEventMock);
@@ -428,7 +428,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
             SystemConfigSubscriberProcessRepository::class
         );
-        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+        $requestStackMock = $this->createMock(RequestStack::class);
 
         $entityWriteResultMock1 = $this->createMock(EntityWriteResult::class);
 
@@ -484,8 +484,8 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
                 '6bc87c0ec58d4505b4eb4e54355ff63e'
             );
 
-        $requestStateRegistryMock->expects(static::exactly(3))
-            ->method('getRequest')
+        $requestStackMock->expects(static::exactly(3))
+            ->method('getCurrentRequest')
             ->willReturn(null);
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
@@ -520,7 +520,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
             $systemConfigSubscriberProcessRepositoryMock,
-            $requestStateRegistryMock
+            $requestStackMock
         );
 
         $systemConfigSubscriberProcess->processEntityDeletedEvent($entityDeletedEventMock);
@@ -531,7 +531,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
             SystemConfigSubscriberProcessRepository::class
         );
-        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+        $requestStackMock = $this->createMock(RequestStack::class);
 
         $entityWriteResultMock1 = $this->createMock(EntityWriteResult::class);
 
@@ -577,7 +577,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $request->attributes->set(PlatformRequest::ATTRIBUTE_CONTEXT_OBJECT, $context);
 
-        $requestStateRegistryMock->method('getRequest')
+        $requestStackMock->method('getCurrentRequest')
             ->willReturn($request);
 
         $userEntity = new UserEntity();
@@ -618,7 +618,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
             $systemConfigSubscriberProcessRepositoryMock,
-            $requestStateRegistryMock
+            $requestStackMock
         );
 
         $systemConfigSubscriberProcess->processEntityDeletedEvent($entityDeletedEventMock);
@@ -629,7 +629,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
             SystemConfigSubscriberProcessRepository::class
         );
-        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+        $requestStackMock = $this->createMock(RequestStack::class);
 
         $entityWriteResultMock1 = $this->createMock(EntityWriteResult::class);
 
@@ -676,8 +676,8 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcessRepositoryMock->expects(static::never())
             ->method('generateId');
 
-        $requestStateRegistryMock->expects(static::never())
-            ->method('getRequest');
+        $requestStackMock->expects(static::never())
+            ->method('getCurrentRequest');
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
             ->method('insert')
@@ -685,7 +685,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
             $systemConfigSubscriberProcessRepositoryMock,
-            $requestStateRegistryMock
+            $requestStackMock
         );
 
         $systemConfigSubscriberProcess->processEntityWrittenEvent($entityWrittenEventMock);
@@ -696,7 +696,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
             SystemConfigSubscriberProcessRepository::class
         );
-        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+        $requestStackMock = $this->createMock(RequestStack::class);
 
         $entityWriteResultMock1 = $this->createMock(EntityWriteResult::class);
 
@@ -727,8 +727,8 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcessRepositoryMock->expects(static::never())
             ->method('generateId');
 
-        $requestStateRegistryMock->expects(static::never())
-            ->method('getRequest');
+        $requestStackMock->expects(static::never())
+            ->method('getCurrentRequest');
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
             ->method('insert')
@@ -736,7 +736,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
             $systemConfigSubscriberProcessRepositoryMock,
-            $requestStateRegistryMock
+            $requestStackMock
         );
 
         $systemConfigSubscriberProcess->processEntityWrittenEvent($entityWrittenEventMock);
@@ -747,7 +747,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
         $systemConfigSubscriberProcessRepositoryMock = $this->createMock(
             SystemConfigSubscriberProcessRepository::class
         );
-        $requestStateRegistryMock = $this->createMock(RequestStateRegistry::class);
+        $requestStackMock = $this->createMock(RequestStack::class);
 
         $entityWriteResultMock1 = $this->createMock(EntityWriteResult::class);
 
@@ -779,8 +779,8 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
             ->method('generateId')
             ->willReturnOnConsecutiveCalls('c6316df22e754fe1af0eae305fd3a495');
 
-        $requestStateRegistryMock->expects(static::exactly(1))
-            ->method('getRequest')
+        $requestStackMock->expects(static::exactly(1))
+            ->method('getCurrentRequest')
             ->willReturn(null);
 
         $systemConfigSubscriberProcessRepositoryMock->expects(static::exactly(1))
@@ -801,7 +801,7 @@ class SystemConfigSubscriberProcessUnitTest extends TestCase
 
         $systemConfigSubscriberProcess = new SystemConfigSubscriberProcess(
             $systemConfigSubscriberProcessRepositoryMock,
-            $requestStateRegistryMock
+            $requestStackMock
         );
 
         $systemConfigSubscriberProcess->processEntityWrittenEvent($entityWrittenEventMock);
