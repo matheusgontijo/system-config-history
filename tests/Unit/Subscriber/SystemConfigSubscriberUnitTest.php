@@ -5,7 +5,7 @@ namespace MatheusGontijo\SystemConfigHistory\Tests\Unit\Subscriber;
 use MatheusGontijo\SystemConfigHistory\Model\SystemConfigSubscriberProcess;
 use MatheusGontijo\SystemConfigHistory\Subscriber\SystemConfigSubscriber;
 use PHPUnit\Framework\TestCase;
-use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
+use Shopware\Core\Content\Product\ProductDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityDeletedEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\UpdateCommand;
@@ -23,34 +23,13 @@ class SystemConfigSubscriberUnitTest extends TestCase
         $entityExistence = $this->createStub(EntityExistence::class);
 
         $systemConfigDefinition = new SystemConfigDefinition();
-
-        $updateCommand = new UpdateCommand($systemConfigDefinition, [], [], $entityExistence, '');
-
-        $preWriteValidationEvent = new PreWriteValidationEvent($writeContext, [$updateCommand]);
-
-        $systemConfigSubscriber = new SystemConfigSubscriber($systemConfigSubscriberProcess);
-        $systemConfigSubscriber->triggerChangeSet($preWriteValidationEvent);
-
-        $resultCommands = $preWriteValidationEvent->getCommands();
-
-        $resultCommand = $resultCommands[0];
-        assert($resultCommand instanceof UpdateCommand);
-
-        static::assertSame(true, $resultCommand->requiresChangeSet());
-    }
-
-    public function testTriggerChangeSetInvalidCommands(): void
-    {
-        $systemConfigSubscriberProcess = $this->createStub(SystemConfigSubscriberProcess::class);
-        $writeContext = $this->createStub(WriteContext::class);
-        $entityExistence = $this->createStub(EntityExistence::class);
-
-        $systemConfigDefinition = new SystemConfigDefinition();
+        $productDefinition = new ProductDefinition();
 
         $updateCommand1 = new UpdateCommand($systemConfigDefinition, [], [], $entityExistence, '');
         $updateCommand2 = new UpdateCommand($systemConfigDefinition, [], [], $entityExistence, '');
+        $updateCommand3 = new UpdateCommand($productDefinition, [], [], $entityExistence, '');
 
-        $commands = ['invalid', $updateCommand2, 'invalid', $updateCommand1];
+        $commands = ['invalid', $updateCommand2, 'invalid', $updateCommand1, $updateCommand3];
 
         $preWriteValidationEvent = new PreWriteValidationEvent($writeContext, $commands);
 
@@ -58,6 +37,7 @@ class SystemConfigSubscriberUnitTest extends TestCase
         $systemConfigSubscriber->triggerChangeSet($preWriteValidationEvent);
 
         $resultCommands = $preWriteValidationEvent->getCommands();
+        static::assertCount(5, $resultCommands);
 
         $resultCommand1 = $resultCommands[1];
         assert($resultCommand1 instanceof UpdateCommand);
@@ -65,78 +45,15 @@ class SystemConfigSubscriberUnitTest extends TestCase
         $resultCommand3 = $resultCommands[3];
         assert($resultCommand3 instanceof UpdateCommand);
 
+        $resultCommand4 = $resultCommands[4];
+        assert($resultCommand4 instanceof UpdateCommand);
+
         static::assertSame('invalid', $resultCommands[0]);
         static::assertSame(true, $resultCommand1->requiresChangeSet());
         static::assertSame('invalid', $resultCommands[2]);
         static::assertSame(true, $resultCommand3->requiresChangeSet());
+        static::assertSame(false, $resultCommand4->requiresChangeSet());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public function testSystemConfigWritten(): void
     {
