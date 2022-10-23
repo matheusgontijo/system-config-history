@@ -9,39 +9,59 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityDeletedEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityWrittenEvent;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\Command\UpdateCommand;
+use Shopware\Core\Framework\DataAbstractionLayer\Write\EntityExistence;
 use Shopware\Core\Framework\DataAbstractionLayer\Write\Validation\PreWriteValidationEvent;
+use Shopware\Core\Framework\DataAbstractionLayer\Write\WriteContext;
+use Shopware\Core\System\SystemConfig\SystemConfigDefinition;
 
 class SystemConfigSubscriberUnitTest extends TestCase
 {
     public function testTriggerChangeSetInvalidCommands(): void
     {
-        $systemConfigSubscriberProcessMock = $this->createMock(SystemConfigSubscriberProcess::class);
+        $systemConfigSubscriberProcess = $this->createStub(SystemConfigSubscriberProcess::class);
+        $writeContext = $this->createStub(WriteContext::class);
+        $entityExistence = $this->createStub(EntityExistence::class);
 
-        $entityDefinitionMock = $this->createMock(EntityDefinition::class);
+        $systemConfigDefinition = new SystemConfigDefinition();
 
-        $entityDefinitionMock->expects(static::exactly(2))
-            ->method('getEntityName')
-            ->willReturn('product');
+        $updateCommand1 = new UpdateCommand($systemConfigDefinition, [], [], $entityExistence, '');
+        $updateCommand2 = new UpdateCommand($systemConfigDefinition, [], [], $entityExistence, '');
 
-        $updateCommandMock = $this->createMock(UpdateCommand::class);
+        $commands = ['invalid', $updateCommand2, 'invalid', $updateCommand1];
 
-        $updateCommandMock->expects(static::exactly(2))
-            ->method('getDefinition')
-            ->willReturn($entityDefinitionMock);
+        $preWriteValidationEvent = new PreWriteValidationEvent($writeContext, $commands);
 
-        $updateCommandMock->expects(static::never())
-            ->method('requestChangeSet');
+        $systemConfigSubscriber = new SystemConfigSubscriber($systemConfigSubscriberProcess);
+        $systemConfigSubscriber->triggerChangeSet($preWriteValidationEvent);
 
-        $preWriteValidationEventMock = $this->createMock(PreWriteValidationEvent::class);
+        $resultCommands = $preWriteValidationEvent->getCommands();
 
-        $preWriteValidationEventMock->expects(static::exactly(1))
-            ->method('getCommands')
-            ->willReturn(['invalid', 'invalid', $updateCommandMock, $updateCommandMock]);
+        $resultCommand1 = $resultCommands[1];
+        assert($resultCommand1 instanceof UpdateCommand);
 
-        $systemConfigSubscriber = new SystemConfigSubscriber($systemConfigSubscriberProcessMock);
+        $resultCommand3 = $resultCommands[3];
+        assert($resultCommand3 instanceof UpdateCommand);
 
-        $systemConfigSubscriber->triggerChangeSet($preWriteValidationEventMock);
+        static::assertSame('invalid', $resultCommands[0]);
+        static::assertSame(true, $resultCommand1->requiresChangeSet());
+        static::assertSame('invalid', $resultCommands[2]);
+        static::assertSame(true, $resultCommand3->requiresChangeSet());
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function testTriggerChangeSet(): void
     {
