@@ -16,6 +16,29 @@ use Shopware\Core\System\SystemConfig\SystemConfigDefinition;
 
 class SystemConfigSubscriberUnitTest extends TestCase
 {
+    public function testTriggerChangeSet(): void
+    {
+        $systemConfigSubscriberProcess = $this->createStub(SystemConfigSubscriberProcess::class);
+        $writeContext = $this->createStub(WriteContext::class);
+        $entityExistence = $this->createStub(EntityExistence::class);
+
+        $systemConfigDefinition = new SystemConfigDefinition();
+
+        $updateCommand = new UpdateCommand($systemConfigDefinition, [], [], $entityExistence, '');
+
+        $preWriteValidationEvent = new PreWriteValidationEvent($writeContext, [$updateCommand]);
+
+        $systemConfigSubscriber = new SystemConfigSubscriber($systemConfigSubscriberProcess);
+        $systemConfigSubscriber->triggerChangeSet($preWriteValidationEvent);
+
+        $resultCommands = $preWriteValidationEvent->getCommands();
+
+        $resultCommand = $resultCommands[0];
+        assert($resultCommand instanceof UpdateCommand);
+
+        static::assertSame(true, $resultCommand->requiresChangeSet());
+    }
+
     public function testTriggerChangeSetInvalidCommands(): void
     {
         $systemConfigSubscriberProcess = $this->createStub(SystemConfigSubscriberProcess::class);
@@ -63,35 +86,57 @@ class SystemConfigSubscriberUnitTest extends TestCase
 
 
 
-    public function testTriggerChangeSet(): void
-    {
-        $systemConfigSubscriberProcessMock = $this->createMock(SystemConfigSubscriberProcess::class);
 
-        $entityDefinitionMock = $this->createMock(EntityDefinition::class);
 
-        $entityDefinitionMock->expects(static::exactly(1))
-            ->method('getEntityName')
-            ->willReturn('system_config');
 
-        $updateCommandMock = $this->createMock(UpdateCommand::class);
 
-        $updateCommandMock->expects(static::exactly(1))
-            ->method('getDefinition')
-            ->willReturn($entityDefinitionMock);
 
-        $updateCommandMock->expects(static::exactly(1))
-            ->method('requestChangeSet');
 
-        $preWriteValidationEventMock = $this->createMock(PreWriteValidationEvent::class);
 
-        $preWriteValidationEventMock->expects(static::exactly(1))
-            ->method('getCommands')
-            ->willReturn([$updateCommandMock]);
 
-        $systemConfigSubscriber = new SystemConfigSubscriber($systemConfigSubscriberProcessMock);
 
-        $systemConfigSubscriber->triggerChangeSet($preWriteValidationEventMock);
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function testSystemConfigWritten(): void
     {
