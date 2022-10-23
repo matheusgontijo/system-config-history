@@ -40,19 +40,19 @@ class SystemConfigSubscriberUnitTest extends TestCase
         static::assertCount(5, $resultCommands);
 
         $resultCommand1 = $resultCommands[1];
-        assert($resultCommand1 instanceof UpdateCommand);
+        \assert($resultCommand1 instanceof UpdateCommand);
 
         $resultCommand3 = $resultCommands[3];
-        assert($resultCommand3 instanceof UpdateCommand);
+        \assert($resultCommand3 instanceof UpdateCommand);
 
         $resultCommand4 = $resultCommands[4];
-        assert($resultCommand4 instanceof UpdateCommand);
+        \assert($resultCommand4 instanceof UpdateCommand);
 
         static::assertSame('invalid', $resultCommands[0]);
-        static::assertSame(true, $resultCommand1->requiresChangeSet());
+        static::assertTrue($resultCommand1->requiresChangeSet());
         static::assertSame('invalid', $resultCommands[2]);
-        static::assertSame(true, $resultCommand3->requiresChangeSet());
-        static::assertSame(false, $resultCommand4->requiresChangeSet());
+        static::assertTrue($resultCommand3->requiresChangeSet());
+        static::assertFalse($resultCommand4->requiresChangeSet());
     }
 
     public function testSystemConfigWritten(): void
